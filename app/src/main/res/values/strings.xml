@@ -1,3 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Trabalho de Conclusão de Curso</string>
+    <string name="selecione">Selecione</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="negar">Negar</string>
+    <string name="permitir">Permitir</string>
+    <string name="agora_nao">Agora não</string>
+    <string name="mais_x_segundos">Mais %d segundos</string>
+    <string name="comecar_agora">Começar agora</string>
+    <string name="historico">Histórico</string>
+    <string name="correr">Correr</string>
+    <string name="perfil">Perfil</string>
+    <string name="escolha_sistema_medidas">Escolha o sistema de medidas</string>
+    <string name="descricao_si_metrico">Métrico (cm, km, kg…)</string>
+    <string name="descricao_si_imperial">Imperial (pol, mi, lb…)</string>
+    <string name="conectar_parceiro">Conectar a um parceiro</string>
+    <string name="aviso_bluetooth_inicio_atividade">Para iniciar uma atividade, é necessário conectar via Bluetooth ao smartphone de quem irá praticar com você</string>
+    <string name="altura">Altura</string>
+    <string name="peso">Peso</string>
+    <string name="nao_perguntar_novamente">Não perguntar novamente</string>
+    <string name="sexo">Sexo</string>
+    <string name="masculino">Masculino</string>
+    <string name="feminino">Feminino</string>
+    <string name="data_nascimento">Data de nascimento</string>
+    <string name="kg" translatable="false">kg</string>
+    <string name="cm" translatable="false">cm</string>
+    <string name="m" translatable="false">m</string>
+    <string name="km" translatable="false">km</string>
+    <string name="km_h" translatable="false">km/h</string>
+    <string name="lb" translatable="false">lb</string>
+    <string name="polegadas">pol</string>
+    <string name="pes">pés</string>
+    <string name="yd" translatable="false">yd</string>
+    <string name="mi" translatable="false">mi</string>
+    <string name="mi_h" translatable="false">mi/h</string>
+    <string name="bem_vindo_x">Seja bem vindo, %s</string>
+    <string name="permitir_localizacao">Permitir acesso à localização</string>
+    <string name="permitir_bluetooth">Permitir acesso ao Bluetooth</string>
+    <string name="informe_sobre_voce">Para realizar cálculos mais precisos, informe-nos um pouco sobre você</string>
+    <string name="resutados_precisos_localizacao">Permitindo o acesso à sua localização, você terá resultados mais precisos quando realizar caminhada ou corridas</string>
+    <string name="dobro_pontos_bluetooth">Permitindo o acesso ao Bluetooth, você poderá praticar atividades com um parceiro, dobrando seus pontos a cada atividade</string>
+    <string name="distancia">Distância</string>
+    <string name="duracao">Duração</string>
+    <string name="velocidade_media">Vel. média</string>
+    <string name="ritmo">Ritmo</string>
+    <string name="calorias">Calorias</string>
+    <string name="atividade_pausada">Atividade pausada</string>
+    <string name="inicio">Início</string>
+    <string name="fim">Fim</string>
+    <string name="atividades">Atividades</string>
+    <string name="conquistas">Conquistas</string>
+    <string name="essa_semana">Essa semana</string>
+    <string name="ultimos_x_dias">Últimos %d dias</string>
+    <string name="desde_o_inicio">Desde o início</string>
+    <string name="x_voce_ja_correu">%s, você já percorreu</string>
+    <string name="tempo_em_movimento">Tempo em movimento</string>
+    <string name="percursos_em_dupla">Percursos em dupla</string>
+    <string name="x_percursos_de_ate">%d percursos, de %s até %s</string>
+    <string name="percurso_ao_lado_de_x">Você fez esse trajeto ao lado de %s, e ambos fizeram %d pontos</string>
+    <string name="nivel_x">Nível %d</string>
+    <string name="x_pontos_proximo_nivel">%d pontos para %s</string>
+    <string name="x_pontos">%d pontos</string>
 </resources>
