@@ -6,7 +6,7 @@
     <string name="negar">Deny</string>
     <string name="permitir">Allow</string>
     <string name="agora_nao">Not now</string>
-    <string name="mais_x_segundos">%d more seconds</string>
+    <string name="mais_x_segundos">:arg0 more seconds</string>
     <string name="comecar_agora">Start now</string>
     <string name="historico">History</string>
     <string name="correr">Run</string>
@@ -25,7 +25,7 @@
     <string name="data_nascimento">Date of birth</string>
     <string name="polegadas">in</string>
     <string name="pes">ft</string>
-    <string name="bem_vindo_x">Welcome, %s</string>
+    <string name="bem_vindo_x">Welcome, :arg0</string>
     <string name="permitir_localizacao">Allow location access</string>
     <string name="permitir_bluetooth">Allow Bluetooth access</string>
     <string name="informe_sobre_voce">To perform more accurate calculations, tell us a little bit about yourself</string>
@@ -42,14 +42,15 @@
     <string name="atividades">Activities</string>
     <string name="conquistas">Achievements</string>
     <string name="essa_semana">This week</string>
-    <string name="ultimos_x_dias">Last %d days</string>
+    <string name="ultimos_x_dias">Last :arg0 days</string>
     <string name="desde_o_inicio">From the beginning</string>
-    <string name="x_voce_ja_correu">%s, you have walked</string>
+    <string name="x_voce_ja_correu">:arg0, you have walked</string>
     <string name="tempo_em_movimento">Moving time</string>
     <string name="percursos_em_dupla">Routes in pairs</string>
-    <string name="x_percursos_de_ate">%d routes, from %s to %s</string>
-    <string name="percurso_ao_lado_de_x">You took this route alongside %s, and both scored %d points</string>
-    <string name="nivel_x">Level %d</string>
-    <string name="x_pontos_proximo_nivel">%d points to %s</string>
-    <string name="x_pontos">%d points</string>
+    <string name="x_percursos_de_ate">:arg0 routes, from :arg1 to :arg2</string>
+    <string name="percurso_ao_lado_de_x">You took this route alongside :arg0, and both scored :arg1 points</string>
+    <string name="nivel_x">Level :arg0</string>
+    <string name="x_pontos_proximo_nivel">:arg0 points to :arg1</string>
+    <string name="x_pontos">:arg0 points</string>
+    <string name="app_name">Trabalho de Conclusão de Curso</string>
 </resources>

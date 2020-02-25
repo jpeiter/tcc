@@ -6,7 +6,7 @@
     <string name="negar">Negar</string>
     <string name="permitir">Permitir</string>
     <string name="agora_nao">Agora não</string>
-    <string name="mais_x_segundos">Mais %d segundos</string>
+    <string name="mais_x_segundos">Mais :arg0 segundos</string>
     <string name="comecar_agora">Começar agora</string>
     <string name="historico">Histórico</string>
     <string name="correr">Correr</string>
@@ -34,7 +34,7 @@
     <string name="yd" translatable="false">yd</string>
     <string name="mi" translatable="false">mi</string>
     <string name="mi_h" translatable="false">mi/h</string>
-    <string name="bem_vindo_x">Seja bem vindo, %s</string>
+    <string name="bem_vindo_x">Seja bem vindo, :arg0</string>
     <string name="permitir_localizacao">Permitir acesso à localização</string>
     <string name="permitir_bluetooth">Permitir acesso ao Bluetooth</string>
     <string name="informe_sobre_voce">Para realizar cálculos mais precisos, informe-nos um pouco sobre você</string>
@@ -51,14 +51,15 @@
     <string name="atividades">Atividades</string>
     <string name="conquistas">Conquistas</string>
     <string name="essa_semana">Essa semana</string>
-    <string name="ultimos_x_dias">Últimos %d dias</string>
+    <string name="ultimos_x_dias">Últimos :arg0 dias</string>
     <string name="desde_o_inicio">Desde o início</string>
-    <string name="x_voce_ja_correu">%s, você já percorreu</string>
+    <string name="x_voce_ja_correu">:arg0, você já percorreu</string>
     <string name="tempo_em_movimento">Tempo em movimento</string>
     <string name="percursos_em_dupla">Percursos em dupla</string>
-    <string name="x_percursos_de_ate">%d percursos, de %s até %s</string>
-    <string name="percurso_ao_lado_de_x">Você fez esse trajeto ao lado de %s, e ambos fizeram %d pontos</string>
-    <string name="nivel_x">Nível %d</string>
-    <string name="x_pontos_proximo_nivel">%d pontos para %s</string>
-    <string name="x_pontos">%d pontos</string>
+    <string name="x_percursos_de_ate">:arg0 percursos, de :arg1 até :arg2</string>
+    <string name="percurso_ao_lado_de_x">Você fez esse trajeto ao lado de :arg0, e ambos fizeram :arg1 pontos</string>
+    <string name="nivel_x">Nível :arg0</string>
+    <string name="x_pontos_proximo_nivel">:arg0 pontos para :arg1</string>
+    <string name="x_pontos">:arg0 pontos</string>
+    <string name="app_name">Trabalho de Conclusão de Curso</string>
 </resources>

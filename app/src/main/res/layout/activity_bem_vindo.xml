@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaria"
+    android:paddingTop="@dimen/spacing_54"
+    tools:context=".activity.BemVindoActivity">
+
+    <TextView
+        android:id="@+id/tv_seja_bem_vindo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/branco"
+        android:text="@string/bem_vindo_x"
+        android:textSize="@dimen/text_24" />
+
+    <TextView
+        android:id="@+id/tv_informe_sobre"
+        android:layout_below="@id/tv_seja_bem_vindo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:layout_marginBottom="@dimen/spacing_24"
+        android:layout_marginHorizontal="@dimen/spacing_60"
+        android:gravity="center_horizontal"
+        android:text="@string/informe_sobre_voce"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/branco"
+        android:textSize="@dimen/text_16" />
+
+
+</RelativeLayout>
