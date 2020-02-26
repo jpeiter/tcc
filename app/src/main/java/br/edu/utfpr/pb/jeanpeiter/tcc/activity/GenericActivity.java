@@ -4,5 +4,4 @@ interface GenericActivity {
 
     void initViews();
 
-    void replace();
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/FormBranco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/sexo"
+        android:textSize="@dimen/text_16" />
+
+    <RadioGroup
+        android:id="@+id/rg_sexo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_24"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_feminino"
+            style="@style/FormBranco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/rb_feminino"
+            android:text="@string/feminino"
+            android:textSize="@dimen/text_14" />
+
+        <RadioButton
+            android:id="@+id/rb_masculino"
+            style="@style/FormBranco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/rb_masculino"
+            android:text="@string/masculino"
+            android:textSize="@dimen/text_14" />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_24"
+        android:hint="@string/data_nascimento"
+        android:textColorHint="@color/branco"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#fff"
+        app:hintTextColor="@color/branco">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_nascimento"
+            style="@style/FormBranco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:textSize="@dimen/text_16" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_24"
+        android:hint="@string/altura"
+        android:textColorHint="@color/branco"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#fff"
+        app:hintTextColor="@color/branco">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_altura"
+            style="@style/FormBranco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/text_16" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/peso"
+        android:textColorHint="@color/branco"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#fff"
+        app:hintTextColor="@color/branco">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_peso"
+            style="@style/FormBranco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="@dimen/text_16" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</LinearLayout>

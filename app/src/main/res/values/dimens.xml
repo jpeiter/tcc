@@ -16,7 +16,10 @@
     <dimen name="spacing_16">16dp</dimen>
     <dimen name="spacing_24">24dp</dimen>
     <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
     <dimen name="spacing_54">54dp</dimen>
+    <dimen name="spacing_56">56dp</dimen>
     <dimen name="spacing_60">60dp</dimen>
     <dimen name="spacing_64">64dp</dimen>
+    <dimen name="spacing_70">70dp</dimen>
 </resources>

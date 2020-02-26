@@ -1,35 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaria"
-    android:paddingTop="@dimen/spacing_54"
+    android:orientation="vertical"
     tools:context=".activity.BemVindoActivity">
 
-    <TextView
-        android:id="@+id/tv_seja_bem_vindo"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textColor="@color/branco"
-        android:text="@string/bem_vindo_x"
-        android:textSize="@dimen/text_24" />
-
-    <TextView
-        android:id="@+id/tv_informe_sobre"
-        android:layout_below="@id/tv_seja_bem_vindo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_8"
+        android:layout_marginTop="@dimen/spacing_54"
         android:layout_marginBottom="@dimen/spacing_24"
-        android:layout_marginHorizontal="@dimen/spacing_60"
-        android:gravity="center_horizontal"
-        android:text="@string/informe_sobre_voce"
-        android:fontFamily="sans-serif-light"
-        android:textColor="@color/branco"
-        android:textSize="@dimen/text_16" />
+        android:paddingHorizontal="@dimen/spacing_16">
+
+        <TextView
+            android:id="@+id/tv_seja_bem_vindo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_horizontal"
+            android:text="@string/bem_vindo_x"
+            android:textColor="@color/branco"
+            android:textSize="@dimen/text_24" />
+
+        <TextView
+            android:id="@+id/tv_informe_sobre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_seja_bem_vindo"
+            android:layout_marginHorizontal="@dimen/spacing_60"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginBottom="@dimen/spacing_24"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center_horizontal"
+            android:text="@string/informe_sobre_voce"
+            android:textColor="@color/branco"
+            android:textSize="@dimen/text_16" />
 
 
-</RelativeLayout>
+        <include
+            android:id="@+id/form_bem_vindo"
+            layout="@layout/form_dados_usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_informe_sobre"
+            android:visibility="visible" />
+
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_70"
+            android:layout_below="@+id/form_bem_vindo"
+            android:layout_marginTop="@dimen/spacing_40"
+            android:layout_marginBottom="@dimen/spacing_56"
+            android:backgroundTint="@color/branco"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/confirmar"
+            android:textColor="@color/primaria"
+            android:textSize="@dimen/text_14" />
+
+    </RelativeLayout>
+</ScrollView>
