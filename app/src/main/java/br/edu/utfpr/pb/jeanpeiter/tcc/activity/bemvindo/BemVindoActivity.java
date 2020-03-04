@@ -1,26 +1,36 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity;
+package br.edu.utfpr.pb.jeanpeiter.tcc.activity.bemvindo;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.GenericActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.ResourceActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.BigDecimalUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.ResourcesUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
+import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Sexo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +47,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     public NumberPicker npInteiro;
     public NumberPicker npDecimal;
     private Calendar myCalendar = Calendar.getInstance();
+    private Perfil perfil = new Perfil();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,13 +107,21 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     private void updateLabelNasicmento() {
         String myFormat = "dd MMMM yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-        etNascimento.setText(sdf.format(myCalendar.getTime()));
+        perfil.setNascimento(myCalendar.getTime());
+        setError(getEtNascimento(), null);
+        getEtNascimento().setText(sdf.format(myCalendar.getTime()));
     }
 
     private void initListenerEtAltura() {
         getEtAltura().setOnClickListener((v) -> {
             getEtAltura().setShowSoftInputOnFocus(false);
-            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.altura), getEtAltura(), R.string.m);
+            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.altura))
+                    .setPositiveButton(R.string.ok, (d, which) -> {
+                        perfil.setAltura(new BigDecimalUtils().getDecimalDeIteiroEDecimal(getNpInteiro().getValue(), getNpDecimal().getValue()));
+                        setError(getEtAltura(), null);
+                        getEtAltura().setText(getTextFromNumberPicker(getNpInteiro(), getNpDecimal(), R.string.m));
+                    })
+                    .create();
             dialog.show();
             setCustomPicker(dialog, 1, 2, 1, 00, 99, 65, R.string.m);
         });
@@ -117,7 +136,13 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     private void initListenerEtPeso() {
         getEtPeso().setOnClickListener((v) -> {
             getEtPeso().setShowSoftInputOnFocus(false);
-            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.peso), getEtPeso(), R.string.kg);
+            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.peso))
+                    .setPositiveButton(R.string.ok, (d, which) -> {
+                        perfil.setPeso(new BigDecimalUtils().getDecimalDeIteiroEDecimal(getNpInteiro().getValue(), getNpDecimal().getValue()));
+                        setError(getEtPeso(), null);
+                        getEtPeso().setText(getTextFromNumberPicker(getNpInteiro(), getNpDecimal(), R.string.kg));
+                    })
+                    .create();
             dialog.show();
             setCustomPicker(dialog, 15, 300, 75, 0, 9, 0, R.string.kg);
         });
@@ -129,15 +154,11 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
         });
     }
 
-    private AlertDialog getAlertComPickerDecimal(String title, EditText et, int id_unidade_medida) {
+    private AlertDialog.Builder getAlertComPickerDecimal(String title) {
         return new DialogUtils()
                 .build(BemVindoActivity.this, R.layout.number_picker_decimal, title)
-                .setPositiveButton(R.string.ok, (d, which) -> {
-                    et.setText(getTextFromNumberPicker(getNpInteiro(), getNpDecimal(), id_unidade_medida));
-                })
                 .setNegativeButton(R.string.cancelar, ((d, which) -> d.cancel()))
-                .setCancelable(true)
-                .create();
+                .setCancelable(true);
     }
 
     private String getTextFromNumberPicker(NumberPicker npInteiro, NumberPicker npDecimal, int id_unidade_medida) {
@@ -175,7 +196,34 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     }
 
     public void btnConfirmarBemVindoOnClick(View view) {
+        if (getRgSexo().getCheckedRadioButtonId() != -1) {
+            perfil.setSexo(Sexo.getByResourceId(getRgSexo().getCheckedRadioButtonId()));
+            setError((RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1), null);
+        } else {
+            RadioButton radioButton = (RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1);
+            setError(radioButton, "Infome sexo");
+            return;
+        }
 
+        if(perfil.getNascimento() == null){
+            setError(getEtNascimento(), "Informe nascimento");
+            return;
+        }
 
+        if(perfil.getAltura() == null){
+            setError(getEtAltura(), "Informe altura");
+            return;
+        }
+
+        if(perfil.getPeso() == null){
+            setError(getEtPeso(), "Informe peso");
+            return;
+        }
+
+        Toast.makeText(this, "Pode salvar", Toast.LENGTH_SHORT).show();
+    }
+
+    private <T extends TextView> void setError(T view, String erro) {
+        view.setError(erro);
     }
 }

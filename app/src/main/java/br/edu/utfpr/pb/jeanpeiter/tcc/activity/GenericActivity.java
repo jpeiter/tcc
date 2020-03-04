@@ -1,6 +1,6 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.activity;
 
-interface GenericActivity {
+public interface GenericActivity {
 
     void initViews();
 
