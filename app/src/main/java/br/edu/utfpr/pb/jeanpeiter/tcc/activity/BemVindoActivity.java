@@ -34,8 +34,8 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     public EditText etPeso;
     public EditText etAltura;
     public RadioGroup rgSexo;
-    public NumberPicker npKg;
-    public NumberPicker npG;
+    public NumberPicker npInteiro;
+    public NumberPicker npDecimal;
     private Calendar myCalendar = Calendar.getInstance();
 
     @Override
@@ -69,63 +69,8 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
 
     private void initListeners() {
         initListenerEtNascimento();
+        initListenerEtAltura();
         initListenerEtPeso();
-    }
-
-    private void initListenerEtPeso() {
-        etPeso.setOnClickListener((v) -> {
-            etPeso.setShowSoftInputOnFocus(false);
-
-            AlertDialog dialog = new DialogUtils()
-                    .build(BemVindoActivity.this, R.layout.dialog_peso, getString(R.string.peso))
-                    .setPositiveButton(R.string.ok, (d, which) -> {
-                        String pesoString = getNpKg().getValue() + "." + getNpG().getValue() + "kg";
-                        getEtPeso().setText(pesoString);
-                    })
-                    .setNegativeButton(R.string.cancelar, ((d, which) -> d.cancel()))
-                    .setCancelable(true)
-                    .create();
-            dialog.show();
-
-            setCustomResourceDialogPeso(dialog);
-
-        });
-
-        etPeso.setOnFocusChangeListener((v, e) -> {
-            if (e) {
-                etPeso.performClick();
-            }
-        });
-    }
-
-    private void setCustomResourceDialogPeso(AlertDialog dialog) {
-        Button btnCancelar = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        Button btnConfirmar = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
-        setDialogButtonColor(btnCancelar);
-        setDialogButtonColor(btnConfirmar);
-
-        setNpKg(dialog.findViewById(R.id.np_peso_kg));
-        getNpKg().setWrapSelectorWheel(false);
-        setPickerValues(getNpKg(), 15, 300, 75);
-
-        setNpG(dialog.findViewById(R.id.np_peso_g));
-        getNpG().setWrapSelectorWheel(false);
-        setPickerValues(getNpG(), 0, 9, 0);
-
-        TextView tvUnidadeMedidaPeso = dialog.findViewById(R.id.tv_unidade_medida_peso_dialog);
-        tvUnidadeMedidaPeso.setText(R.string.kg);
-    }
-
-    private void setPickerValues(NumberPicker np, int min, int max, int defaultValue) {
-        np.setMinValue(min);
-        np.setMaxValue(max);
-        np.setValue(defaultValue);
-    }
-
-    private void setDialogButtonColor(Button button) {
-        button.setBackgroundColor(getColor(R.color.branco));
-        button.setTextColor(getColor(R.color.primaria));
     }
 
     private void initListenerEtNascimento() {
@@ -152,6 +97,81 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
         String myFormat = "dd MMMM yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         etNascimento.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private void initListenerEtAltura() {
+        getEtAltura().setOnClickListener((v) -> {
+            getEtAltura().setShowSoftInputOnFocus(false);
+            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.altura), getEtAltura(), R.string.m);
+            dialog.show();
+            setCustomPicker(dialog, 1, 2, 1, 00, 99, 65, R.string.m);
+        });
+
+        getEtAltura().setOnFocusChangeListener((v, e) -> {
+            if (e) {
+                getEtAltura().performClick();
+            }
+        });
+    }
+
+    private void initListenerEtPeso() {
+        getEtPeso().setOnClickListener((v) -> {
+            getEtPeso().setShowSoftInputOnFocus(false);
+            AlertDialog dialog = getAlertComPickerDecimal(getString(R.string.peso), getEtPeso(), R.string.kg);
+            dialog.show();
+            setCustomPicker(dialog, 15, 300, 75, 0, 9, 0, R.string.kg);
+        });
+
+        getEtPeso().setOnFocusChangeListener((v, e) -> {
+            if (e) {
+                getEtPeso().performClick();
+            }
+        });
+    }
+
+    private AlertDialog getAlertComPickerDecimal(String title, EditText et, int id_unidade_medida) {
+        return new DialogUtils()
+                .build(BemVindoActivity.this, R.layout.number_picker_decimal, title)
+                .setPositiveButton(R.string.ok, (d, which) -> {
+                    et.setText(getTextFromNumberPicker(getNpInteiro(), getNpDecimal(), id_unidade_medida));
+                })
+                .setNegativeButton(R.string.cancelar, ((d, which) -> d.cancel()))
+                .setCancelable(true)
+                .create();
+    }
+
+    private String getTextFromNumberPicker(NumberPicker npInteiro, NumberPicker npDecimal, int id_unidade_medida) {
+        return npInteiro.getValue() + "." + npDecimal.getValue() + getString(id_unidade_medida);
+    }
+
+    private void setCustomPicker(AlertDialog dialog, int minInteiro, int maxInteiro, int defaultInteiro, int minDecimal, int maxDecimal, int defaultDecimal, int id_unidade_medida) {
+        Button btnCancelar = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button btnConfirmar = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+        setDialogButtonColor(btnCancelar);
+        setDialogButtonColor(btnConfirmar);
+
+        setNpInteiro(dialog.findViewById(R.id.np_inteiro));
+        getNpInteiro().setWrapSelectorWheel(false);
+        setPickerValues(getNpInteiro(), minInteiro, maxInteiro, defaultInteiro);
+
+        setNpDecimal(dialog.findViewById(R.id.np_decimal));
+        getNpDecimal().setWrapSelectorWheel(false);
+        setPickerValues(getNpDecimal(), minDecimal, maxDecimal, defaultDecimal);
+
+        TextView tvUnidadeMedidaPeso = dialog.findViewById(R.id.tv_unidade_medida_picker);
+        tvUnidadeMedidaPeso.setText(getString(id_unidade_medida));
+    }
+
+    private void setPickerValues(NumberPicker np, int min, int max, int defaultValue) {
+        np.setMinValue(min);
+        np.setMaxValue(max);
+        np.setValue(defaultValue);
+    }
+
+    private void setDialogButtonColor(Button button) {
+        button.setBackgroundColor(getColor(R.color.branco));
+        button.setTextColor(getColor(R.color.primaria));
     }
 
     public void btnConfirmarBemVindoOnClick(View view) {
