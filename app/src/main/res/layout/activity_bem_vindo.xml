@@ -58,6 +58,7 @@
             android:layout_marginBottom="@dimen/spacing_56"
             android:backgroundTint="@color/branco"
             android:fontFamily="@font/roboto_bold"
+            android:onClick="btnConfirmarBemVindoOnClick"
             android:text="@string/confirmar"
             android:textColor="@color/primaria"
             android:textSize="@dimen/text_14" />

@@ -3,6 +3,7 @@
     <string name="selecione">Selecione</string>
     <string name="cancelar">Cancelar</string>
     <string name="confirmar">Confirmar</string>
+    <string name="ok" translatable="false">Ok</string>
     <string name="negar">Negar</string>
     <string name="permitir">Permitir</string>
     <string name="agora_nao">Agora não</string>
@@ -34,7 +35,7 @@
     <string name="yd" translatable="false">yd</string>
     <string name="mi" translatable="false">mi</string>
     <string name="mi_h" translatable="false">mi/h</string>
-    <string name="bem_vindo_x">Seja bem vindo, :arg0</string>
+    <string name="bem_vindo_x">Seja bem-vindo(a), :arg0</string>
     <string name="permitir_localizacao">Permitir acesso à localização</string>
     <string name="permitir_bluetooth">Permitir acesso ao Bluetooth</string>
     <string name="informe_sobre_voce">Para realizar cálculos mais precisos, informe-nos um pouco sobre você</string>

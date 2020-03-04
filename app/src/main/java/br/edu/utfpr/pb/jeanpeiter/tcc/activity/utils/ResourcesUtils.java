@@ -38,6 +38,10 @@ public class ResourcesUtils {
         return span;
     }
 
+    public SpannableString negrito(String texto) {
+        return negrito(texto, 0, texto.length());
+    }
+
     public SpannableString negrito(String texto, int inicio, int fim) {
         return custom(texto, inicio, fim, Fonte.BOLD);
     }
