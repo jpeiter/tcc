@@ -3,32 +3,32 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.activity.bemvindo;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.math.BigDecimal;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.ResourceActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.BigDecimalUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.DialogUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.IntentUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.ResourcesUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Sexo;
 import lombok.Getter;
@@ -54,9 +54,16 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_bem_vindo);
-        initViews();
-        replaceResources();
-        initListeners();
+
+        FirebaseUser usuarioLogado = FirebaseUserController.getUser();
+
+        if (usuarioLogado == null) {
+            new IntentUtils().startActivity(this, LoginActivity.class);
+        } else {
+            initViews();
+            replaceResources();
+            initListeners();
+        }
     }
 
     @Override
@@ -73,7 +80,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     public void replaceResources() {
         ResourcesUtils resourcesUtils = new ResourcesUtils(getBaseContext());
 
-        String bemVindo = resourcesUtils.replace(R.string.bem_vindo_x, "Jean");
+        String bemVindo = resourcesUtils.replace(R.string.bem_vindo_x, FirebaseUserController.getFirstName());
         getTvBemVindo().setText(resourcesUtils.negrito(bemVindo, bemVindo.indexOf(',') + 1, bemVindo.length()));
         getTvInformeSobre().setText(resourcesUtils.pontoFinal(getString(R.string.informe_sobre_voce)));
     }
@@ -205,22 +212,22 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
             return;
         }
 
-        if(perfil.getNascimento() == null){
+        if (perfil.getNascimento() == null) {
             setError(getEtNascimento(), "Informe nascimento");
             return;
         }
 
-        if(perfil.getAltura() == null){
+        if (perfil.getAltura() == null) {
             setError(getEtAltura(), "Informe altura");
             return;
         }
 
-        if(perfil.getPeso() == null){
+        if (perfil.getPeso() == null) {
             setError(getEtPeso(), "Informe peso");
             return;
         }
 
-        Toast.makeText(this, "Pode salvar", Toast.LENGTH_SHORT).show();
+
     }
 
     private <T extends TextView> void setError(T view, String erro) {

@@ -9,7 +9,6 @@ public enum Sexo {
     FEMININO("Feminino"),
     MASCULINO("Masculino");
 
-
     private String descricao;
 
     Sexo(String descricao) {
@@ -18,10 +17,10 @@ public enum Sexo {
 
     public static Sexo getByResourceId(int id) {
         switch (id) {
-            case R.id.rb_masculino:
-                return MASCULINO;
             case R.id.rb_feminino:
                 return FEMININO;
+            case R.id.rb_masculino:
+                return MASCULINO;
             default:
                 return null;
         }

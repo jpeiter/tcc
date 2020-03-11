@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -32,20 +33,27 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
+    // GOOGLE
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    // FIREBASE
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-database:16.0.5'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
+
+    // FACEBOOK
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     implementation 'com.facebook.android:facebook-login:[4,5)'
-    implementation 'com.karumi:dexter:4.2.0'
+
     implementation 'com.karumi:dexter:6.0.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-
     // UI:
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     api 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
 }

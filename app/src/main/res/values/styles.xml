@@ -3,6 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorBackgroundFloating">@color/primaria</item>
+        <item name="android:colorBackground">@color/primaria</item>
         <item name="colorPrimary">@color/primaria</item>
         <item name="colorPrimaryDark">@color/primariaEscuro</item>
         <item name="colorAccent">@color/primariaClaro</item>
