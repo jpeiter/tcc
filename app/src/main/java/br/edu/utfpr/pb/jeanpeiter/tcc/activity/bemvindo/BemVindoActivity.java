@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,13 +26,13 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.ResourceActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.login.LoginActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.BigDecimalUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.DialogUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.IntentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.ResourcesUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
-import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Sexo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.SexoEnum;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -130,7 +132,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
                     })
                     .create();
             dialog.show();
-            setCustomPicker(dialog, 1, 2, 1, 00, 99, 65, R.string.m);
+            setCustomPicker(dialog, 1, 2, 1, 0, 99, 65, R.string.m);
         });
 
         getEtAltura().setOnFocusChangeListener((v, e) -> {
@@ -204,7 +206,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
 
     public void btnConfirmarBemVindoOnClick(View view) {
         if (getRgSexo().getCheckedRadioButtonId() != -1) {
-            perfil.setSexo(Sexo.getByResourceId(getRgSexo().getCheckedRadioButtonId()));
+            perfil.setSexo(SexoEnum.getByResourceId(getRgSexo().getCheckedRadioButtonId()));
             setError((RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1), null);
         } else {
             RadioButton radioButton = (RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1);
@@ -227,6 +229,14 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
             return;
         }
 
+        perfil.setNome(FirebaseUserController.getUser().getDisplayName());
+
+
+        FirebaseUserController.salvarPerfil(this.perfil).addOnCompleteListener(task ->
+                Toast.makeText(this, "Perfil salvo", Toast.LENGTH_SHORT).show()
+        ).addOnFailureListener(e ->
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show()
+        );
 
     }
 

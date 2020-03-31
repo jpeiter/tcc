@@ -1,21 +1,19 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.usuario;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public enum Sexo {
+@AllArgsConstructor
+public enum SexoEnum {
 
     FEMININO("Feminino"),
     MASCULINO("Masculino");
 
     private String descricao;
 
-    Sexo(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public static Sexo getByResourceId(int id) {
+    public static SexoEnum getByResourceId(int id) {
         switch (id) {
             case R.id.rb_feminino:
                 return FEMININO;

@@ -1,8 +1,7 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils;
+package br.edu.utfpr.pb.jeanpeiter.tcc.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.graphics.fonts.Font;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;

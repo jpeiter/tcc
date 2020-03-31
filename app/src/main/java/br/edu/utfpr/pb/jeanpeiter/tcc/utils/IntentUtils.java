@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils;
+package br.edu.utfpr.pb.jeanpeiter.tcc.utils;
 
 import android.content.Context;
 import android.content.Intent;

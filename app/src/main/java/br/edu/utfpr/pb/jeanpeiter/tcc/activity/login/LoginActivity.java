@@ -16,7 +16,7 @@ import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.bemvindo.BemVindoActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.IntentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 
 public class LoginActivity extends AppCompatActivity {

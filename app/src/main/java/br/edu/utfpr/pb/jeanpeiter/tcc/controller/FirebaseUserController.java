@@ -9,7 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.login.LoginActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils.IntentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.*;
 
 public class FirebaseUserController {
 
@@ -25,5 +26,10 @@ public class FirebaseUserController {
         return AuthUI.getInstance().signOut(context).addOnCompleteListener(command -> {
             new IntentUtils().startActivity(context, LoginActivity.class);
         });
+    }
+
+    public static Task<Void> salvarPerfil(Perfil perfil) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return FirebaseController.setValue("profiles/" + userId, perfil);
     }
 }

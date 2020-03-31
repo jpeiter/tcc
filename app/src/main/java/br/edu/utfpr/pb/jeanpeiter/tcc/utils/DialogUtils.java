@@ -1,8 +1,7 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.utils;
+package br.edu.utfpr.pb.jeanpeiter.tcc.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 
 public class DialogUtils {
