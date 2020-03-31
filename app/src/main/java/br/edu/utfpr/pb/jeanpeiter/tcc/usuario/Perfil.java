@@ -18,18 +18,24 @@ import lombok.Setter;
 @Builder
 public class Perfil {
 
-    private LocalDate nascimento;
+    private String nascimento;
 
     private String nome;
 
     private SexoEnum sexo;
 
-    private BigDecimal altura;
+    private Double altura;
 
-    private BigDecimal peso;
+    private Double peso;
 
-    public void setNascimento(Date date) {
-        this.nascimento = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    public void setAltura(BigDecimal altura){
+        this.altura = altura.doubleValue();
+    }
+    public void setPeso(BigDecimal peso){
+        this.peso = peso.doubleValue();
     }
 
+    public void setNascimento(Date date) {
+        this.nascimento = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString();
+    }
 }

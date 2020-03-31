@@ -1,6 +1,5 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.controller;
 
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
