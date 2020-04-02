@@ -7,7 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.login.LoginActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.telas.main.fragments.MenuCorrerFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:background="@color/branco"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:format12Hour="EEEE, dd MMMM yyyy"
+                android:format24Hour="EEEE, dd MMMM yyyy"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_16" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:format12Hour="hh:mm a"
+                android:format24Hour="hh:mm"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_60" />
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnIniciarDupla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:layout_marginBottom="@dimen/spacing_16"
+            android:clickable="true"
+            app:backgroundTint="@color/primariaEscuro"
+            app:layout_constraintBottom_toTopOf="@+id/btnIniciarSozinho"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/branco"
+            app:srcCompat="@drawable/baseline_group_white_24" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnIniciarSozinho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:layout_marginBottom="@dimen/spacing_16"
+            android:clickable="true"
+            app:backgroundTint="@color/primariaEscuro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/branco"
+            app:srcCompat="@drawable/baseline_person_white_24" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

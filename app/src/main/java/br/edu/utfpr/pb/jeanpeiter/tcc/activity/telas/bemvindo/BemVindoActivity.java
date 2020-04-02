@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.bemvindo;
+package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.bemvindo;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -23,9 +23,10 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.GenericActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.ResourceActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.login.LoginActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.ResourceActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.SexoEnum;
@@ -50,6 +51,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     public NumberPicker npDecimal;
     private Calendar myCalendar = Calendar.getInstance();
     private Perfil perfil = new Perfil();
+    private Object MainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,7 +235,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
 
 
         FirebaseUserController.salvarPerfil(this.perfil).addOnCompleteListener(task ->
-                Toast.makeText(this, "Perfil salvo", Toast.LENGTH_SHORT).show()
+                new IntentUtils().startActivity(this, MainActivity.class)
         ).addOnFailureListener(e ->
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show()
         );

@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.login;
+package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.bemvindo.BemVindoActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.bemvindo.BemVindoActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         if (usuarioLogado == null) {
             showSignInOptions();
         } else {
-            new IntentUtils().startActivity(this, BemVindoActivity.class);
+            new IntentUtils().startActivity(this, MainActivity.class);
         }
     }
 
