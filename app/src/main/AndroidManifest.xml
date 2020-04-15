@@ -4,6 +4,7 @@
     package="br.edu.utfpr.pb.jeanpeiter.tcc">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,21 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.telas.main.MainActivity"></activity>
-
+        <activity android:name=".activity.telas.atividade.AtividadeActivity"></activity>
+        <!-- API KEYS -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_application_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_api_key" />
-
+            android:value="@string/map_api_key" /> <!-- ACTIVITIES -->
+        <activity
+            android:name=".activity.telas.main.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.telas.login.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,7 +40,10 @@
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity> <!-- SERVICES -->
+        <service
+            android:name=".activity.telas.maps.LocationService"
+            android:process=":location_service" />
     </application>
 
 </manifest>

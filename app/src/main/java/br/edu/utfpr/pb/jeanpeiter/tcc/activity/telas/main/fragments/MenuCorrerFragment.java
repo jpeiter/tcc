@@ -1,7 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.fragments;
 
-import android.content.ComponentName;
-import android.content.Intent;
+import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Observable;
-import java.util.Observer;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps.LocationObservedData;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps.LocationService;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps.MapaFragment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class MenuCorrerFragment extends Fragment implements GenericActivity, Observer {
+public class MenuCorrerFragment extends Fragment implements GenericActivity, PermissionActivity {
 
     FrameLayout flMapCorrer;
     FloatingActionButton btnIniciarDupla;
@@ -37,20 +39,14 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Obs
 
     private View parent;
 
-    private LocationService locationService;
+    public static Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         parent = inflater.inflate(R.layout.fragment_menu_correr, container, false);
+
         initViews();
-
         loadFragment(new MapaFragment());
-
-        Intent service = new Intent(parent.getContext(), LocationService.class);
-
-        locationService = new LocationService();
-        locationService.addObserver(this);
         return parent;
     }
 
@@ -76,12 +72,29 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Obs
         Toast.makeText(v.getContext(), tipo, Toast.LENGTH_SHORT).show();
     };
 
-    @Override
-    public void update(Observable o, Object arg) {
-        LocationObservedData data = (LocationObservedData) arg;
 
-//        switch (data.getMetodo()){
-//            case LOCATION_CHANGED:
-//        }
+    @Override
+    public void grantPermissions() {
+
+        Dexter.withActivity(getActivity())
+                .withPermission(
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .withListener(new PermissionListener() {
+
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(getContext(), "PEMISSAO NEGADA", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
 }

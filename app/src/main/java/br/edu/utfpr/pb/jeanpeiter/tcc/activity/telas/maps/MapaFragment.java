@@ -14,13 +14,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
 
-public class MapaFragment extends Fragment implements OnMapReadyCallback, Observer {
+public class MapaFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap gmap;
     private View parent;
@@ -42,22 +38,5 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Observ
         LatLng utfprPato = new LatLng(-26.197575, -52.688968);
         gmap.addMarker(new MarkerOptions().position(utfprPato).title("UTFPR - Pato Branco"));
         gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(utfprPato, 18));
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        LocationObservedData data = (LocationObservedData) arg;
-        LatLng sydney = null;
-        if (data.getLocation() != null) {
-            new LatLng(data.getLocation().getLatitude(), data.getLocation().getLongitude());
-        } else {
-            sydney = new LatLng(-34, 151);
-        }
-
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-//        switch (data.getMetodo()){
-//            case LOCATION_CHANGED:
-//        }
     }
 }
