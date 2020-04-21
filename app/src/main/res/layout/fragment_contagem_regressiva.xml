@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_contagem_regressiva"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primariaEscuro"
+    tools:context=".activity.telas.atividade.ContagemRegressivaFragment">
+
+    <TextView
+        android:id="@+id/tv_contagem_regressiva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:gravity="center_horizontal"
+        android:textColor="@color/branco"
+        android:textSize="@dimen/text_86"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_mais_tempo_contagem_regressiva"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="@color/primariaEscuro"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/mais_x_segundos"
+        android:textColor="@color/branco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_comecar_atividade_contagem_regressiva"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/brancoTransparente" />
+
+    <Button
+        android:id="@+id/btn_comecar_atividade_contagem_regressiva"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_56"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="26dp"
+        android:backgroundTint="@color/branco"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/comecar_agora"
+        android:textColor="@color/primaria"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

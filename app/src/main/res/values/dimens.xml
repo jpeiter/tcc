@@ -7,6 +7,7 @@
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_60">60sp</dimen>
+    <dimen name="text_86">86sp</dimen>
 
     <dimen name="spacing_4">4dp</dimen>
     <dimen name="spacing_8">8dp</dimen>

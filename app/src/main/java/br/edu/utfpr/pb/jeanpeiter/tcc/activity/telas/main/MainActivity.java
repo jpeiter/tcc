@@ -1,6 +1,5 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,13 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
@@ -69,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
             }
         });
     }
-
 
 
     private void loadFragment(Fragment fragment) {

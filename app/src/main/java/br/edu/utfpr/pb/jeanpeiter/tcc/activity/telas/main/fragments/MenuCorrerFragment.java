@@ -23,7 +23,10 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.PermissionActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps.MapaFragment;
+import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.AtividadeTipo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -68,14 +71,18 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     }
 
     private View.OnClickListener listener = v -> {
-        String tipo = v.getId() == R.id.btnIniciarDupla ? "DUPLA" : "SOZINHO";
-        Toast.makeText(v.getContext(), tipo, Toast.LENGTH_SHORT).show();
+        AtividadeTipo tipo = v.getId() == R.id.btnIniciarDupla ? AtividadeTipo.DUPLA : AtividadeTipo.SOZINHO;
+        switch (tipo) {
+            case DUPLA:
+            case SOZINHO:
+                new IntentUtils().startActivity(getContext(), AtividadeActivity.class);
+                break;
+        }
     };
 
 
     @Override
     public void grantPermissions() {
-
         Dexter.withActivity(getActivity())
                 .withPermission(
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -97,4 +104,6 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
                     }
                 }).check();
     }
+
+
 }
