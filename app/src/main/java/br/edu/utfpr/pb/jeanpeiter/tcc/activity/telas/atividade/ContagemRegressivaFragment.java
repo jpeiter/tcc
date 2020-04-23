@@ -42,12 +42,6 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        cronometro = null;
-    }
-
-    @Override
     public void replaceResources() {
         ResourcesUtils resourcesUtils = new ResourcesUtils(getContext());
         getTvContagemRegressiva().setText("5");
@@ -96,6 +90,5 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         cronometro = null;
         tempo = 5L;
     }
-
 
 }

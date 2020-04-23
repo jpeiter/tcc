@@ -25,7 +25,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps.MapaFragment;
-import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.AtividadeTipo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.atividade.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

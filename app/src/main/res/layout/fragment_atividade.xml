@@ -1,15 +1,312 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/branco"
     tools:context=".activity.telas.atividade.AtividadeFragment">
-    <Button
+
+    <TextView
+        android:id="@+id/tv_atividade_pausada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/atividade_pausada"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/secundariaEscuro"
+        android:textSize="@dimen/text_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <!--  DISTÂNCIA  -->
+    <LinearLayout
+        android:id="@+id/ll_distancia_atividade"
         android:layout_width="match_parent"
-        android:text="AAAA"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/tv_distancia_atividade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/_0"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_60" />
 
+            <TextView
+                android:id="@+id/tv_unidade_medida_distancia_atividade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/km"
+                android:textAllCaps="true"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_34" />
+        </LinearLayout>
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/distancia"
+            android:textAllCaps="true"
+            android:textColor="@color/preto"
+            android:textSize="@dimen/text_20" />
+    </LinearLayout>
+    <!--  FINAL DISTÂNCIA  -->
+
+    <!-- DURAÇÃO E VELOCIDADE MÉDIA -->
+    <LinearLayout
+        android:id="@+id/ll_duracao_velocidade_atividade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ll_distancia_atividade">
+
+        <!-- DURAÇÃO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_duracao_atividade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/_0"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_30" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/duracao"
+                android:textAllCaps="true"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_20" />
+        </LinearLayout>
+        <!-- FINAL DURAÇÃO -->
+
+        <!-- VELOCIDADE MÉDIA -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_velocidade_media_atividade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/primaria"
+                    android:textSize="@dimen/text_30" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="@string/km_h"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaria"
+                    android:textSize="@dimen/text_14" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/velocidade_media"
+                android:textAllCaps="true"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_20" />
+
+        </LinearLayout>
+        <!-- FINAL VELOCIDADE MÉDIA -->
+
+    </LinearLayout>
+    <!-- FINAL DURAÇÃO E VELOCIDADE MÉDIA -->
+
+    <!-- RITMO MÉDIO E CALORIAS -->
+    <LinearLayout
+        android:id="@+id/ll_ritmo_calorias_atividade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ll_duracao_velocidade_atividade">
+
+        <!-- RITMO MÉDIO  -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_ritmo_medio_atividade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/primaria"
+                    android:textSize="@dimen/text_30" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="@string/min_km"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primaria"
+                    android:textSize="@dimen/text_14" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/ritmo"
+                android:textAllCaps="true"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_20" />
+
+        </LinearLayout>
+        <!-- FINAL RITMO MÉDIO -->
+
+        <!-- CALORIAS -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_calorias_atividade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/_0"
+                android:textColor="@color/primaria"
+                android:textSize="@dimen/text_30" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/calorias"
+                android:textAllCaps="true"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_20" />
+        </LinearLayout>
+        <!-- FINAL CALORIAS -->
+
+    </LinearLayout>
+    <!-- FINAL RITMO MÉDIO E CALORIAS -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pausar_parar_atividade"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center_horizontal"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="84dp"
+                app:icon="@drawable/ic_pause_white_36dp"
+                app:iconSize="36dp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_btn_retomar_atividade"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retomar_atividade"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center_horizontal"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="84dp"
+                app:icon="@drawable/ic_play_arrow_white_36dp"
+                app:iconSize="36dp" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

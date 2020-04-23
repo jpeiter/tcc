@@ -61,7 +61,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btnIniciarSozinho"
             app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="@color/branco"
-            app:srcCompat="@drawable/baseline_group_white_24" />
+            app:srcCompat="@drawable/ic_group_white_24dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnIniciarSozinho"
@@ -74,7 +74,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="@color/branco"
-            app:srcCompat="@drawable/baseline_person_white_24" />
+            app:srcCompat="@drawable/ic_person_white_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

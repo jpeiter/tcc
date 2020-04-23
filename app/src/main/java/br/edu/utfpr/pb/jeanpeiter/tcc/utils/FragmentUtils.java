@@ -22,14 +22,22 @@ public class FragmentUtils {
         transaction.commit();
     }
 
-    public void kill(Fragment fragment){
+    public void kill(FragmentActivity activity, Fragment fragment) {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        kill(manager, fragment);
+    }
+
+    public void kill(Fragment fragment) {
         FragmentManager manager = fragment.getActivity().getSupportFragmentManager();
+        kill(manager, fragment);
+    }
+
+    private void kill(FragmentManager manager, Fragment fragment) {
         FragmentTransaction trans = manager.beginTransaction();
         trans.remove(fragment);
         trans.commit();
         manager.popBackStack();
     }
-
 
 
 }

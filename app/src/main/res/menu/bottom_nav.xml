@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_item_historico"
-        android:icon="@drawable/baseline_person_white_24"
+        android:icon="@drawable/ic_flash_on_white_24dp"
         android:title="@string/historico" />
 
     <item
         android:id="@+id/menu_item_correr"
-        android:icon="@drawable/baseline_person_white_24"
+        android:icon="@drawable/ic_directions_run_white_24dp"
         android:title="@string/correr" />
 
     <item
         android:id="@+id/menu_item_perfil"
-        android:icon="@drawable/baseline_person_white_24"
+        android:icon="@drawable/ic_person_white_24dp"
         android:title="@string/perfil" />
 
 </menu>
