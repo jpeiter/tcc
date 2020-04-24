@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.maps;
+package br.edu.utfpr.pb.jeanpeiter.tcc.modelo.data;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -8,7 +8,8 @@ import com.google.android.gms.common.ConnectionResult;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder @Getter
+@Builder
+@Getter
 public class LocationObservedData {
 
     private Metodo metodo;
@@ -21,20 +22,10 @@ public class LocationObservedData {
 
     private Bundle extras;
 
-    private Bundle bundle;
-
-    private int i;
-
-    private ConnectionResult connectionResult;
-
     public enum Metodo {
         LOCATION_CHANGED,
-        STATUS_CHANGED,
         PROVIDER_ENABLED,
-        PROVIDER_DISABLED,
-        CONNECTED,
-        CONNECTION_SUSPENDED,
-        CONNECTION_FAILED
+        PROVIDER_DISABLED
     }
 
 }

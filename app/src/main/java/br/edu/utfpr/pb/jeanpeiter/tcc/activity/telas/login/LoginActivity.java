@@ -20,11 +20,11 @@ import java.util.List;
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.bemvindo.BemVindoActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 
-import static br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController.getUser;
+import static br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController.getUser;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -27,7 +27,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.ResourceActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.SexoEnum;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;

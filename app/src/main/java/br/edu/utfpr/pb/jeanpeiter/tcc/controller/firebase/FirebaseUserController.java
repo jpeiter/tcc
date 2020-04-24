@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.controller;
+package br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase;
 
 import android.content.Context;
 

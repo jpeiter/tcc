@@ -1,11 +1,13 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.atividade;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,16 +16,30 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.ListenerActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.atividade.AtividadeEstado;
+import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.data.LocationObservedData;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AtividadeFragment extends Fragment implements ListenerActivity {
+public class AtividadeFragment extends Fragment implements ListenerActivity, Observer {
 
     private View parent;
     private AtividadeActivity atividadeActivity;
@@ -44,6 +60,8 @@ public class AtividadeFragment extends Fragment implements ListenerActivity {
         setFrameLayoutRetomarAtividade(parent.findViewById(R.id.fl_btn_retomar_atividade));
         setTvAtividadePausada(parent.findViewById(R.id.tv_atividade_pausada));
         getTvAtividadePausada().setVisibility(View.GONE);
+
+        atividadeActivity.getLocationListener().addObserver(this);
 
         initListeners();
         return parent;
@@ -73,6 +91,8 @@ public class AtividadeFragment extends Fragment implements ListenerActivity {
             retomarAtividade();
         });
     }
+
+
 
     private void retomarAtividade() {
         retomaAtividadeUi();
@@ -106,6 +126,14 @@ public class AtividadeFragment extends Fragment implements ListenerActivity {
 
     private void finalizarAtividade() {
         atividadeActivity.finalizarAtividade();
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof LocationObservedData){
+            Toast.makeText(getContext(), "NO FRAGMENT!!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

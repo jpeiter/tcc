@@ -84,11 +84,4 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cronometro = null;
-        tempo = 5L;
-    }
-
 }
