@@ -2,6 +2,7 @@
 <resources>
     <string name="selecione">Selecione</string>
     <string name="cancelar">Cancelar</string>
+    <string name="campo_obrigatorio">Este campo é obrigatório.</string>
     <string name="confirmar">Confirmar</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="negar">Negar</string>

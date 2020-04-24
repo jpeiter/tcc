@@ -24,9 +24,9 @@ import java.util.Locale;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.GenericActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.generics.ResourceActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.SexoEnum;
@@ -212,22 +212,22 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
             setError((RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1), null);
         } else {
             RadioButton radioButton = (RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1);
-            setError(radioButton, "Infome sexo");
+            setError(radioButton, getString(R.string.campo_obrigatorio));
             return;
         }
 
         if (perfil.getNascimento() == null) {
-            setError(getEtNascimento(), "Informe nascimento");
+            setError(getEtNascimento(), getString(R.string.campo_obrigatorio));
             return;
         }
 
         if (perfil.getAltura() == null) {
-            setError(getEtAltura(), "Informe altura");
+            setError(getEtAltura(), getString(R.string.campo_obrigatorio));
             return;
         }
 
         if (perfil.getPeso() == null) {
-            setError(getEtPeso(), "Informe peso");
+            setError(getEtPeso(), getString(R.string.campo_obrigatorio));
             return;
         }
 

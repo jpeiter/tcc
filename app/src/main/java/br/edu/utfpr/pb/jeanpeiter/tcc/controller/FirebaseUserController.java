@@ -29,6 +29,6 @@ public class FirebaseUserController {
 
     public static Task<Void> salvarPerfil(Perfil perfil) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.setValue("perfil/" + userId, perfil);
+        return FirebaseController.setValue("users/" + userId, perfil);
     }
 }
