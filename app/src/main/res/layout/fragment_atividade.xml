@@ -139,6 +139,7 @@
                     android:textSize="@dimen/text_30" />
 
                 <TextView
+                    android:id="@+id/tv_unidade_medida_velocidade_atividade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
@@ -258,6 +259,7 @@
     <!-- FINAL RITMO MÉDIO E CALORIAS -->
 
     <LinearLayout
+        android:id="@+id/ll_botoes"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginBottom="56dp"
@@ -274,6 +276,7 @@
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/primariaClaro"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"
@@ -297,6 +300,7 @@
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/primariaClaro"
                 android:insetLeft="0dp"
                 android:insetTop="0dp"
                 android:insetRight="0dp"

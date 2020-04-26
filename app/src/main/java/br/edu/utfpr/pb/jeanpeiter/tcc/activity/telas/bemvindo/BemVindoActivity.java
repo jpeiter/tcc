@@ -29,7 +29,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.main.MainActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
-import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.SexoEnum;
+import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Sexo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
@@ -208,7 +208,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
 
     public void btnConfirmarBemVindoOnClick(View view) {
         if (getRgSexo().getCheckedRadioButtonId() != -1) {
-            perfil.setSexo(SexoEnum.getByResourceId(getRgSexo().getCheckedRadioButtonId()));
+            perfil.setSexo(Sexo.getByResourceId(getRgSexo().getCheckedRadioButtonId()));
             setError((RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1), null);
         } else {
             RadioButton radioButton = (RadioButton) getRgSexo().getChildAt(rgSexo.getChildCount() - 1);

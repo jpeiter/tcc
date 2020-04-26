@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.controller.location;
+package br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,9 +9,9 @@ import java.util.Observer;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.data.LocationObservedData;
 
-public class LocationListenerController extends Observable implements LocationListener {
+public class LocalizacaoListener extends Observable implements LocationListener {
 
-    public LocationListenerController(Observer observer) {
+    public LocalizacaoListener(Observer observer) {
         this.addObserver(observer);
     }
 

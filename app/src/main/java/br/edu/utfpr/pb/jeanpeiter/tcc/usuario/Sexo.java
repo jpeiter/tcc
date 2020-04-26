@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SexoEnum {
+public enum Sexo {
 
     FEMININO("Feminino"),
     MASCULINO("Masculino");
 
     private String descricao;
 
-    public static SexoEnum getByResourceId(int id) {
+    public static Sexo getByResourceId(int id) {
         switch (id) {
             case R.id.rb_feminino:
                 return FEMININO;

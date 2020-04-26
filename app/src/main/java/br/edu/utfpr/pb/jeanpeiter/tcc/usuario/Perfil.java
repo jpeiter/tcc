@@ -1,7 +1,6 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.usuario;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -22,7 +21,7 @@ public class Perfil {
 
     private String nome;
 
-    private SexoEnum sexo;
+    private Sexo sexo;
 
     private Double altura;
 
