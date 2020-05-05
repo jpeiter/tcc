@@ -6,8 +6,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseController {
 
+    public static FirebaseDatabase getInstance(){
+        return FirebaseDatabase.getInstance();
+    }
+
     public static DatabaseReference getDatabase() {
-        return FirebaseDatabase.getInstance().getReference();
+        return getInstance().getReference();
     }
 
     public static DatabaseReference getDatabase(String dbPath) {

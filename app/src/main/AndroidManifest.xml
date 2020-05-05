@@ -26,7 +26,7 @@
 
         <!-- ACTIVITIES -->
         <activity
-            android:name=".activity.telas.login.LoginActivity"
+            android:name=".ui.telas.login.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,17 +35,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.telas.bemvindo.BemVindoActivity"
+            android:name=".ui.telas.bemvindo.BemVindoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.telas.main.MainActivity"
+            android:name=".ui.telas.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.telas.atividade.AtividadeActivity"
+            android:name=".ui.telas.atividade.AtividadeActivity"
             android:screenOrientation="portrait" />
     </application>
 

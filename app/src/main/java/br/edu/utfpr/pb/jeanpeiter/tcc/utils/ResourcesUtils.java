@@ -8,7 +8,7 @@ import android.text.style.StyleSpan;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.resources.Fonte;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.resources.Fonte;
 
 public class ResourcesUtils {
 

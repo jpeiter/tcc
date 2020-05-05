@@ -7,9 +7,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.activity.telas.login.LoginActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.usuario.Perfil;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.login.LoginActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.SharedPreferencesUtils;
 
 public class FirebaseUserController {
 
@@ -23,12 +24,13 @@ public class FirebaseUserController {
 
     public static Task<Void> signOut(Context context) {
         return AuthUI.getInstance().signOut(context).addOnCompleteListener(command -> {
+            new SharedPreferencesUtils(context).removeUsuario();
             new IntentUtils().startActivity(context, LoginActivity.class);
         });
     }
 
-    public static Task<Void> salvarPerfil(Perfil perfil) {
+    public static Task<Void> salvarPerfil(Usuario usuario) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.setValue("users/" + userId, perfil);
+        return FirebaseController.setValue("users/" + userId, usuario);
     }
 }

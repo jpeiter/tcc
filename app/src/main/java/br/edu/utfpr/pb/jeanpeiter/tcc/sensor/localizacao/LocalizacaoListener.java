@@ -7,7 +7,7 @@ import android.os.Bundle;
 import java.util.Observable;
 import java.util.Observer;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.modelo.data.LocationObservedData;
+import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 
 public class LocalizacaoListener extends Observable implements LocationListener {
 

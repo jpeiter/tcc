@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primariaEscuro"
-    tools:context=".activity.telas.atividade.ContagemRegressivaFragment">
+    tools:context=".ui.telas.atividade.ContagemRegressivaFragment">
 
     <TextView
         android:id="@+id/tv_contagem_regressiva"
