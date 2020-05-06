@@ -2,10 +2,8 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao;
 
 import android.location.Location;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,21 +11,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(tableName = "atividadeposicao")
+@AllArgsConstructor
+@Builder
 public class AtividadePosicao {
 
-    @PrimaryKey
     private Long _id;
 
     private Long atividadeId;
 
-    @ColumnInfo
     private Long ordem;
 
-    @ColumnInfo
     private Double latitude;
 
-    @ColumnInfo
     private Double longitude;
 
     public AtividadePosicao(Long atividadeId, Long ordem, Location location) {

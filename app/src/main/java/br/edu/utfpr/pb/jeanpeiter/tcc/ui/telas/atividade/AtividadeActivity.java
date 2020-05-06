@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.widget.Chronometer;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -127,10 +128,14 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     protected void finalizarAtividade(long termino, long duracaoMillis) {
         setAtividadeEstado(AtividadeEstado.FINALIZADA);
         Atividade atividade = atividadeController.finalizar(termino, duracaoMillis);
-        FirebaseAtividadeController.save(atividade).addOnSuccessListener(success -> {
-            finish();
-        }).addOnFailureListener(fail -> {
-
+        FirebaseAtividadeController.save(atividade).addOnCompleteListener(complete-> {
+            if(complete.isSuccessful()){
+                finish();
+            }else {
+                if(complete.getException() != null){
+                    complete.getException().printStackTrace();
+                }
+            }
         });
 
     }
