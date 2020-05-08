@@ -1,11 +1,9 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade;
 
-import androidx.room.ColumnInfo;
-import androidx.room.PrimaryKey;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import lombok.AllArgsConstructor;
@@ -58,4 +56,31 @@ public class Atividade {
     // Coordenadas do trajeto
     @Builder.Default
     private List<AtividadePosicao> posicoes = new ArrayList<>();
+
+    public AtividadeDTO toDto() {
+        return new AtividadeDTO(this.get_id(),
+                this.getInicio(),
+                this.getTermino(),
+                this.getTipo() == AtividadeTipo.SOZINHO ? "S" : "D",
+                this.getDistancia(),
+                this.getVelocidade(),
+                this.getDuracao(),
+                this.getRitmo(),
+                this.getCalorias(),
+                this.getPontos()
+        );
+    }
+
+    public Atividade parse(AtividadeDTO dto) {
+        this.set_id(dto.get_id());
+        this.setInicio(dto.getI());
+        this.setTermino(dto.getTe());
+        this.setTipo(dto.getTi().equals("S") ? AtividadeTipo.SOZINHO : AtividadeTipo.DUPLA);
+        this.setDistancia(dto.getDi());
+        this.setDuracao(dto.getDu());
+        this.setRitmo(dto.getR());
+        this.setCalorias(dto.getC());
+        this.setPontos(dto.getP());
+        return this;
+    }
 }

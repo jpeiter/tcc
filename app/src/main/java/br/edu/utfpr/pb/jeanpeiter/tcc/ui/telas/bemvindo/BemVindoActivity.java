@@ -34,7 +34,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.SharedPreferencesUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -236,7 +236,7 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
 
 
         FirebaseUserController.salvarPerfil(this.usuario).addOnCompleteListener(task -> {
-            new SharedPreferencesUtils(this).saveUsuario(usuario);
+            new AppSharedPreferences(this).putUsuario(usuario);
             new IntentUtils().startActivity(this, MainActivity.class);
         }).addOnFailureListener(e ->
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show()

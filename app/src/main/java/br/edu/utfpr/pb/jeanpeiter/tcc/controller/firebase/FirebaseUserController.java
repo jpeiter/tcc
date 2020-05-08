@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.SharedPreferencesUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 
 public class FirebaseUserController {
 
@@ -24,7 +24,7 @@ public class FirebaseUserController {
 
     public static Task<Void> signOut(Context context) {
         return AuthUI.getInstance().signOut(context).addOnCompleteListener(command -> {
-            new SharedPreferencesUtils(context).removeUsuario();
+            new AppSharedPreferences(context).removeUsuario();
             new IntentUtils().startActivity(context, LoginActivity.class);
         });
     }

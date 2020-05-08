@@ -1,6 +1,11 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +13,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+//@Entity(tableName = "atividade_posicao")
 public class AtividadePosicaoDTO {
 
+
     // AtividadePosicao.latitude
+//    @PrimaryKey(autoGenerate = true)
+    private Double _id;
+
+    // AtividadePosicao.latitude
+//    @ColumnInfo
     private Double la;
 
     // AtividadePosicao.longitude

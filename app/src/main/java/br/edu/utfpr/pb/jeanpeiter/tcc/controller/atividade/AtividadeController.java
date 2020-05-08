@@ -1,9 +1,15 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade;
 
+import android.content.Context;
 import android.location.Location;
+import android.os.AsyncTask;
 
 import java.util.List;
 
+import br.edu.utfpr.pb.jeanpeiter.tcc.App;
+import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
@@ -14,6 +20,7 @@ public class AtividadeController {
 
     private Atividade atividade;
     private LocationUtils locationUtils = new LocationUtils();
+    private boolean permiteFinalizar;
 
     public AtividadeController() {
         this.atividade = new Atividade();
@@ -28,7 +35,6 @@ public class AtividadeController {
         atividade.setVelocidade(velocidade(data.getLocation()));
         return this.atividade;
     }
-
 
     private AtividadePosicao novaPosicao(int qtdePosicoes, LocationObservedData data) {
         Long ordem = qtdePosicoes + 1L;
@@ -58,18 +64,35 @@ public class AtividadeController {
         return new BigDecimalUtils().arredondado(velocidade.doubleValue(), 2).doubleValue();
     }
 
+    private Double velocidadeFinal(Atividade atividade) {
+        return new BigDecimalUtils()
+                .arredondado(atividade.getDistancia() != null ? atividade.getDistancia() : 0 / atividade.getDuracao(), 2)
+                .doubleValue();
+    }
+
     public Atividade finalizar(long termino, long duracaoMillis) {
         atividade.setTermino(termino);
         atividade.setDuracao(duracaoMillis / 1000);
         atividade.setVelocidade(velocidadeFinal(atividade));
+        permiteFinalizar = true;
         return atividade;
     }
 
-    private Double velocidadeFinal(Atividade atividade) {
-        return new BigDecimalUtils()
-                .arredondado(atividade.getDistancia() / atividade.getDuracao(), 2)
-                .doubleValue();
+    public void salvar(Atividade atividade, Context context, Runnable acao) throws Exception {
+        if (!permiteFinalizar) throw new Exception("A atividade não foi finalizada ainda!");
+        permiteFinalizar = false;
 
+        boolean isOnline = NetworkInformation.isNetworkAvailable(context);
+
+        if (isOnline) {
+            FirebaseAtividadeController.save(atividade, acao);
+        } else {
+            AppDatabase db = AppDatabase.getInstance(context);
+            AsyncTask.execute(() -> {
+                db.save(atividade);
+                acao.run();
+            });
+        }
     }
 
 

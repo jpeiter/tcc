@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Log;
-import android.widget.Chronometer;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,8 +22,6 @@ import java.util.Observer;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
@@ -36,7 +32,6 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
 
 
 public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity, Observer {
@@ -128,15 +123,11 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     protected void finalizarAtividade(long termino, long duracaoMillis) {
         setAtividadeEstado(AtividadeEstado.FINALIZADA);
         Atividade atividade = atividadeController.finalizar(termino, duracaoMillis);
-        FirebaseAtividadeController.save(atividade).addOnCompleteListener(complete-> {
-            if(complete.isSuccessful()){
-                finish();
-            }else {
-                if(complete.getException() != null){
-                    complete.getException().printStackTrace();
-                }
-            }
-        });
+        try {
+            atividadeController.salvar(atividade, getApplicationContext(), this::finish);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 

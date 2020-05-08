@@ -24,7 +24,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.MainActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.SharedPreferencesUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 
 import static br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController.getUser;
 
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             Usuario usuario = (Usuario) dataSnapshot.getValue();
-                            new SharedPreferencesUtils(LoginActivity.this).saveUsuario(usuario);
+                            new AppSharedPreferences(LoginActivity.this).putUsuario(usuario);
                             new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
                         } else {
                             new IntentUtils().startActivity(LoginActivity.this, BemVindoActivity.class);
