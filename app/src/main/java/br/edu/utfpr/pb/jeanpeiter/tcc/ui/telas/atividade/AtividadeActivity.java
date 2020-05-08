@@ -124,7 +124,10 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         setAtividadeEstado(AtividadeEstado.FINALIZADA);
         Atividade atividade = atividadeController.finalizar(termino, duracaoMillis);
         try {
-            atividadeController.salvar(atividade, getApplicationContext(), this::finish);
+            atividadeController.salvar(atividade, getApplicationContext(),
+                    this::finish,
+                    () -> Toast.makeText(this, "ERROU", Toast.LENGTH_SHORT).show()
+            );
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }

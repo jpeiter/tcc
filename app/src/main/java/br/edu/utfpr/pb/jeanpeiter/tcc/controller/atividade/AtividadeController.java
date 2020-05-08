@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.App;
 import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
@@ -27,6 +26,7 @@ public class AtividadeController {
         long currentTimeMillis = System.currentTimeMillis();
         this.atividade.set_id(currentTimeMillis);
         this.atividade.setInicio(currentTimeMillis);
+        this.atividade.setDistancia(0.0);
     }
 
     public Atividade atualizarAtividade(LocationObservedData data) {
@@ -38,7 +38,7 @@ public class AtividadeController {
 
     private AtividadePosicao novaPosicao(int qtdePosicoes, LocationObservedData data) {
         Long ordem = qtdePosicoes + 1L;
-        return new AtividadePosicao(atividade.get_id(), ordem, data.getLocation());
+        return new AtividadePosicao(ordem, data.getLocation());
     }
 
     private Double distanciaEmAndamento(Double distanciaTotal, List<AtividadePosicao> posicoes) {
@@ -66,7 +66,7 @@ public class AtividadeController {
 
     private Double velocidadeFinal(Atividade atividade) {
         return new BigDecimalUtils()
-                .arredondado(atividade.getDistancia() != null ? atividade.getDistancia() : 0 / atividade.getDuracao(), 2)
+                .arredondado(atividade.getDistancia() / atividade.getDuracao(), 2)
                 .doubleValue();
     }
 
@@ -78,19 +78,24 @@ public class AtividadeController {
         return atividade;
     }
 
-    public void salvar(Atividade atividade, Context context, Runnable acao) throws Exception {
+    public void salvar(Atividade atividade, Context context, Runnable acaoOk, Runnable acaoErro) throws Exception {
         if (!permiteFinalizar) throw new Exception("A atividade não foi finalizada ainda!");
         permiteFinalizar = false;
 
         boolean isOnline = NetworkInformation.isNetworkAvailable(context);
 
         if (isOnline) {
-            FirebaseAtividadeController.save(atividade, acao);
+            FirebaseAtividadeController.save(atividade, acaoOk, acaoErro);
         } else {
             AppDatabase db = AppDatabase.getInstance(context);
             AsyncTask.execute(() -> {
-                db.save(atividade);
-                acao.run();
+                try {
+                    db.save(atividade);
+                    acaoOk.run();
+                } catch (Exception e) {
+                    if (acaoErro != null) acaoErro.run();
+                }
+
             });
         }
     }
