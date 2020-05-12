@@ -6,7 +6,11 @@ import android.content.Intent;
 public class IntentUtils {
 
     public void startActivity(Context context, Class activity) {
-        context.startActivity(new Intent(context, activity));
+        startActivity(context, new Intent(context, activity));
+    }
+
+    public void startActivity(Context context, Intent i){
+        context.startActivity(i);
     }
 
 

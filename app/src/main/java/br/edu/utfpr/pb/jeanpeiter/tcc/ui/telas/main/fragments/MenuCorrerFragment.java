@@ -21,11 +21,11 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.maps.MapaFragment;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,7 +56,6 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     @Override
     public void initViews() {
         setFlMapCorrer(parent.findViewById(R.id.flMapCorrer));
-
         setBtnIniciarDupla(parent.findViewById(R.id.btnIniciarDupla));
         setBtnIniciarSozinho(parent.findViewById(R.id.btnIniciarSozinho));
         getBtnIniciarSozinho().setOnClickListener(listener);
@@ -84,9 +83,7 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     @Override
     public void grantPermissions() {
         Dexter.withActivity(getActivity())
-                .withPermission(
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                )
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
 
                     @Override

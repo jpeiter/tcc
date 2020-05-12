@@ -6,6 +6,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
@@ -27,6 +28,11 @@ public class FirebaseUserController {
             new AppSharedPreferences(context).removeUsuario();
             new IntentUtils().startActivity(context, LoginActivity.class);
         });
+    }
+
+    public static DatabaseReference fetchInfo() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return FirebaseController.getDatabase("users/" + userId);
     }
 
     public static Task<Void> salvarPerfil(Usuario usuario) {

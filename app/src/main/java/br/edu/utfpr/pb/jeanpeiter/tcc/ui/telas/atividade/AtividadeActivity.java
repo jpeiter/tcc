@@ -2,6 +2,7 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
@@ -50,6 +52,10 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = this.getIntent();
+        String extra = i.getStringExtra("tipo");
+        AtividadeTipo tipo = AtividadeTipo.SOZINHO.equals(extra) ? AtividadeTipo.SOZINHO : AtividadeTipo.DUPLA;
         setContentView(R.layout.activity_atividade);
         grantPermissions();
     }
@@ -69,6 +75,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
                             initListeners();
                             iniciarContagemRegressiva();
                         } else {
+                            Toast.makeText(AtividadeActivity.this, "Verifique as permissões dadas ao app!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
@@ -89,7 +96,6 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             finish();
         }
         LocalizacaoListener locationListener = new LocalizacaoListener(this);
-        atividadeController = new AtividadeController();
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         assert locationManager != null;
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
@@ -107,6 +113,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         assert contagemRegressivaFragment != null;
         fragmentUtils.kill(contagemRegressivaFragment);
 
+        atividadeController = new AtividadeController();
         fragmentUtils.loadFragment(this, R.id.fl_container_atividade, new AtividadeFragment());
         setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
     }

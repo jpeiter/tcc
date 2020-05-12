@@ -18,13 +18,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.UsuarioDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.bemvindo.BemVindoActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.MainActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 
 import static br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController.getUser;
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         if (usuarioLogado == null) {
             showSignInOptions();
         } else {
-            new IntentUtils().startActivity(this, MainActivity.class);
+            verificaUsuarioExistente();
         }
     }
 
@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         .build(),
                 REQUEST_CODE
         );
+
     }
 
     @Override
@@ -78,26 +79,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verificaUsuarioExistente() {
-        String uid = FirebaseUserController.getUser().getUid();
-        FirebaseController
-                .getDatabase("users")
-                .child(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Usuario usuario = (Usuario) dataSnapshot.getValue();
-                            new AppSharedPreferences(LoginActivity.this).putUsuario(usuario);
-                            new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
-                        } else {
-                            new IntentUtils().startActivity(LoginActivity.this, BemVindoActivity.class);
-                        }
-                    }
+        FirebaseUserController.fetchInfo().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Usuario usuario = dataSnapshot.getValue(UsuarioDTO.class).parse(dataSnapshot.getKey());
+                    new AppSharedPreferences(LoginActivity.this).putUsuario(usuario);
+                    new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
+                } else {
+                    new IntentUtils().startActivity(LoginActivity.this, BemVindoActivity.class);
+                }
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                databaseError.toException().printStackTrace();
+            }
+        });
     }
 }
 
