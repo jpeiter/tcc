@@ -24,7 +24,7 @@ public class AtividadePosicaoDTO {
     private Long _id;
 
     @ColumnInfo(name = "atividadeId")
-    private Long aId;
+    private String aId;
 
     // AtividadePosicao.latitude
     @ColumnInfo(name = "latitude")

@@ -20,7 +20,7 @@ import lombok.Setter;
 public class Atividade {
 
     // Identificador da atividade
-    private Long _id;
+    private String _id;
 
     // Identificador do usuário
     private String usuarioUid;
@@ -61,7 +61,7 @@ public class Atividade {
         return new AtividadeDTO(this.get_id(),
                 this.getInicio(),
                 this.getTermino(),
-                this.getTipo() == AtividadeTipo.SOZINHO ? "S" : "D",
+                this.getTipo().toDto(),
                 this.getDistancia(),
                 this.getVelocidade(),
                 this.getDuracao(),
@@ -75,7 +75,7 @@ public class Atividade {
         this.set_id(dto.get_id());
         this.setInicio(dto.getI());
         this.setTermino(dto.getTe());
-        this.setTipo(dto.getTi().equals("S") ? AtividadeTipo.SOZINHO : AtividadeTipo.DUPLA);
+        this.setTipo(AtividadeTipo.fromDto(dto.getTi()));
         this.setDistancia(dto.getDi());
         this.setDuracao(dto.getDu());
         this.setRitmo(dto.getR());

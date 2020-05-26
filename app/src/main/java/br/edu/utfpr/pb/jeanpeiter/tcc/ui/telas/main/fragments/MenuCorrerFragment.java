@@ -2,6 +2,7 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,12 +72,10 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
 
     private View.OnClickListener listener = v -> {
         AtividadeTipo tipo = v.getId() == R.id.btnIniciarDupla ? AtividadeTipo.DUPLA : AtividadeTipo.SOZINHO;
-        switch (tipo) {
-            case DUPLA:
-            case SOZINHO:
-                new IntentUtils().startActivity(getContext(), AtividadeActivity.class);
-                break;
-        }
+        Intent i = new Intent(getContext(), AtividadeActivity.class);
+        tipo.toIntent(i);
+        new IntentUtils().startActivity(getContext(), i);
+
     };
 
 

@@ -8,10 +8,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.login.LoginActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.login.LoginActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 
 public class FirebaseUserController {
 

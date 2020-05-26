@@ -1,10 +1,13 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.google.firebase.database.annotations.NotNull;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
@@ -25,7 +28,8 @@ public class AtividadeDTO {
 
     // Atividade._id
     @PrimaryKey
-    private Long _id;
+    @NonNull
+    private String _id;
 
     // Atividade.inicio
     @ColumnInfo(name = "inicio")

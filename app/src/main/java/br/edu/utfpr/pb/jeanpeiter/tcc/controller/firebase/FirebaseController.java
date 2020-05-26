@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseController {
 
-    public static FirebaseDatabase getInstance(){
+    private static FirebaseDatabase getInstance(){
         return FirebaseDatabase.getInstance();
     }
 

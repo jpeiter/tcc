@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 
 import java.util.List;
+import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeController;
@@ -24,7 +25,7 @@ public class AtividadeController {
     public AtividadeController() {
         this.atividade = new Atividade();
         long currentTimeMillis = System.currentTimeMillis();
-        this.atividade.set_id(currentTimeMillis);
+        this.atividade.set_id(UUID.randomUUID().toString());
         this.atividade.setInicio(currentTimeMillis);
         this.atividade.setDistancia(0.0);
     }

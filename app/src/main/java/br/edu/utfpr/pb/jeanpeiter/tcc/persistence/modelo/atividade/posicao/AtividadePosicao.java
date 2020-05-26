@@ -28,7 +28,7 @@ public class AtividadePosicao {
         this.longitude = location.getLongitude();
     }
 
-    public AtividadePosicaoDTO toDto(Long atividadeId) {
+    public AtividadePosicaoDTO toDto(String atividadeId) {
         return AtividadePosicaoDTO.builder()
                 .aId(atividadeId)
                 .la(this.getLatitude())

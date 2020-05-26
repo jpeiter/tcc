@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.karumi.dexter.Dexter;
@@ -30,7 +31,9 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,11 +41,15 @@ import lombok.Setter;
 
 public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity, Observer {
 
+    private static final int CODE_SELECIONAR_PARCEIRO = 1;
+
     @Getter
     @Setter(AccessLevel.PRIVATE)
-    protected AtividadeEstado atividadeEstado = AtividadeEstado.PAUSADA;
+    protected AtividadeEstado atividadeEstado = null;
 
     private AtividadeController atividadeController;
+    private LocationManager locationManager;
+    private LocalizacaoListener locationListener;
 
     private final List<String> permissoes = new ArrayList() {{
         add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -53,15 +60,45 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent i = this.getIntent();
-        String extra = i.getStringExtra("tipo");
-        AtividadeTipo tipo = AtividadeTipo.SOZINHO.equals(extra) ? AtividadeTipo.SOZINHO : AtividadeTipo.DUPLA;
         setContentView(R.layout.activity_atividade);
         grantPermissions();
+        AtividadeTipo tipoSelecionado = AtividadeTipo.fromIntent(getIntent());
+        if (AtividadeTipo.SOZINHO.equals(tipoSelecionado)) {
+            initListeners();
+            iniciarContagemRegressiva();
+        } else {
+            new IntentUtils().startActivityForResult(this, SelecionarParceiroActivity.class, CODE_SELECIONAR_PARCEIRO);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE_SELECIONAR_PARCEIRO && resultCode == RESULT_OK) {
+            initListeners();
+            iniciarContagemRegressiva();
+        }
+    }
+
+    @Override
+    public void finish() {
+        if (locationListener != null) {
+            locationListener.deleteObservers();
+            if (locationManager != null) {
+                locationManager.removeUpdates(locationListener);
+            }
+        }
+        locationListener = null;
+        locationManager = null;
+
+        super.finish();
     }
 
     @Override
     public void onBackPressed() {
+        if (getAtividadeEstado() == null) {
+            finish();
+        }
     }
 
     @Override
@@ -71,12 +108,8 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            initListeners();
-                            iniciarContagemRegressiva();
-                        } else {
+                        if (!report.areAllPermissionsGranted()) {
                             Toast.makeText(AtividadeActivity.this, "Verifique as permissões dadas ao app!", Toast.LENGTH_SHORT).show();
-                            finish();
                         }
                     }
 
@@ -95,11 +128,29 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             // Todo: AlertDialog
             finish();
         }
-        LocalizacaoListener locationListener = new LocalizacaoListener(this);
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocalizacaoListener(this);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         assert locationManager != null;
+        locationManager.removeUpdates(locationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof LocationObservedData) {
+            LocationObservedData data = (LocationObservedData) arg;
+            if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
+                if (getAtividadeEstado().equals(AtividadeEstado.EM_ANDAMENTO)) {
+                    AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+                    Atividade atividade = atividadeController.atualizarAtividade(data);
+                    atividadeFragment.atualizar(atividade);
+                }
+            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
+                AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+                atividadeFragment.pausarAtividade();
+            }
+        }
     }
 
     private void iniciarContagemRegressiva() {
@@ -108,6 +159,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     }
 
     protected void iniciarAtividade() {
+        setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
         FragmentUtils fragmentUtils = new FragmentUtils();
         ContagemRegressivaFragment contagemRegressivaFragment = (ContagemRegressivaFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
         assert contagemRegressivaFragment != null;
@@ -115,7 +167,6 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
         atividadeController = new AtividadeController();
         fragmentUtils.loadFragment(this, R.id.fl_container_atividade, new AtividadeFragment());
-        setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
     }
 
 
@@ -141,20 +192,4 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof LocationObservedData) {
-            LocationObservedData data = (LocationObservedData) arg;
-            if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
-                if (getAtividadeEstado().equals(AtividadeEstado.EM_ANDAMENTO)) {
-                    AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
-                    Atividade atividade = atividadeController.atualizarAtividade(data);
-                    atividadeFragment.atualizar(atividade);
-                }
-            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
-                AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
-                atividadeFragment.pausarAtividade();
-            }
-        }
-    }
 }

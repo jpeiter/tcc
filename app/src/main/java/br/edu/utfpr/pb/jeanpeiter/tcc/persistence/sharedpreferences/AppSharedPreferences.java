@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 
 import static android.content.Context.MODE_PRIVATE;
 
-@AllArgsConstructor
 public class AppSharedPreferences {
 
     private final String APP_NAME = "TCC_ADS_JEAN_FELIPE_PEITER";
@@ -18,6 +17,10 @@ public class AppSharedPreferences {
     private final String KEY_USUARIO = "usuario";
 
     private Context context;
+
+    public AppSharedPreferences(Context context) {
+        this.context = context;
+    }
 
     private SharedPreferences getPreferences() {
         return context.getSharedPreferences(APP_NAME, MODE_PRIVATE);
