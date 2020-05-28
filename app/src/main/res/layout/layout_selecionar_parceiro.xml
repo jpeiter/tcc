@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_foto_selecionar_parceiro"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/branco"
+    android:orientation="horizontal"
+    android:padding="@dimen/spacing_8">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_weight="9"
+        android:src="@drawable/com_facebook_profile_picture_blank_square" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_8"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nome_selecionar_parceiro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:id="@+id/tv_ultimo_acesso_selecionar_parceiro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:drawableLeft="@drawable/circle_green_12dp"
+            android:drawablePadding="@dimen/spacing_8"
+            android:text="@string/online"
+            android:textColor="@color/pretoTransparente" />
+    </LinearLayout>
+</LinearLayout>

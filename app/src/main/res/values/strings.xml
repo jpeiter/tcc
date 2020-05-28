@@ -53,6 +53,7 @@
     <string name="mantenha_pressionado_para_finalizar">Para finalizar a atividade, mantenha o botão pressionado.</string>
     <string name="pressione_para_finalizar">Para finalizar a atividade, pressione o botão rapidamente.</string>
     <string name="buscando_usuarios">Procurando por usuários, por favor aguarde…</string>
+    <string name="online" translatable="false">Online</string>
     <string name="inicio">Início</string>
     <string name="fim">Fim</string>
     <string name="atividades">Atividades</string>

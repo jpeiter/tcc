@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.firebase.database.ServerValue;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.App;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -28,7 +28,7 @@ public class FirebaseUserStatusController {
     }
 
     public static Query usuariosConectados() {
-        return FirebaseController.getDatabase(PATH).orderByKey();
+        return FirebaseController.getDatabase(PATH).orderByChild("status").equalTo("CONECTADO");
     }
 
 
