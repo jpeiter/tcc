@@ -13,6 +13,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.FirebaseUserStatus;
 
 public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<FirebaseUserStatus, FirebaseUserStatusHolder> {
@@ -27,7 +28,7 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
 
     @Override
     protected void onBindViewHolder(@NonNull FirebaseUserStatusHolder holder, int position, @NonNull FirebaseUserStatus model) {
-        holder.bind(model);
+        holder.bind(model, getRef(position).getKey());
     }
 
     @NonNull
@@ -44,7 +45,9 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
 
     @Override
     public void onChildChanged(@NonNull ChangeEventType type, @NonNull DataSnapshot snapshot, int newIndex, int oldIndex) {
-        super.onChildChanged(type, snapshot, newIndex, oldIndex);
+        if (!snapshot.getKey().equals(FirebaseUserController.getUser().getUid())) {
+            super.onChildChanged(type, snapshot, newIndex, oldIndex);
+        }
     }
 
     @Override
@@ -52,4 +55,5 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
         super.onDetachedFromRecyclerView(recyclerView);
         stopListening();
     }
+
 }

@@ -11,6 +11,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.fragments.selecio
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 
 public class SelecionarParceiroActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

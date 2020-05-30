@@ -41,7 +41,7 @@ import lombok.Setter;
 
 public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity, Observer {
 
-    private static final int CODE_SELECIONAR_PARCEIRO = 1;
+    private static final int CODE_SELECIONAR_PARCEIRO = 100;
 
     @Getter
     @Setter(AccessLevel.PRIVATE)
@@ -122,17 +122,17 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     @Override
     public void initListeners() {
-
         // Localização
-        if (permissoes.stream().allMatch(p -> checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)) {
+        if (permissoes.stream().anyMatch(p -> checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)) {
             // Todo: AlertDialog
             finish();
+        } else {
+            locationListener = new LocalizacaoListener(this);
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            assert locationManager != null;
+            locationManager.removeUpdates(locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
         }
-        locationListener = new LocalizacaoListener(this);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        assert locationManager != null;
-        locationManager.removeUpdates(locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
 
     }
 

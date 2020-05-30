@@ -14,7 +14,7 @@ public class FirebaseAtividadeController {
     public static Task<Void> save(Atividade atividade, Runnable acaoOk, Runnable acaoErro) {
         String userId = FirebaseUserController.getUser().getUid();
         String atividadeId = String.valueOf(atividade.get_id());
-        String path = "activities".concat("/").concat(userId).concat("/").concat(atividadeId);
+        String path = "activities".concat("/").concat(userId).concat("/sozinho/").concat(atividadeId);
         return FirebaseController.setValue(path, atividade.toDto()).addOnSuccessListener(success -> {
             savePosicoes(atividadeId, atividade.getPosicoes(), acaoOk, acaoErro);
         }, fail -> {

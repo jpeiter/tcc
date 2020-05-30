@@ -24,12 +24,4 @@ public class FirebaseUserStatus {
         return user;
     }
 
-    public static FirebaseUserStatus desconectado(Context context) {
-        FirebaseUserStatus user = new FirebaseUserStatus();
-        user.setNome(new AppSharedPreferences(context).getUsuario().getNome());
-        user.setStatus("DESCONECTADO");
-        return user;
-    }
-
-
 }

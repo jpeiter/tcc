@@ -22,9 +22,9 @@ public class FirebaseUserStatusController {
         return FirebaseController.getDatabase(PATH + "/" + userId).setValue(FirebaseUserStatus.conectado(context));
     }
 
-    public static Task<Void> desconectar(Context context) {
+    public static Task<Void> desconectar() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.getDatabase(PATH + "/" + userId).onDisconnect().setValue(FirebaseUserStatus.desconectado(context));
+        return FirebaseController.getDatabase(PATH + "/" + userId).onDisconnect().removeValue();
     }
 
     public static Query usuariosConectados() {

@@ -40,20 +40,19 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
 
         initListeners();
         initViews();
-
         return parent;
     }
 
 
     @Override
     public void initViews() {
-        final FragmentActivity c = getActivity();
+        final FragmentActivity activity = getActivity();
         setRvUsuariosConectados(parent.findViewById(R.id.rv_usuarios_conectados));
-        LinearLayoutManager layoutManager = new LinearLayoutManager(c);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         getRvUsuariosConectados().setLayoutManager(layoutManager);
         setOptions(new FirebaseRecyclerOptions.Builder<FirebaseUserStatus>().setQuery(FirebaseUserStatusController.usuariosConectados(), FirebaseUserStatus.class).build());
 
-        new Thread(() -> c.runOnUiThread(() -> {
+        new Thread(() -> activity.runOnUiThread(() -> {
             // Adapter
             setAdapter(new FirebaseUserStatusRecyclerAdapter(getOptions()));
             getRvUsuariosConectados().setAdapter(getAdapter());
@@ -68,7 +67,7 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
             FirebaseUserStatusController.getDatabase().getDatabase().goOnline();
             FirebaseUserStatusController.conectar(getActivity()).addOnSuccessListener(success -> {
             });
-            FirebaseUserStatusController.desconectar(getActivity()).addOnSuccessListener(success -> {
+            FirebaseUserStatusController.desconectar().addOnSuccessListener(success -> {
             });
         }
     }
