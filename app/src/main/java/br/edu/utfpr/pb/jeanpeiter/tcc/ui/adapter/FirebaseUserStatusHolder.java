@@ -1,7 +1,5 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.ui.adapter;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeDuplaController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.FirebaseUserStatus;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import lombok.AccessLevel;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter(AccessLevel.PRIVATE)
 public class FirebaseUserStatusHolder extends RecyclerView.ViewHolder implements ListenerActivity {
 
-    public static String EXTRA_UID_PARCEIRO = "UID_PARCEIRO";
+    public static final String EXTRA_UID_PARCEIRO = "UID_PARCEIRO";
 
     private TextView tvNome;
     private String uid;
@@ -38,10 +38,9 @@ public class FirebaseUserStatusHolder extends RecyclerView.ViewHolder implements
     @Override
     public void initListeners() {
         this.itemView.setOnClickListener(v -> {
-            Activity activity = (Activity) itemView.getContext();
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_UID_PARCEIRO, uid);
-            activity.setResult(Activity.RESULT_OK, intent);
+            if (!uid.equals(FirebaseUserController.getUser().getUid())) {
+                FirebaseAtividadeDuplaController.getInstance().solicitar(uid);
+            }
         });
     }
 }

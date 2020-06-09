@@ -2,15 +2,19 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -21,9 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeDuplaController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
@@ -33,7 +40,6 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,9 +49,14 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     private static final int CODE_SELECIONAR_PARCEIRO = 100;
 
+    private final UUID atividadeId = UUID.randomUUID();
+
     @Getter
     @Setter(AccessLevel.PRIVATE)
     protected AtividadeEstado atividadeEstado = null;
+    @Getter
+    @Setter(AccessLevel.PRIVATE)
+    private AtividadeTipo tipoSelecionado = null;
 
     private AtividadeController atividadeController;
     private LocationManager locationManager;
@@ -53,31 +64,28 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     private final List<String> permissoes = new ArrayList() {{
         add(Manifest.permission.ACCESS_FINE_LOCATION);
-        add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        add(Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ?
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION :
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        );
     }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_atividade);
-        grantPermissions();
-        AtividadeTipo tipoSelecionado = AtividadeTipo.fromIntent(getIntent());
-        if (AtividadeTipo.SOZINHO.equals(tipoSelecionado)) {
-            initListeners();
-            iniciarContagemRegressiva();
-        } else {
-            new IntentUtils().startActivityForResult(this, SelecionarParceiroActivity.class, CODE_SELECIONAR_PARCEIRO);
-        }
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CODE_SELECIONAR_PARCEIRO && resultCode == RESULT_OK) {
-            initListeners();
-            iniciarContagemRegressiva();
+        grantPermissions();
+
+        setTipoSelecionado(AtividadeTipo.fromIntent(getIntent()));
+
+        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
+            String parceiroUid = this.getIntent().getStringExtra(SelecionarParceiroActivity.PARCEIRO_UID_EXTRA);
+            iniciarAtividadeDupla(parceiroUid);
         }
+
+        initListeners();
+        iniciarContagemRegressiva();
     }
 
     @Override
@@ -90,6 +98,10 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
         locationListener = null;
         locationManager = null;
+
+        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
+            FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
+        }
 
         super.finish();
     }
@@ -130,10 +142,8 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             locationListener = new LocalizacaoListener(this);
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
-            locationManager.removeUpdates(locationListener);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
         }
-
     }
 
     @Override
@@ -141,10 +151,16 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         if (arg instanceof LocationObservedData) {
             LocationObservedData data = (LocationObservedData) arg;
             if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
-                if (getAtividadeEstado().equals(AtividadeEstado.EM_ANDAMENTO)) {
-                    AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+                if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+                    AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
                     Atividade atividade = atividadeController.atualizarAtividade(data);
-                    atividadeFragment.atualizar(atividade);
+                    if (atividadeFragment != null) {
+                        atividadeFragment.atualizar(atividade);
+                    }
+                    if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
+                        FirebaseAtividadeDuplaController.getInstance().atualizar(new Atividade(this.atividadeId.toString(), AtividadeTipo.DUPLA));
+                    }
                 }
             } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
                 AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
@@ -165,10 +181,33 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         assert contagemRegressivaFragment != null;
         fragmentUtils.kill(contagemRegressivaFragment);
 
-        atividadeController = new AtividadeController();
+        atividadeController = new AtividadeController(atividadeId);
+        atividadeController.setTipo(getTipoSelecionado());
         fragmentUtils.loadFragment(this, R.id.fl_container_atividade, new AtividadeFragment());
     }
 
+    private void iniciarAtividadeDupla(String parceiroUid) {
+        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado()) && NetworkInformation.isNetworkAvailable(this)) {
+            FirebaseAtividadeDuplaController.getInstance().iniciar(parceiroUid, atividadeId.toString()).addOnSuccessListener(success ->
+                    this.monitorarAtividadeParceiro()
+            );
+        }
+    }
+
+    private void monitorarAtividadeParceiro() {
+        FirebaseAtividadeDuplaController.getInstance().monitorarParceiro(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Toast.makeText(AtividadeActivity.this, dataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     protected void retomarAtividade() {
         setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);

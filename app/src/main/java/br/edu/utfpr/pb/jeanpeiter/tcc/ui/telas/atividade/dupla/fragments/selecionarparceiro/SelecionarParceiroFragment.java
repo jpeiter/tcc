@@ -76,7 +76,7 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
     public void onDetach() {
         super.onDetach();
         if (NetworkInformation.isNetworkAvailable(getActivity())) {
-            FirebaseUserStatusController.getDatabase().getDatabase().goOffline();
+//            FirebaseUserStatusController.getDatabase().getDatabase().goOffline();
         }
     }
 

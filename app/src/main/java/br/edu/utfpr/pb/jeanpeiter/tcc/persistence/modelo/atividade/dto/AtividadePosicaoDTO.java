@@ -38,6 +38,10 @@ public class AtividadePosicaoDTO {
     @ColumnInfo(name = "ordem")
     private Long o;
 
+    // AtividadePosicao.sincronizado
+    @ColumnInfo(name = "sincronizado")
+    private String s;
+
 
 
 }

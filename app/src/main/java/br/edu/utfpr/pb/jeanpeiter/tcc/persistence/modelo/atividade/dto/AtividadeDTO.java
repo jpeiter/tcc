@@ -67,4 +67,8 @@ public class AtividadeDTO {
     @ColumnInfo(name = "pontos")
     private Long p;
 
+    // Atividade.sincronizado
+    @ColumnInfo(name = "sincronizado")
+    private String s;
+
 }

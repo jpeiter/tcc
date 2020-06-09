@@ -1,5 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade;
 
+import androidx.room.ColumnInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,9 @@ public class Atividade {
     @Builder.Default
     private List<AtividadePosicao> posicoes = new ArrayList<>();
 
+    // Sincronizado online
+    private boolean sincronizado;
+
     public AtividadeDTO toDto() {
         return new AtividadeDTO(this.get_id(),
                 this.getInicio(),
@@ -67,7 +72,8 @@ public class Atividade {
                 this.getDuracao(),
                 this.getRitmo(),
                 this.getCalorias(),
-                this.getPontos()
+                this.getPontos(),
+                this.isSincronizado() ? "S" : "N"
         );
     }
 
@@ -81,6 +87,12 @@ public class Atividade {
         this.setRitmo(dto.getR());
         this.setCalorias(dto.getC());
         this.setPontos(dto.getP());
+        this.setSincronizado("S".equals(dto.getS()));
         return this;
+    }
+
+    public Atividade(String id, AtividadeTipo tipo){
+        set_id(id);
+        setTipo(tipo);
     }
 }

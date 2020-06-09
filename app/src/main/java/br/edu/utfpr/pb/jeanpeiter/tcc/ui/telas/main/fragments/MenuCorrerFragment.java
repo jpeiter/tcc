@@ -26,6 +26,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.Ativida
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.maps.MapaFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.Getter;
@@ -72,7 +73,10 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
 
     private View.OnClickListener listener = v -> {
         AtividadeTipo tipo = v.getId() == R.id.btnIniciarDupla ? AtividadeTipo.DUPLA : AtividadeTipo.SOZINHO;
-        Intent i = new Intent(getContext(), AtividadeActivity.class);
+        Intent i = new Intent(getContext(), AtividadeTipo.SOZINHO.equals(tipo) ?
+                AtividadeActivity.class :
+                SelecionarParceiroActivity.class
+        );
         tipo.toIntent(i);
         new IntentUtils().startActivity(getContext(), i);
 
