@@ -1,11 +1,10 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade;
 
-import androidx.room.ColumnInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import lombok.AllArgsConstructor;
@@ -62,6 +61,9 @@ public class Atividade {
     // Sincronizado online
     private boolean sincronizado;
 
+    // Estado
+    private AtividadeEstado estado;
+
     public AtividadeDTO toDto() {
         return new AtividadeDTO(this.get_id(),
                 this.getInicio(),
@@ -73,7 +75,8 @@ public class Atividade {
                 this.getRitmo(),
                 this.getCalorias(),
                 this.getPontos(),
-                this.isSincronizado() ? "S" : "N"
+                this.isSincronizado() ? "S" : "N",
+                this.getEstado().toDto()
         );
     }
 
@@ -88,11 +91,18 @@ public class Atividade {
         this.setCalorias(dto.getC());
         this.setPontos(dto.getP());
         this.setSincronizado("S".equals(dto.getS()));
+        this.setEstado(AtividadeEstado.fromDto(dto.getE()));
         return this;
     }
 
-    public Atividade(String id, AtividadeTipo tipo){
+    public Atividade(String id, AtividadeTipo tipo) {
         set_id(id);
         setTipo(tipo);
+    }
+
+    public Atividade(String id, AtividadeTipo tipo, AtividadeEstado estado) {
+        set_id(id);
+        setTipo(tipo);
+        setEstado(estado);
     }
 }

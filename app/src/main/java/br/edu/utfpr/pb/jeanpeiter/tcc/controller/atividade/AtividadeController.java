@@ -3,22 +3,25 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.util.List;
 import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.LocationUtils;
-import lombok.AccessLevel;
 import lombok.Getter;
 
 public class AtividadeController {
 
+    @Getter
     private Atividade atividade;
     private LocationUtils locationUtils = new LocationUtils();
     private boolean permiteFinalizar;
@@ -29,10 +32,16 @@ public class AtividadeController {
         this.atividade.set_id(atividadeUuid.toString());
         this.atividade.setInicio(currentTimeMillis);
         this.atividade.setDistancia(0.0);
+        this.atividade.setEstado(AtividadeEstado.EM_ANDAMENTO);
     }
 
     public void setTipo(AtividadeTipo tipo) {
         this.atividade.setTipo(tipo);
+    }
+
+    public Atividade mudarEstado(AtividadeEstado estado) {
+        this.atividade.setEstado(estado);
+        return this.atividade;
     }
 
     public Atividade atualizarAtividade(LocationObservedData data) {
@@ -77,6 +86,7 @@ public class AtividadeController {
     }
 
     public Atividade finalizar(long termino, long duracaoMillis) {
+        mudarEstado(AtividadeEstado.FINALIZADA);
         atividade.setTermino(termino);
         atividade.setDuracao(duracaoMillis / 1000);
         atividade.setVelocidade(velocidadeFinal(atividade));
@@ -94,11 +104,12 @@ public class AtividadeController {
                 db.save(atividade);
                 acaoOk.run();
             } catch (Exception e) {
-                if (acaoErro != null) acaoErro.run();
+                if (acaoErro != null){
+                    new Handler(Looper.getMainLooper()).post(acaoErro);
+                }
             }
         });
 
     }
-
 
 }

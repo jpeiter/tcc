@@ -14,19 +14,17 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserStatusController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.FirebaseUserStatus;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.adapter.FirebaseUserStatusRecyclerAdapter;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter(AccessLevel.PRIVATE)
 @Setter(AccessLevel.PRIVATE)
-public class SelecionarParceiroFragment extends Fragment implements GenericActivity, ListenerActivity {
+public class SelecionarParceiroFragment extends Fragment implements GenericActivity {
 
     private View parent;
     private RecyclerView rvUsuariosConectados;
@@ -37,12 +35,9 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_selecionar_parceiro, container, false);
-
-        initListeners();
         initViews();
         return parent;
     }
-
 
     @Override
     public void initViews() {
@@ -53,7 +48,6 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
         setOptions(new FirebaseRecyclerOptions.Builder<FirebaseUserStatus>().setQuery(FirebaseUserStatusController.usuariosConectados(), FirebaseUserStatus.class).build());
 
         new Thread(() -> activity.runOnUiThread(() -> {
-            // Adapter
             setAdapter(new FirebaseUserStatusRecyclerAdapter(getOptions()));
             getRvUsuariosConectados().setAdapter(getAdapter());
         })).start();
@@ -61,24 +55,8 @@ public class SelecionarParceiroFragment extends Fragment implements GenericActiv
     }
 
     @Override
-    public void initListeners() {
-        if (NetworkInformation.isNetworkAvailable(getActivity())) {
-            // Firebase Database
-            FirebaseUserStatusController.getDatabase().getDatabase().goOnline();
-            FirebaseUserStatusController.conectar(getActivity()).addOnSuccessListener(success -> {
-            });
-            FirebaseUserStatusController.desconectar().addOnSuccessListener(success -> {
-            });
-        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
-        if (NetworkInformation.isNetworkAvailable(getActivity())) {
-//            FirebaseUserStatusController.getDatabase().getDatabase().goOffline();
-        }
     }
-
 
 }

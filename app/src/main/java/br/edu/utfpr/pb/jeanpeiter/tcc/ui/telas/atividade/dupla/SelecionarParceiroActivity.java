@@ -1,6 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeDuplaController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserStatusController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
@@ -42,7 +41,7 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
     public static final String PARCEIRO_UID_EXTRA = "PARCEIRO_UID_EXTRA";
     private Button btnProxima;
 
-    private Map<String, String> solicitacoes = new HashMap<>();
+    private Map<String, String> solicitacoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,23 +49,38 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
         setContentView(R.layout.activity_selecionar_parceiro);
         initViews();
         initListeners();
-
-        if (NetworkInformation.isNetworkAvailable(this)) {
-            FirebaseUserStatusController.getDatabase().getDatabase().goOnline();
-            new FragmentUtils().loadFragment(this, R.id.fl_selecionar_parceiro, new SelecionarParceiroFragment());
-        }
+        this.conectar();
+        new FragmentUtils().loadFragment(this, R.id.fl_selecionar_parceiro, new SelecionarParceiroFragment());
     }
 
     @Override
     public void finish() {
-        finalizarFirebase();
+        this.desconectar();
         super.finish();
     }
 
     @Override
+    protected void onStop() {
+        this.desconectar();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        this.conectar();
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        this.conectar();
+        super.onRestart();
+    }
+
+    @Override
     public void onBackPressed() {
+        this.desconectar();
         super.onBackPressed();
-        this.finish();
     }
 
     @Override
@@ -86,7 +100,9 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
             new DialogUtils().build(SelecionarParceiroActivity.this, "Selecionar")
                     .setSingleChoiceItems(nomeParceiros, 0, (dialog, which) -> {
                         checkedItem.set(which);
-                    }).setPositiveButton(getString(R.string.confirmar), (dialog, which) -> {
+                    })
+                    .setNegativeButton(getString(R.string.cancelar), (dialog, which) -> dialog.cancel())
+                    .setPositiveButton(getString(R.string.confirmar), (dialog, which) -> {
                         Map.Entry<String, String> entry = (Map.Entry<String, String>) solicitacoesAtual.entrySet().toArray()[checkedItem.get()];
                         String parceiroUid = entry.getKey();
                         iniciarAtividadeDupla(parceiroUid);
@@ -105,6 +121,7 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
     }
 
     private void monitorarPendentes() {
+        solicitacoes = new HashMap<>();
         FirebaseAtividadeDuplaController.getInstance().monitorarPendentes(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -149,8 +166,11 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
         getBtnProxima().setText("Solicitacoes de atividade: " + solicitacoes.size());
     }
 
-    private void finalizarFirebase() {
-        FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
-        FirebaseDatabase.getInstance().goOffline();
+    private void conectar() {
+        AsyncTask.execute(() -> FirebaseUserStatusController.conectar(SelecionarParceiroActivity.this.getBaseContext()));
+    }
+
+    private void desconectar() {
+        AsyncTask.execute(FirebaseUserStatusController::desconectar);
     }
 }

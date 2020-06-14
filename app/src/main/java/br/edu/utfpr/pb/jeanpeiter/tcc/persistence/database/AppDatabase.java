@@ -22,7 +22,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.Ativi
         entities = {
                 AtividadeDTO.class,
                 AtividadePosicaoDTO.class,
-        }, version = 2, exportSchema = false)
+        }, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private final static String DB_NAME = "tcc_ads_jeanpeiter";

@@ -15,7 +15,6 @@ public class FirebaseUserStatus {
 
     private String status;
     private String nome;
-    private final Object ultimoAcesso = ServerValue.TIMESTAMP;
 
     public static FirebaseUserStatus conectado(Context context) {
         FirebaseUserStatus user = new FirebaseUserStatus();

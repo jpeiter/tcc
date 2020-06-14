@@ -49,6 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.telas.atividade.dupla.SelecionarParceiroActivity"
+            android:parentActivityName=".ui.telas.main.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

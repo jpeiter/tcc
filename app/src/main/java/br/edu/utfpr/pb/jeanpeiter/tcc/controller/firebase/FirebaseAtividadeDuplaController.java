@@ -1,7 +1,5 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase;
 
-import android.app.Application;
-
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import lombok.AccessLevel;
 import lombok.Setter;
@@ -22,31 +21,35 @@ public class FirebaseAtividadeDuplaController {
 
     private static FirebaseAtividadeDuplaController instance;
 
-    public static final String VALOR_CONFIRMACAO = Application.getProcessName()
-            .concat(".")
-            .concat(FirebaseAtividadeDuplaController.class.getCanonicalName())
+    private static final String PATH = "atividade_dupla";
+    public static final String VALOR_CONFIRMACAO = FirebaseAtividadeDuplaController.class.getCanonicalName()
             .concat(".SOLICITACAO_CONFIRMADA");
 
-    public synchronized static FirebaseAtividadeDuplaController getInstance() {
-        if (instance == null) {
-            instance = new FirebaseAtividadeDuplaController();
-            FirebaseDatabase.getInstance().goOnline();
-            FirebaseController.getDatabase(PATH.concat("/").concat(FirebaseUserController.getUser().getUid()).concat("/pendentes")).onDisconnect().removeValue();
-        }
-        return instance;
-    }
-
-    public static final String PATH = "atividade_dupla";
+    private final String userId = FirebaseUserController.getUser().getUid();
 
     @Setter(AccessLevel.PRIVATE)
     private String parceiroUid;
-    private final String userId = FirebaseUserController.getUser().getUid();
+
+    @Setter(AccessLevel.PRIVATE)
     private String pathAtividadeDupla;
+
+    @Setter(AccessLevel.PRIVATE)
+    private Set<String> pathsPendencias = new HashSet<>();
 
     private ChildEventListener listenerMonitorarPendentes;
     private ValueEventListener listenerMonitorarParceiro;
 
-    private Set<String> pathsPendencias = new HashSet<>();
+
+    public synchronized static FirebaseAtividadeDuplaController getInstance() {
+        if (instance == null) {
+            instance = new FirebaseAtividadeDuplaController();
+            String userId = FirebaseUserController.getUser().getUid();
+            FirebaseDatabase.getInstance().goOnline();
+            FirebaseController.getDatabase(PATH.concat("/").concat(userId).concat("/pendentes")).removeValue();
+        }
+        return instance;
+    }
+
 
     /* Paths */
     private String pathAtividadeDupla() {
@@ -66,6 +69,7 @@ public class FirebaseAtividadeDuplaController {
         return PATH.concat("/").concat(parceiroUid).concat("/pendentes");
     }
 
+    /* Ações */
     public Task<Void> solicitar(String parceiroUid) {
         setParceiroUid(parceiroUid);
         String pathSolicitar = pathPendentesParceiro().concat("/").concat(this.userId);
@@ -73,16 +77,17 @@ public class FirebaseAtividadeDuplaController {
         return FirebaseController.getDatabase(pathSolicitar).setValue(FirebaseUserController.getUser().getDisplayName());
     }
 
-    public Task<Void> confirmar(String parceiroUid) {
+    public void confirmar(String parceiroUid) {
         setParceiroUid(parceiroUid);
         String pathConfirmar = pathPendentesParceiro().concat("/").concat(this.userId);
-        return FirebaseController.getDatabase(pathConfirmar).setValue(VALOR_CONFIRMACAO);
+        FirebaseController.getDatabase(pathConfirmar).setValue(VALOR_CONFIRMACAO);
     }
 
     public Task<Void> iniciar(String parceiroUid, String atividadeId) {
         setParceiroUid(parceiroUid);
+        zerarPendencias();
         String pathAtividadeUser = pathAtividadeDupla().concat("/").concat(this.userId);
-        return FirebaseController.setValue(pathAtividadeUser, new Atividade(atividadeId, AtividadeTipo.DUPLA).toDto());
+        return FirebaseController.setValue(pathAtividadeUser, new Atividade(atividadeId, AtividadeTipo.DUPLA, AtividadeEstado.EM_ANDAMENTO).toDto());
     }
 
     public void atualizar(Atividade atividade) {
@@ -90,6 +95,7 @@ public class FirebaseAtividadeDuplaController {
         FirebaseController.setValue(pathAtividadeUser, atividade.toDto());
     }
 
+    /* Monitoramentos */
     public void monitorarPendentes(ChildEventListener listener) {
         listenerMonitorarPendentes = listener;
         FirebaseController.getDatabase(pathPendentes()).addChildEventListener(listenerMonitorarPendentes);
@@ -101,11 +107,23 @@ public class FirebaseAtividadeDuplaController {
         FirebaseController.getDatabase(pathAtividadeParceiro).addValueEventListener(listenerMonitorarParceiro);
     }
 
+    /* Finalizar */
     public void zerarPendencias() {
-        for (String pathPendencia : pathsPendencias) {
-            FirebaseController.getDatabase(pathPendencia).removeValue();
+        FirebaseController.getDatabase(pathPendentes()).removeValue();
+        if (listenerMonitorarPendentes != null) {
+            FirebaseController.getDatabase(pathPendentes()).removeEventListener(listenerMonitorarPendentes);
         }
-
     }
 
+    public void finalizar(Atividade atividade) {
+        atualizar(atividade);
+        FirebaseController.getDatabase(pathAtividadeDupla()).removeValue();
+        if (listenerMonitorarParceiro != null) {
+            FirebaseController.getDatabase(pathAtividadeDupla().concat("/").concat(this.parceiroUid)).removeEventListener(listenerMonitorarParceiro);
+        }
+        setParceiroUid(null);
+        setPathAtividadeDupla(null);
+        setPathsPendencias(new HashSet<>());
+        instance = null;
+    }
 }

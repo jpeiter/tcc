@@ -120,7 +120,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
 
     }
 
-    protected void pausarAtividade() {
+    void pausarAtividade() {
         pausaAtividadeUi();
         atividadeActivity.pausarAtividade();
         tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
@@ -134,7 +134,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         getTvAtividadePausada().startAnimation(new AnimationUtils().piscar());
     }
 
-    private void retomarAtividade() {
+    void retomarAtividade() {
         retomarAtividadeUi();
         atividadeActivity.retomarAtividade();
         cronometroDuracao.setBase(SystemClock.elapsedRealtime() - tempoDecorrido);

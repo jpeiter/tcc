@@ -71,4 +71,8 @@ public class AtividadeDTO {
     @ColumnInfo(name = "sincronizado")
     private String s;
 
+    // Atividade.estado
+    @ColumnInfo(name = "estado")
+    private int e;
+
 }

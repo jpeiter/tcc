@@ -25,7 +25,7 @@ public class FirebaseUserStatusController {
 
     public static Task<Void> desconectar() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.getDatabase(PATH + "/" + userId).onDisconnect().removeValue();
+        return FirebaseController.getDatabase(PATH + "/" + userId).removeValue();
     }
 
     public static Query usuariosConectados() {

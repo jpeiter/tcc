@@ -2,10 +2,12 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -28,10 +31,12 @@ import java.util.Observer;
 import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.GpsInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseAtividadeDuplaController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
@@ -39,6 +44,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedDa
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -46,8 +52,6 @@ import lombok.Setter;
 
 
 public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity, Observer {
-
-    private static final int CODE_SELECIONAR_PARCEIRO = 100;
 
     private final UUID atividadeId = UUID.randomUUID();
 
@@ -79,13 +83,20 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
         setTipoSelecionado(AtividadeTipo.fromIntent(getIntent()));
 
-        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
+        if (isAtividadeDupla()) {
+            FirebaseDatabase.getInstance().goOnline();
             String parceiroUid = this.getIntent().getStringExtra(SelecionarParceiroActivity.PARCEIRO_UID_EXTRA);
             iniciarAtividadeDupla(parceiroUid);
+            FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
+            monitorarAtividadeParceiro();
         }
 
         initListeners();
         iniciarContagemRegressiva();
+    }
+
+    private boolean isAtividadeDupla() {
+        return AtividadeTipo.DUPLA.equals(getTipoSelecionado());
     }
 
     @Override
@@ -98,10 +109,6 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
         locationListener = null;
         locationManager = null;
-
-        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
-            FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
-        }
 
         super.finish();
     }
@@ -135,7 +142,12 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     @Override
     public void initListeners() {
         // Localização
-        if (permissoes.stream().anyMatch(p -> checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)) {
+        if (!GpsInformation.isLocationEnabled(this)) {
+            new DialogUtils().build(this, "Ser")
+                    .setNegativeButton(getString(R.string.agora_nao), (dialog, which) -> AtividadeActivity.this.finish())
+                    .setPositiveButton(getString(R.string.confirmar), (dialog, which) -> startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                    .create().show();
+        } else if (permissoes.stream().anyMatch(p -> checkSelfPermission(p) != PackageManager.PERMISSION_GRANTED)) {
             // Todo: AlertDialog
             finish();
         } else {
@@ -143,29 +155,6 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof LocationObservedData) {
-            LocationObservedData data = (LocationObservedData) arg;
-            if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
-                if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
-                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
-                    AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
-                    Atividade atividade = atividadeController.atualizarAtividade(data);
-                    if (atividadeFragment != null) {
-                        atividadeFragment.atualizar(atividade);
-                    }
-                    if (AtividadeTipo.DUPLA.equals(getTipoSelecionado())) {
-                        FirebaseAtividadeDuplaController.getInstance().atualizar(new Atividade(this.atividadeId.toString(), AtividadeTipo.DUPLA));
-                    }
-                }
-            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
-                AtividadeFragment atividadeFragment = (AtividadeFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
-                atividadeFragment.pausarAtividade();
-            }
         }
     }
 
@@ -187,10 +176,38 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     }
 
     private void iniciarAtividadeDupla(String parceiroUid) {
-        if (AtividadeTipo.DUPLA.equals(getTipoSelecionado()) && NetworkInformation.isNetworkAvailable(this)) {
-            FirebaseAtividadeDuplaController.getInstance().iniciar(parceiroUid, atividadeId.toString()).addOnSuccessListener(success ->
-                    this.monitorarAtividadeParceiro()
-            );
+        if (NetworkInformation.isNetworkAvailable(this)) {
+            FirebaseAtividadeDuplaController.getInstance().iniciar(parceiroUid, atividadeId.toString());
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof LocationObservedData) {
+            LocationObservedData data = (LocationObservedData) arg;
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+            AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
+            if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
+                if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
+
+                    Atividade atividade = atividadeController.atualizarAtividade(data);
+
+                    if (atividadeFragment != null) {
+                        atividadeFragment.atualizar(atividade);
+                    }
+                    if (isAtividadeDupla()) {
+                        FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
+                    }
+                }
+            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
+                if (atividadeFragment != null) {
+                    atividadeFragment.pausarAtividade();
+                }
+            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_ENABLED) {
+                if (atividadeFragment != null) {
+                    atividadeFragment.retomarAtividade();
+                }
+            }
         }
     }
 
@@ -198,8 +215,29 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         FirebaseAtividadeDuplaController.getInstance().monitorarParceiro(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Toast.makeText(AtividadeActivity.this, dataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
+                AtividadeDTO dto = dataSnapshot.getValue(AtividadeDTO.class);
+                if (dto != null) {
+                    Atividade atividade = new Atividade().parse(dto);
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+                    AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
+                    switch (atividade.getEstado()) {
+                        case EM_ANDAMENTO:
+                            if (!AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
+                                if (atividadeFragment != null) {
+                                    atividadeFragment.retomarAtividade();
+                                }
+                            }
+                            break;
+                        case PAUSADA:
+                            if (!AtividadeEstado.PAUSADA.equals(getAtividadeEstado())) {
+                                if (atividadeFragment != null) {
+                                    atividadeFragment.pausarAtividade();
+                                }
+                            }
+                        case FINALIZADA:
+                            break;
+                    }
+                }
             }
 
             @Override
@@ -209,24 +247,39 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         });
     }
 
-    protected void retomarAtividade() {
-        setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
-    }
-
     protected void pausarAtividade() {
         setAtividadeEstado(AtividadeEstado.PAUSADA);
+        if (isAtividadeDupla()) {
+            Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
+            FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
+        }
+    }
+
+    protected void retomarAtividade() {
+        setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
+        Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.EM_ANDAMENTO);
+        if (isAtividadeDupla()) {
+            FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
+        }
     }
 
     protected void finalizarAtividade(long termino, long duracaoMillis) {
         setAtividadeEstado(AtividadeEstado.FINALIZADA);
         Atividade atividade = atividadeController.finalizar(termino, duracaoMillis);
+        if (isAtividadeDupla()) {
+            FirebaseAtividadeDuplaController.getInstance().finalizar(atividade);
+        }
         try {
             atividadeController.salvar(atividade, getApplicationContext(),
                     this::finish,
-                    () -> Toast.makeText(this, "ERROU", Toast.LENGTH_SHORT).show()
+                    () -> {
+                        setAtividadeEstado(AtividadeEstado.PAUSADA);
+                        atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
+                    }
             );
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            setAtividadeEstado(AtividadeEstado.PAUSADA);
+            atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
         }
 
     }
