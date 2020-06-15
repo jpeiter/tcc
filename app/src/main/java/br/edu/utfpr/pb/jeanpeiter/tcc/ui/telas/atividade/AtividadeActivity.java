@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +43,8 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedDa
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments.AtividadeFragment;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments.ContagemRegressivaFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 import lombok.AccessLevel;
@@ -163,7 +164,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         fragmentUtils.loadFragment(this, R.id.fl_container_atividade, new ContagemRegressivaFragment());
     }
 
-    protected void iniciarAtividade() {
+    public void iniciarAtividade() {
         setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
         FragmentUtils fragmentUtils = new FragmentUtils();
         ContagemRegressivaFragment contagemRegressivaFragment = (ContagemRegressivaFragment) getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
@@ -190,7 +191,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
                 if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
 
-                    Atividade atividade = atividadeController.atualizarAtividade(data);
+                    Atividade atividade = atividadeController.atualizar(data);
 
                     if (atividadeFragment != null) {
                         atividadeFragment.atualizar(atividade);
@@ -247,7 +248,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         });
     }
 
-    protected void pausarAtividade() {
+    public void pausarAtividade() {
         setAtividadeEstado(AtividadeEstado.PAUSADA);
         if (isAtividadeDupla()) {
             Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
@@ -255,7 +256,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
     }
 
-    protected void retomarAtividade() {
+    public void retomarAtividade() {
         setAtividadeEstado(AtividadeEstado.EM_ANDAMENTO);
         Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.EM_ANDAMENTO);
         if (isAtividadeDupla()) {
@@ -263,7 +264,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
     }
 
-    protected void finalizarAtividade(long termino, long duracaoMillis) {
+    public void finalizarAtividade(long termino, long duracaoMillis) {
         setAtividadeEstado(AtividadeEstado.FINALIZADA);
         Atividade atividade = atividadeController.finalizar(termino, duracaoMillis);
         if (isAtividadeDupla()) {

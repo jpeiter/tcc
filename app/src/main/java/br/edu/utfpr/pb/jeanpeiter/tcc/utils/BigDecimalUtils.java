@@ -14,10 +14,4 @@ public class BigDecimalUtils {
                 .setScale(precisao, RoundingMode.HALF_EVEN);
     }
 
-    public BigDecimal arredondado(Float valor, int precisao) {
-        return BigDecimal.valueOf(valor)
-                .setScale(precisao, RoundingMode.HALF_EVEN);
-    }
-
-
 }

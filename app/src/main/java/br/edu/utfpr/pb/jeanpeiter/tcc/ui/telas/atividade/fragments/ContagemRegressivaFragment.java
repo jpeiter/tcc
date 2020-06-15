@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
+package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ResourceActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
     private TextView btnComecarAtividade;
 
     private CountDownTimer cronometro;
-    private Long tempo = 5l;
+    private Long tempo = 5L;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,6 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         getBtnMaisTempo().setText(resourcesUtils.replace(R.string.mais_x_segundos, "5"));
     }
 
-
     @Override
     public void initListeners() {
         getBtnMaisTempo().setOnClickListener(v -> {
@@ -62,7 +62,7 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         getBtnComecarAtividade().setOnClickListener(v -> cronometro.onFinish());
     }
 
-    public CountDownTimer criaCronometro(long tempoEmSegundo) {
+    private CountDownTimer criaCronometro(long tempoEmSegundo) {
         return new CountDownTimer((tempoEmSegundo * 1000) + 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

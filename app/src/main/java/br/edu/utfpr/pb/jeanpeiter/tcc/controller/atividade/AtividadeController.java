@@ -23,10 +23,17 @@ public class AtividadeController {
 
     @Getter
     private Atividade atividade;
-    private LocationUtils locationUtils = new LocationUtils();
+
+    private LocationUtils locationUtils;
+    private AtividadeUnidadesController unidadesController;
+    private BigDecimalUtils bgUtils;
+
     private boolean permiteFinalizar;
 
     public AtividadeController(UUID atividadeUuid) {
+        this.locationUtils = new LocationUtils();
+        this.bgUtils = new BigDecimalUtils();
+        this.unidadesController = new AtividadeUnidadesController();
         this.atividade = new Atividade();
         long currentTimeMillis = System.currentTimeMillis();
         this.atividade.set_id(atividadeUuid.toString());
@@ -44,10 +51,9 @@ public class AtividadeController {
         return this.atividade;
     }
 
-    public Atividade atualizarAtividade(LocationObservedData data) {
+    public Atividade atualizar(LocationObservedData data) {
         atividade.getPosicoes().add(novaPosicao(this.atividade.getPosicoes().size(), data));
         atividade.setDistancia(distanciaEmAndamento(atividade.getDistancia(), this.atividade.getPosicoes()));
-        atividade.setVelocidade(velocidade(data.getLocation()));
         return this.atividade;
     }
 
@@ -71,25 +77,18 @@ public class AtividadeController {
         Float distanciaAtual = penultimaLocalizacao.distanceTo(ultimaLocalizacao);
         Double totalNovo = distanciaTotal + distanciaAtual;
 
-        return new BigDecimalUtils().arredondado(totalNovo, 2).doubleValue();
+        return bgUtils.arredondado(totalNovo, 2).doubleValue();
     }
 
-    private Double velocidade(Location location) {
-        Float velocidade = location.getSpeed();
-        return new BigDecimalUtils().arredondado(velocidade.doubleValue(), 2).doubleValue();
-    }
-
-    private Double velocidadeFinal(Atividade atividade) {
-        return new BigDecimalUtils()
-                .arredondado(atividade.getDistancia() / atividade.getDuracao(), 2)
-                .doubleValue();
+    private Double velocidade(Double distanciaEmMetros, Long duracao) {
+        return unidadesController.velocidade(distanciaEmMetros,duracao);
     }
 
     public Atividade finalizar(long termino, long duracaoMillis) {
         mudarEstado(AtividadeEstado.FINALIZADA);
         atividade.setTermino(termino);
         atividade.setDuracao(duracaoMillis / 1000);
-        atividade.setVelocidade(velocidadeFinal(atividade));
+        atividade.setVelocidade(velocidade(atividade.getDistancia(), atividade.getDuracao()));
         permiteFinalizar = true;
         return atividade;
     }
@@ -104,7 +103,7 @@ public class AtividadeController {
                 db.save(atividade);
                 acaoOk.run();
             } catch (Exception e) {
-                if (acaoErro != null){
+                if (acaoErro != null) {
                     new Handler(Looper.getMainLooper()).post(acaoErro);
                 }
             }

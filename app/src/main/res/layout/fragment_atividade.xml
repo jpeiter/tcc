@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/branco"
-    tools:context=".ui.telas.atividade.AtividadeFragment">
+    tools:context=".ui.telas.atividade.fragments.AtividadeFragment">
 
     <TextView
         android:id="@+id/tv_atividade_pausada"

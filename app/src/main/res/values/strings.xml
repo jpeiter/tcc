@@ -46,7 +46,7 @@
     <string name="duracao">Duração</string>
     <string name="velocidade_media">Vel. média</string>
     <string name="ritmo">Ritmo</string>
-    <string name="min_km" translatable="false">Min/Km</string>
+    <string name="min_km" translatable="false">/Km</string>
     <string name="min_mi" translatable="false">Min/Mi</string>
     <string name="calorias">Calorias</string>
     <string name="atividade_pausada">Atividade pausada</string>
