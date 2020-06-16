@@ -35,7 +35,7 @@ public class FragmentUtils {
     private void kill(FragmentManager manager, Fragment fragment) {
         FragmentTransaction trans = manager.beginTransaction();
         trans.remove(fragment);
-        trans.commit();
+        trans.commitAllowingStateLoss();
         manager.popBackStack();
     }
 

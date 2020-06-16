@@ -1,18 +1,17 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.MenuCorrerFragment;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,10 +27,8 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initViews();
-        loadFragment(new MenuCorrerFragment());
-
+        new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new MenuCorrerFragment());
     }
 
     @Override
@@ -42,32 +39,21 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
         getBnvMenu().setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_item_historico:
-                    Toast.makeText(MainActivity.this, getString(R.string.historico), Toast.LENGTH_SHORT);
-                    loadFragment(new Fragment());
+                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new Fragment());
                     return true;
 
                 case R.id.menu_item_correr:
-                    Toast.makeText(MainActivity.this, getString(R.string.correr), Toast.LENGTH_SHORT);
-                    loadFragment(new MenuCorrerFragment());
+                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new MenuCorrerFragment());
                     return true;
 
                 case R.id.menu_item_perfil:
-                    Toast.makeText(MainActivity.this, getString(R.string.perfil), Toast.LENGTH_SHORT);
-                    loadFragment(new Fragment());
+                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new Fragment());
                     return true;
 
                 default:
                     return false;
             }
         });
-    }
-
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fvContainerMain, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
 }

@@ -16,7 +16,7 @@ public interface AtividadeDao {
     void save(AtividadeDTO atividade);
 
     @Query("DELETE FROM atividade WHERE _id = :atividadeId")
-    void delete(Long atividadeId);
+    void delete(String atividadeId);
 
 
 }

@@ -24,9 +24,7 @@
             android:value="@string/facebook_application_id" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_api_key" />
-
-        <!-- ACTIVITIES -->
+            android:value="@string/map_api_key" /> <!-- ACTIVITIES -->
         <activity
             android:name=".ui.telas.login.LoginActivity"
             android:screenOrientation="portrait">
@@ -48,6 +46,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.telas.atividade.AtividadeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.telas.atividade.dupla.SelecionarParceiroActivity"
+            android:parentActivityName=".ui.telas.main.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

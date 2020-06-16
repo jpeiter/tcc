@@ -22,10 +22,10 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.Ativi
         entities = {
                 AtividadeDTO.class,
                 AtividadePosicaoDTO.class,
-        }, version = 2, exportSchema = false)
+        }, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public final static String DB_NAME = "tcc_ads_jeanpeiter";
+    private final static String DB_NAME = "tcc_ads_jeanpeiter";
 
     private static AppDatabase instance;
 
@@ -46,11 +46,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public List<Atividade> findByInicioBetween(long inicio, long termino) {
         AtividadeDTO[] dtos = atividadeDao().findByInicioBetween(inicio, termino);
-        return dtos != null ? Arrays.asList(dtos).stream().map(dto -> new Atividade().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
+        return dtos != null ? Arrays.stream(dtos).map(dto -> new Atividade().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
     }
 
-    public Long save(Atividade atividade) throws Exception {
-        long atividadeId = atividade.get_id();
+    public String save(Atividade atividade) throws Exception {
+        String atividadeId = atividade.get_id();
         atividadeDao().save(atividade.toDto());
         for (int i = 0; i < atividade.getPosicoes().size(); i++) {
             atividadePosicaoDao().save(atividade.getPosicoes().get(i).toDto(atividadeId));
@@ -63,9 +63,9 @@ public abstract class AppDatabase extends RoomDatabase {
         atividadePosicaoDao().delete(atividade.get_id());
     }
 
-    public List<AtividadePosicao> findPosicoesByAtividade(Long atividadeId) {
+    public List<AtividadePosicao> findPosicoesByAtividade(String atividadeId) {
         AtividadePosicaoDTO[] dtos = atividadePosicaoDao().findByAtividade(atividadeId);
-        return dtos != null ? Arrays.asList(dtos).stream().map(dto -> new AtividadePosicao().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
+        return dtos != null ? Arrays.stream(dtos).map(dto -> new AtividadePosicao().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
     }
 
 

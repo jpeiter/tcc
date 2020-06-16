@@ -22,18 +22,22 @@ public class AtividadePosicao {
 
     private Double longitude;
 
+    // Sincronizado online
+    private boolean sincronizado;
+
     public AtividadePosicao(Long ordem, Location location) {
         this.ordem = ordem;
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
     }
 
-    public AtividadePosicaoDTO toDto(Long atividadeId) {
+    public AtividadePosicaoDTO toDto(String atividadeId) {
         return AtividadePosicaoDTO.builder()
                 .aId(atividadeId)
                 .la(this.getLatitude())
                 .lo(this.getLongitude())
                 .o(this.getOrdem())
+                .s(this.isSincronizado() ? "S" : "N")
                 .build();
     }
 
@@ -42,6 +46,7 @@ public class AtividadePosicao {
                 .la(this.getLatitude())
                 .lo(this.getLongitude())
                 .o(this.getOrdem())
+                .s(this.isSincronizado() ? "S" : "N")
                 .build();
     }
 
@@ -50,6 +55,7 @@ public class AtividadePosicao {
                 .latitude(dto.getLa())
                 .longitude(dto.getLo())
                 .ordem(dto.getO())
+                .sincronizado("S".equals(dto.getS()))
                 .build();
     }
 }

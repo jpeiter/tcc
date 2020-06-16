@@ -2,6 +2,7 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.Ativida
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.maps.MapaFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.Getter;
@@ -71,12 +73,13 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
 
     private View.OnClickListener listener = v -> {
         AtividadeTipo tipo = v.getId() == R.id.btnIniciarDupla ? AtividadeTipo.DUPLA : AtividadeTipo.SOZINHO;
-        switch (tipo) {
-            case DUPLA:
-            case SOZINHO:
-                new IntentUtils().startActivity(getContext(), AtividadeActivity.class);
-                break;
-        }
+        Intent i = new Intent(getContext(), AtividadeTipo.SOZINHO.equals(tipo) ?
+                AtividadeActivity.class :
+                SelecionarParceiroActivity.class
+        );
+        tipo.toIntent(i);
+        new IntentUtils().startActivity(getContext(), i);
+
     };
 
 

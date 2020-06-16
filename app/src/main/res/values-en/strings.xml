@@ -40,6 +40,7 @@
     <string name="atividade_pausada">Paused activity</string>
     <string name="mantenha_pressionado_para_finalizar">To finish the activity, press and hold the button.</string>
     <string name="pressione_para_finalizar">To finish the activity, press the button quickly.</string>
+    <string name="buscando_usuarios">Searching users, please wait...</string>
     <string name="inicio">Start</string>
     <string name="fim">End</string>
     <string name="atividades">Activities</string>

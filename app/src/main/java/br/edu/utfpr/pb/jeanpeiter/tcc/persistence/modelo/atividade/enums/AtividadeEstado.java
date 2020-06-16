@@ -6,5 +6,13 @@ public enum AtividadeEstado {
     PAUSADA,
     FINALIZADA;
 
+    public static AtividadeEstado fromDto(int ordinal) {
+        return values()[ordinal];
+    }
+
+    public int toDto() {
+        return this.ordinal();
+    }
+
 
 }

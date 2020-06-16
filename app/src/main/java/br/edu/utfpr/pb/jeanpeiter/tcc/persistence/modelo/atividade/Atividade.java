@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import lombok.Setter;
 public class Atividade {
 
     // Identificador da atividade
-    private Long _id;
+    private String _id;
 
     // Identificador do usuário
     private String usuarioUid;
@@ -57,30 +58,48 @@ public class Atividade {
     @Builder.Default
     private List<AtividadePosicao> posicoes = new ArrayList<>();
 
+    // Sincronizado online
+    private boolean sincronizado;
+
+    // Estado
+    private AtividadeEstado estado;
+
     public AtividadeDTO toDto() {
         return new AtividadeDTO(this.get_id(),
+                this.getUsuarioUid(),
                 this.getInicio(),
                 this.getTermino(),
-                this.getTipo() == AtividadeTipo.SOZINHO ? "S" : "D",
+                this.getTipo().toDto(),
                 this.getDistancia(),
                 this.getVelocidade(),
                 this.getDuracao(),
                 this.getRitmo(),
                 this.getCalorias(),
-                this.getPontos()
+                this.getPontos(),
+                this.isSincronizado() ? "S" : "N",
+                this.getEstado().toDto()
         );
     }
 
     public Atividade parse(AtividadeDTO dto) {
         this.set_id(dto.get_id());
+        this.setUsuarioUid(dto.getUid());
         this.setInicio(dto.getI());
         this.setTermino(dto.getTe());
-        this.setTipo(dto.getTi().equals("S") ? AtividadeTipo.SOZINHO : AtividadeTipo.DUPLA);
+        this.setTipo(AtividadeTipo.fromDto(dto.getTi()));
         this.setDistancia(dto.getDi());
         this.setDuracao(dto.getDu());
         this.setRitmo(dto.getR());
         this.setCalorias(dto.getC());
         this.setPontos(dto.getP());
+        this.setSincronizado("S".equals(dto.getS()));
+        this.setEstado(AtividadeEstado.fromDto(dto.getE()));
         return this;
+    }
+
+    public Atividade(String id, AtividadeTipo tipo, AtividadeEstado estado) {
+        set_id(id);
+        setTipo(tipo);
+        setEstado(estado);
     }
 }

@@ -11,13 +11,13 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.Atividade
 public interface AtividadePosicaoDao {
 
     @Query("SELECT * FROM atividade_posicao WHERE atividadeId = :atividadeId ORDER BY ordem asc")
-    AtividadePosicaoDTO[] findByAtividade(long atividadeId);
+    AtividadePosicaoDTO[] findByAtividade(String atividadeId);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void save(AtividadePosicaoDTO dto);
 
     @Query("DELETE FROM atividade_posicao WHERE atividadeId = :atividadeId")
-    void delete(long atividadeId);
+    void delete(String atividadeId);
 
 
 }

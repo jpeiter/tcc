@@ -1,8 +1,7 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
+package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments;
 
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.os.VibrationEffect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,13 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeViewController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeUnidadesController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.AnimationUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
 
     private View parent;
     private AtividadeActivity atividadeActivity;
-    private AtividadeViewController viewController;
+    private AtividadeResourceController resourceController;
 
     // Imutáveis
     private TextView tvAtividadePausada;
@@ -49,12 +50,11 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
     @Setter(AccessLevel.PRIVATE)
     private Chronometer cronometroDuracao;
 
-
     // Unidades de medida
     private TextView tvUnidadeDistancia;
     private TextView tvUnidadeVelocidade;
+
     private long tempoDecorrido = 0L;
-    private long tempoDecorridoSegundos = 0L;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         setTvUnidadeDistancia(parent.findViewById(R.id.tv_unidade_medida_distancia_atividade));
         setTvUnidadeVelocidade(parent.findViewById(R.id.tv_unidade_medida_velocidade_atividade));
 
-        setViewController(new AtividadeViewController());
+        setResourceController(new AtividadeResourceController(getContext()));
     }
 
     @Override
@@ -104,7 +104,8 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         getBtnPausarParar().setOnLongClickListener(v -> {
             if (atividadeActivity.getAtividadeEstado().equals(AtividadeEstado.PAUSADA)) {
                 finalizarAtividade(System.currentTimeMillis());
-            } else {Toast.makeText(getContext(), getString(R.string.pressione_para_finalizar), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), getString(R.string.pressione_para_finalizar), Toast.LENGTH_SHORT).show();
             }
             return true;
         });
@@ -120,7 +121,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
 
     }
 
-    protected void pausarAtividade() {
+    public void pausarAtividade() {
         pausaAtividadeUi();
         atividadeActivity.pausarAtividade();
         tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
@@ -134,7 +135,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         getTvAtividadePausada().startAnimation(new AnimationUtils().piscar());
     }
 
-    private void retomarAtividade() {
+    public void retomarAtividade() {
         retomarAtividadeUi();
         atividadeActivity.retomarAtividade();
         cronometroDuracao.setBase(SystemClock.elapsedRealtime() - tempoDecorrido);
@@ -152,9 +153,15 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         atividadeActivity.finalizarAtividade(termino, tempoDecorrido);
     }
 
-    protected void atualizar(Atividade atividade) {
-        viewController.atualizarValor(getTvDistancia(), atividade.getDistancia());
-        viewController.atualizarValor(getTvVelocidade(), atividade.getVelocidade());
+    public void atualizar(Atividade atividade) {
+        getAtividadeActivity().runOnUiThread(() -> {
+            long tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
+            getTvDistancia().setText(String.valueOf(resourceController.distancia(atividade.getDistancia())));
+            getTvUnidadeDistancia().setText(resourceController.getUnidadeMedidaDistancia(atividade.getDistancia()));
+            getTvVelocidade().setText(String.valueOf(resourceController.velocidade(atividade.getDistancia(), tempoDecorrido)));
+            getTvRitmo().setText(String.valueOf(resourceController.ritmo(atividade.getDistancia(), tempoDecorrido)));
+            getTvCalorias().setText(String.valueOf(resourceController.calorias(atividade.getDistancia(), tempoDecorrido)));
+        });
     }
 }
 
