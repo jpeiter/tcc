@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center_horizontal|bottom"
-                android:text="@string/km"
+                android:text="@string/m"
                 android:textAllCaps="true"
                 android:textColor="@color/primaria"
                 android:textSize="@dimen/text_34" />
@@ -196,19 +196,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
-                    android:text="@string/_0"
+                    android:text="@string/ritmo_inicial"
                     android:textColor="@color/primaria"
                     android:textSize="@dimen/text_30" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center_horizontal|bottom"
-                    android:text="@string/min_km"
-                    android:textAllCaps="true"
-                    android:textColor="@color/primaria"
-                    android:textSize="@dimen/text_14" />
 
             </LinearLayout>
 

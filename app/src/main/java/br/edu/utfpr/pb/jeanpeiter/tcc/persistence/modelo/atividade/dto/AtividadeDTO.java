@@ -31,6 +31,10 @@ public class AtividadeDTO {
     @NonNull
     private String _id;
 
+    // Atividade.usuarioUid
+    @ColumnInfo(name = "userid")
+    private String uid;
+
     // Atividade.inicio
     @ColumnInfo(name = "inicio")
     private Long i;

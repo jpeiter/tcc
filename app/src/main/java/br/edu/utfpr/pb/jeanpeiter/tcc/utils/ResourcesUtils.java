@@ -8,7 +8,7 @@ import android.text.style.StyleSpan;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import br.edu.utfpr.pb.jeanpeiter.tcc.ui.resources.Fonte;
+import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 
 public class ResourcesUtils {
 
@@ -42,7 +42,7 @@ public class ResourcesUtils {
     }
 
     public SpannableString negrito(String texto, int inicio, int fim) {
-        return custom(texto, inicio, fim, Fonte.BOLD);
+        return custom(texto, inicio, fim, R.font.roboto_bold);
     }
 
 }

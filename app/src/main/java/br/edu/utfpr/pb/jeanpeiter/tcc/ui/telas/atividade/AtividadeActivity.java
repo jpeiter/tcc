@@ -171,8 +171,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         assert contagemRegressivaFragment != null;
         fragmentUtils.kill(contagemRegressivaFragment);
 
-        atividadeController = new AtividadeController(atividadeId);
-        atividadeController.setTipo(getTipoSelecionado());
+        atividadeController = new AtividadeController(atividadeId, getTipoSelecionado(), this.getBaseContext());
         fragmentUtils.loadFragment(this, R.id.fl_container_atividade, new AtividadeFragment());
     }
 

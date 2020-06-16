@@ -66,6 +66,7 @@ public class Atividade {
 
     public AtividadeDTO toDto() {
         return new AtividadeDTO(this.get_id(),
+                this.getUsuarioUid(),
                 this.getInicio(),
                 this.getTermino(),
                 this.getTipo().toDto(),
@@ -82,6 +83,7 @@ public class Atividade {
 
     public Atividade parse(AtividadeDTO dto) {
         this.set_id(dto.get_id());
+        this.setUsuarioUid(dto.getUid());
         this.setInicio(dto.getI());
         this.setTermino(dto.getTe());
         this.setTipo(AtividadeTipo.fromDto(dto.getTi()));
@@ -93,11 +95,6 @@ public class Atividade {
         this.setSincronizado("S".equals(dto.getS()));
         this.setEstado(AtividadeEstado.fromDto(dto.getE()));
         return this;
-    }
-
-    public Atividade(String id, AtividadeTipo tipo) {
-        set_id(id);
-        setTipo(tipo);
     }
 
     public Atividade(String id, AtividadeTipo tipo, AtividadeEstado estado) {

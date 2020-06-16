@@ -155,11 +155,12 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
 
     public void atualizar(Atividade atividade) {
         getAtividadeActivity().runOnUiThread(() -> {
-            Long tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
+            long tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
             getTvDistancia().setText(String.valueOf(resourceController.distancia(atividade.getDistancia())));
             getTvUnidadeDistancia().setText(resourceController.getUnidadeMedidaDistancia(atividade.getDistancia()));
             getTvVelocidade().setText(String.valueOf(resourceController.velocidade(atividade.getDistancia(), tempoDecorrido)));
             getTvRitmo().setText(String.valueOf(resourceController.ritmo(atividade.getDistancia(), tempoDecorrido)));
+            getTvCalorias().setText(String.valueOf(resourceController.calorias(atividade.getDistancia(), tempoDecorrido)));
         });
     }
 }

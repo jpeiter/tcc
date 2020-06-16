@@ -71,6 +71,7 @@
     <string name="x_pontos">:arg0 pontos</string>
     <string name="app_name">Trabalho de Conclusão de Curso</string>
     <string name="_0" translatable="false">0</string>
+    <string name="ritmo_inicial" translatable="false">0\'0&quot; </string>
 
     <string name="facebook_application_id" translatable="false">YOUR_KEY_HERE</string>
     <string name="fb_login_protocol_scheme" translatable="false">YOUR_KEY_HERE</string>
