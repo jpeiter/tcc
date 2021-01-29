@@ -45,10 +45,10 @@ public class Atividade {
     // Duração total, em segundos
     private Long duracao;
 
-    // Ritmo médio, em min/km
+    // Ritmo médio, em min.sec/km
     private Double ritmo;
 
-    // Calorias gastas, em kcal
+    // Calorias gastas, em cal
     private Double calorias;
 
     // Pontuação final obtida
@@ -58,11 +58,18 @@ public class Atividade {
     @Builder.Default
     private List<AtividadePosicao> posicoes = new ArrayList<>();
 
+    // Estado
+    private AtividadeEstado estado;
+
+    // Uid do parceiro
+    private String parceiroUid;
+
+    // Nome do parceiro
+    private String parceiroNome;
+
     // Sincronizado online
     private boolean sincronizado;
 
-    // Estado
-    private AtividadeEstado estado;
 
     public AtividadeDTO toDto() {
         return new AtividadeDTO(this.get_id(),
@@ -76,8 +83,10 @@ public class Atividade {
                 this.getRitmo(),
                 this.getCalorias(),
                 this.getPontos(),
-                this.isSincronizado() ? "S" : "N",
-                this.getEstado().toDto()
+                this.getEstado().toDto(),
+                this.getParceiroUid(),
+                this.getParceiroNome(),
+                this.isSincronizado() ? "S" : "N"
         );
     }
 
@@ -92,8 +101,10 @@ public class Atividade {
         this.setRitmo(dto.getR());
         this.setCalorias(dto.getC());
         this.setPontos(dto.getP());
-        this.setSincronizado("S".equals(dto.getS()));
         this.setEstado(AtividadeEstado.fromDto(dto.getE()));
+        this.setParceiroUid(dto.getPId());
+        this.setParceiroNome(dto.getPNo());
+        this.setSincronizado("S".equals(dto.getS()));
         return this;
     }
 

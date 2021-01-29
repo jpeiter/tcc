@@ -1,7 +1,6 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,8 +42,6 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     FloatingActionButton btnIniciarSozinho;
 
     private View parent;
-
-    public static Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

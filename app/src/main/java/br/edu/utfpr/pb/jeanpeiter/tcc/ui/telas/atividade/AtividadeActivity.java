@@ -23,10 +23,12 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
@@ -52,7 +54,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity, Observer {
+public class AtividadeActivity extends AppCompatActivity implements PermissionActivity, ListenerActivity {
 
     private final UUID atividadeId = UUID.randomUUID();
 
@@ -75,42 +77,49 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         );
     }};
 
+    private boolean isAtividadeDupla() {
+        return AtividadeTipo.DUPLA.equals(getTipoSelecionado());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atividade);
 
         grantPermissions();
-
         setTipoSelecionado(AtividadeTipo.fromIntent(getIntent()));
 
         if (isAtividadeDupla()) {
             FirebaseDatabase.getInstance().goOnline();
             String parceiroUid = this.getIntent().getStringExtra(SelecionarParceiroActivity.PARCEIRO_UID_EXTRA);
-            iniciarAtividadeDupla(parceiroUid);
             FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
+            iniciarAtividadeDupla(parceiroUid);
             monitorarAtividadeParceiro();
         }
 
         initListeners();
         iniciarContagemRegressiva();
+
     }
 
-    private boolean isAtividadeDupla() {
-        return AtividadeTipo.DUPLA.equals(getTipoSelecionado());
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     public void finish() {
-        if (locationListener != null) {
-            locationListener.deleteObservers();
-            if (locationManager != null) {
-                locationManager.removeUpdates(locationListener);
-            }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        if (locationListener != null && locationManager != null) {
+            locationManager.removeUpdates(locationListener);
         }
         locationListener = null;
         locationManager = null;
-
         super.finish();
     }
 
@@ -152,7 +161,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             // Todo: AlertDialog
             finish();
         } else {
-            locationListener = new LocalizacaoListener(this);
+            locationListener = new LocalizacaoListener();
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4500, 10, locationListener);
@@ -181,32 +190,29 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof LocationObservedData) {
-            LocationObservedData data = (LocationObservedData) arg;
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
-            AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
-            if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
-                if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void update(LocationObservedData data) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_container_atividade);
+        AtividadeFragment atividadeFragment = fragment instanceof AtividadeFragment ? (AtividadeFragment) fragment : null;
+        if (data.getMetodo() == LocationObservedData.Metodo.LOCATION_CHANGED) {
+            if (AtividadeEstado.EM_ANDAMENTO.equals(getAtividadeEstado())) {
 
-                    Atividade atividade = atividadeController.atualizar(data);
+                Atividade atividade = atividadeController.atualizar(data);
 
-                    if (atividadeFragment != null) {
-                        atividadeFragment.atualizar(atividade);
-                    }
-                    if (isAtividadeDupla()) {
-                        FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
-                    }
-                }
-            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
                 if (atividadeFragment != null) {
-                    atividadeFragment.pausarAtividade();
+                    atividadeFragment.atualizar(atividade);
                 }
-            } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_ENABLED) {
-                if (atividadeFragment != null) {
-                    atividadeFragment.retomarAtividade();
+                if (isAtividadeDupla()) {
+                    FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
                 }
+            }
+        } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_DISABLED) {
+            if (atividadeFragment != null) {
+                atividadeFragment.pausarAtividade();
+            }
+        } else if (data.getMetodo() == LocationObservedData.Metodo.PROVIDER_ENABLED) {
+            if (atividadeFragment != null) {
+                atividadeFragment.retomarAtividade();
             }
         }
     }

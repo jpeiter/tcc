@@ -3,6 +3,7 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
@@ -18,7 +19,7 @@ public class FirebaseAtividadeController {
         return FirebaseController.setValue(path, atividade.toDto()).addOnSuccessListener(success -> {
             savePosicoes(atividadeId, atividade.getPosicoes(), acaoOk, acaoErro);
         }, fail -> {
-            if (acaoErro != null) acaoErro.run();
+            Optional.ofNullable(acaoErro).get().run();
         });
     }
 
@@ -29,7 +30,7 @@ public class FirebaseAtividadeController {
         return FirebaseController.setValue(path, dtos).addOnSuccessListener(ok -> {
             acaoOk.run();
         }).addOnFailureListener(fail -> {
-            if (acaoErro != null) acaoErro.run();
+            Optional.ofNullable(acaoErro).get().run();
         });
     }
 }

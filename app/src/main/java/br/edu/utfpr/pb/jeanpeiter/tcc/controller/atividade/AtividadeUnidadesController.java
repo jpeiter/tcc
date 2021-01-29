@@ -15,7 +15,7 @@ public class AtividadeUnidadesController {
     private UnitOf.Length conversorDistancia = new UnitOf.Length();
     private UnitOf.Time conversorTempo = new UnitOf.Time();
 
-    public Double distanciaEmKm(Double distanciaMetros) {
+    public Double distancia(Double distanciaMetros) {
         double m = distanciaMetros != null ? distanciaMetros : 0;
         double distancia = m < 1000 ? m : conversorDistancia.fromMeters(m).toKilometers();
         return bgUtils.arredondado(distancia, 2).doubleValue();

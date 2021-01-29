@@ -8,6 +8,7 @@
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_30">30sp</dimen>
     <dimen name="text_34">34sp</dimen>
+    <dimen name="text_48">48sp</dimen>
     <dimen name="text_60">60sp</dimen>
     <dimen name="text_86">86sp</dimen>
 

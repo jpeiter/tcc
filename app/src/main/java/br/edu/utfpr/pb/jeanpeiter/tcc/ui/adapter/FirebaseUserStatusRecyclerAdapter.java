@@ -46,7 +46,11 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
     @Override
     public void onChildChanged(@NonNull ChangeEventType type, @NonNull DataSnapshot snapshot, int newIndex, int oldIndex) {
         if (!snapshot.getKey().equals(FirebaseUserController.getUser().getUid())) {
-            super.onChildChanged(type, snapshot, newIndex, oldIndex);
+            if (!super.getSnapshots().isEmpty()) {
+                if (super.getItemCount() > 0) {
+                    super.onChildChanged(type, snapshot, newIndex, oldIndex);
+                }
+            }
         }
     }
 
