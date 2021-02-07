@@ -71,12 +71,20 @@ public class AtividadeDTO {
     @ColumnInfo(name = "pontos")
     private Long p;
 
-    // Atividade.sincronizado
-    @ColumnInfo(name = "sincronizado")
-    private String s;
-
     // Atividade.estado
     @ColumnInfo(name = "estado")
     private int e;
+
+    // Uid do parceiro
+    @ColumnInfo(name = "parceiro_uid")
+    private String pId;
+
+    // Nome do parceiro
+    @ColumnInfo(name = "parceiro_nome")
+    private String pNo;
+
+    // Atividade.sincronizado
+    @ColumnInfo(name = "sincronizado")
+    private String s;
 
 }

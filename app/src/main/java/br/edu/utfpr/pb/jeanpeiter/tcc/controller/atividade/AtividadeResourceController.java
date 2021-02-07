@@ -23,7 +23,7 @@ public class AtividadeResourceController {
     }
 
     public String distancia(Double distanciaMetros) {
-        return String.valueOf(unidadesController.distanciaEmKm(distanciaMetros));
+        return String.valueOf(unidadesController.distancia(distanciaMetros));
     }
 
     public String velocidade(Double distanciaMetros, long tempoMillis) {

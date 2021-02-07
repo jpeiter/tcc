@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.UsuarioDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
@@ -61,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                         .build(),
                 REQUEST_CODE
         );
-
     }
 
     @Override
@@ -79,23 +79,32 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verificaUsuarioExistente() {
-        FirebaseUserController.fetchInfo().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Usuario usuario = dataSnapshot.getValue(UsuarioDTO.class).parse(dataSnapshot.getKey());
-                    new AppSharedPreferences(LoginActivity.this).putUsuario(usuario);
-                    new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
-                } else {
-                    new IntentUtils().startActivity(LoginActivity.this, BemVindoActivity.class);
+        if (NetworkInformation.isNetworkAvailable(this)) {
+            FirebaseUserController.fetchInfo().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        Usuario usuario = dataSnapshot.getValue(UsuarioDTO.class).parse(dataSnapshot.getKey());
+                        new AppSharedPreferences(LoginActivity.this).putUsuario(usuario);
+                        new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
+                    } else {
+                        new IntentUtils().startActivity(LoginActivity.this, BemVindoActivity.class);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                databaseError.toException().printStackTrace();
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    databaseError.toException().printStackTrace();
+                }
+            });
+        } else {
+            Usuario usuario = new AppSharedPreferences(this).getUsuario();
+            if (usuario != null) {
+                new IntentUtils().startActivity(LoginActivity.this, MainActivity.class);
+            } else {
+                Toast.makeText(this, "Para o primeiro uso, é necessário estar conectado à internet.", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 }
 

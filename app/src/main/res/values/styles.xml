@@ -12,13 +12,13 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="AppThemeActionBar" parent="Theme.MaterialComponents.Light">
+    <style name="AppThemeLight" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <item name="colorBackgroundFloating">@color/primaria</item>
-        <item name="android:colorBackground">@color/primaria</item>
-        <item name="colorPrimary">@color/primaria</item>
-        <item name="colorPrimaryDark">@color/primariaEscuro</item>
-        <item name="colorAccent">@color/primariaClaro</item>
+        <item name="android:colorBackground">@color/branco</item>
+        <item name="colorPrimary">@color/preto</item>
+        <item name="colorPrimaryDark">@color/preto</item>
+        <item name="colorAccent">@color/pretoTransparente</item>
+
         <item name="android:fontFamily">@font/roboto_regular</item>
     </style>
 

@@ -169,7 +169,7 @@
 
     <!-- RITMO MÉDIO E CALORIAS -->
     <LinearLayout
-        android:id="@+id/ll_ritmo_calorias_atividade"
+        android:id="@+id/ll_tempo_movimento_percursos_dupla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_16"
@@ -273,7 +273,7 @@
                 android:insetBottom="0dp"
                 app:cornerRadius="84dp"
                 app:icon="@drawable/ic_pause_white_36dp"
-                app:iconSize="36dp" />
+                app:iconSize="54dp" />
 
         </FrameLayout>
 
@@ -297,7 +297,7 @@
                 android:insetBottom="0dp"
                 app:cornerRadius="84dp"
                 app:icon="@drawable/ic_play_arrow_white_36dp"
-                app:iconSize="36dp" />
+                app:iconSize="54dp" />
 
         </FrameLayout>
 

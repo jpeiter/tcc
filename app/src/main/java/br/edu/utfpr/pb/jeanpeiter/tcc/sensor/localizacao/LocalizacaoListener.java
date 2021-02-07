@@ -4,23 +4,22 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
-import java.util.Observable;
-import java.util.Observer;
+import org.greenrobot.eventbus.EventBus;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
+import lombok.NoArgsConstructor;
 
-public class LocalizacaoListener extends Observable implements LocationListener {
-
-    public LocalizacaoListener(Observer observer) {
-        this.addObserver(observer);
-    }
+@NoArgsConstructor
+public class LocalizacaoListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        notifyObservers(LocationObservedData.builder()
+        EventBus.getDefault().post(
+            LocationObservedData.builder()
                 .metodo(LocationObservedData.Metodo.LOCATION_CHANGED)
                 .location(location)
-                .build());
+            .build()
+        );
     }
 
     @Override
@@ -29,23 +28,21 @@ public class LocalizacaoListener extends Observable implements LocationListener 
 
     @Override
     public void onProviderEnabled(String provider) {
-        notifyObservers(LocationObservedData.builder()
+        EventBus.getDefault().post(
+            LocationObservedData.builder()
                 .metodo(LocationObservedData.Metodo.PROVIDER_ENABLED)
                 .provider(provider)
-                .build());
+            .build()
+        );
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        notifyObservers(LocationObservedData.builder()
+        EventBus.getDefault().post(
+            LocationObservedData.builder()
                 .metodo(LocationObservedData.Metodo.PROVIDER_DISABLED)
                 .provider(provider)
-                .build());
-    }
-
-    @Override
-    public void notifyObservers(Object arg) {
-        setChanged();
-        super.notifyObservers(arg);
+            .build()
+        );
     }
 }

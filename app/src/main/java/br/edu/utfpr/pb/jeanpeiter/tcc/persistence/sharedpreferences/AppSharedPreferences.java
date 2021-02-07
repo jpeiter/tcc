@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
-import lombok.AllArgsConstructor;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class AppSharedPreferences {
 
@@ -23,7 +20,7 @@ public class AppSharedPreferences {
     }
 
     private SharedPreferences getPreferences() {
-        return context.getSharedPreferences(APP_NAME, MODE_PRIVATE);
+        return context.getSharedPreferences(APP_NAME, Context.MODE_PRIVATE);
     }
 
     private SharedPreferences.Editor getEditor() {
