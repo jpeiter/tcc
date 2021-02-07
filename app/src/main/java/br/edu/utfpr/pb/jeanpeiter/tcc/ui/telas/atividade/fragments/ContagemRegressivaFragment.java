@@ -9,19 +9,25 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeEstadoSingleton;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ResourceActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeActivityBundle;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 import lombok.Getter;
 import lombok.Setter;
+
+import static br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeActivityBundle.AtividadeActivityMetodo.INICIAR;
 
 @Getter
 @Setter
 public class ContagemRegressivaFragment extends Fragment implements ResourceActivity, ListenerActivity {
 
-    private View parent;
     private TextView tvContagemRegressiva;
     private TextView btnMaisTempo;
     private TextView btnComecarAtividade;
@@ -31,7 +37,7 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parent = inflater.inflate(R.layout.fragment_contagem_regressiva, container, false);
+        View parent = inflater.inflate(R.layout.fragment_contagem_regressiva, container, false);
         setTvContagemRegressiva(parent.findViewById(R.id.tv_contagem_regressiva));
         setBtnMaisTempo(parent.findViewById(R.id.btn_mais_tempo_contagem_regressiva));
         setBtnComecarAtividade(parent.findViewById(R.id.btn_comecar_atividade_contagem_regressiva));
@@ -78,10 +84,8 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
     }
 
     private void iniciarAtividade() {
-        AtividadeActivity activity = (AtividadeActivity) getActivity();
-        if (activity != null) {
-            activity.iniciarAtividade();
-        }
+        this.cronometro.cancel();
+        EventBus.getDefault().post(new AtividadeActivityBundle(INICIAR));
     }
 
 }

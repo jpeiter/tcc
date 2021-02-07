@@ -12,19 +12,9 @@ public class FragmentUtils {
         this.load(transaction, frameId, newFragment);
     }
 
-    public void loadFragment(Fragment currentFragment, int frameId, Fragment newFragment) {
-        FragmentTransaction transaction = currentFragment.getFragmentManager().beginTransaction();
-        this.load(transaction, frameId, newFragment);
-    }
-
     private void load(FragmentTransaction transaction, int frameId, Fragment newFragment) {
         transaction.replace(frameId, newFragment);
         transaction.commit();
-    }
-
-    public void kill(FragmentActivity activity, Fragment fragment) {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        kill(manager, fragment);
     }
 
     public void kill(Fragment fragment) {

@@ -52,7 +52,6 @@ public class BemVindoActivity extends AppCompatActivity implements GenericActivi
     public NumberPicker npDecimal;
     private Calendar myCalendar = Calendar.getInstance();
     private Usuario usuario = new Usuario();
-    private Object MainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

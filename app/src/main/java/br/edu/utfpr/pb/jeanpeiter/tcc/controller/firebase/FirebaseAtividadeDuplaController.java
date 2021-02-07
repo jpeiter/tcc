@@ -23,7 +23,7 @@ public class FirebaseAtividadeDuplaController {
     private static FirebaseAtividadeDuplaController instance;
 
     private static final String PATH = "atividade_dupla";
-    public static final String VALOR_CONFIRMACAO = FirebaseAtividadeDuplaController.class.getSimpleName().concat(".SOLICITACAO_CONFIRMADA");
+    public static final String VALOR_CONFIRMACAO = "SOLICITACAO_CONFIRMADA";
 
     private final String userId = FirebaseUserController.getUser().getUid();
 
@@ -34,7 +34,7 @@ public class FirebaseAtividadeDuplaController {
     private String pathAtividadeDupla;
 
     @Setter(AccessLevel.PRIVATE)
-    private Set<String> pathsPendencias = new HashSet<>();
+    private Set<String> pathsPendencias;
 
     @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE)
     private ChildEventListener listenerMonitorarPendentes;
@@ -46,6 +46,7 @@ public class FirebaseAtividadeDuplaController {
     public synchronized static FirebaseAtividadeDuplaController getInstance() {
         if (instance == null) {
             instance = new FirebaseAtividadeDuplaController();
+            instance.setPathsPendencias(new HashSet<>());
             String userId = FirebaseUserController.getUser().getUid();
             FirebaseDatabase.getInstance().goOnline();
             FirebaseController.getDatabase(PATH.concat("/").concat(userId).concat("/pendentes")).removeValue();
@@ -129,7 +130,7 @@ public class FirebaseAtividadeDuplaController {
         }
         setParceiroUid(null);
         setPathAtividadeDupla(null);
-        setPathsPendencias(new HashSet<>());
+        setPathsPendencias(null);
         instance = null;
     }
 }
