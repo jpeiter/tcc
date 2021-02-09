@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--  Labels  -->
     <string name="selecione">Selecione</string>
     <string name="cancelar">Cancelar</string>
     <string name="campo_obrigatorio">Este campo é obrigatório.</string>
@@ -73,7 +75,9 @@
     <string name="_0" translatable="false">0</string>
     <string name="ritmo_inicial" translatable="false">0\'0&quot; </string>
 
-    <string name="facebook_application_id" translatable="false">YOUR_KEY_HERE</string>
-    <string name="fb_login_protocol_scheme" translatable="false">YOUR_KEY_HERE</string>
+    <!--  API Keys  -->
+    <string name="facebook_application_id" translatable="false">2680259772193467</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2680259772193467</string>
+    <string name="map_api_key" translatable="false">AIzaSyA-aJFyzjh-2pkQpP1MJo2LyrzDK0viXy4</string>
 
 </resources>

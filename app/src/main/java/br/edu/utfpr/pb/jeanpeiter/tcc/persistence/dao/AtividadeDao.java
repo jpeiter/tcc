@@ -5,6 +5,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumoDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,17 +22,10 @@ public interface AtividadeDao {
     @Query("DELETE FROM atividade WHERE _id = :atividadeId")
     void delete(String atividadeId);
 
-    @Query("SELECT SUM(distancia) as distanciaTotal, SUM(duracao) as tempoMovimento FROM atividade where userid = :uid")
-    Historico historico(String uid);
+    @Query(AtividadeQueries.HISTORICO)
+    AtividadeHistoricoResumoDto historico(String uid);
 
-    @Query("SELECT COUNT(*) FROM atividade WHERE userid = :uid AND tipo = 'DUPLA'")
+    @Query(AtividadeQueries.QTDE_EM_DUPLA)
     long percursosEmDupla(String uid);
-
-    @Getter
-    @Setter
-    class Historico {
-        private float distanciaTotal;
-        private long tempoMovimento;
-    }
 
 }

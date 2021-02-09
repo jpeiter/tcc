@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.AtividadeDao;
@@ -16,6 +17,8 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.AtividadePosicaoDao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadePosicaoDTO;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumoDto;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 
 @Database(
@@ -66,6 +69,16 @@ public abstract class AppDatabase extends RoomDatabase {
     public List<AtividadePosicao> findPosicoesByAtividade(String atividadeId) {
         AtividadePosicaoDTO[] dtos = atividadePosicaoDao().findByAtividade(atividadeId);
         return dtos != null ? Arrays.stream(dtos).map(dto -> new AtividadePosicao().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
+    }
+
+    public AtividadeHistoricoResumo getHistorico(String uid) {
+        return Optional.ofNullable(atividadeDao().historico(uid))
+                .map(AtividadeHistoricoResumoDto::parse)
+                .get();
+    }
+
+    public long percursosEmDupla(String uid) {
+        return atividadeDao().percursosEmDupla(uid);
     }
 
 

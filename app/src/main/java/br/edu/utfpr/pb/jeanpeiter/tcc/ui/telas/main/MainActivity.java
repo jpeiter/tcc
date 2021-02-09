@@ -6,54 +6,62 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.HistoricoFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.MenuCorrerFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 public class MainActivity extends AppCompatActivity implements GenericActivity {
 
+    @Setter(AccessLevel.PRIVATE)
     private ActionBar toolbar;
 
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
     BottomNavigationView bnvMenu;
+
+    private Map<Integer, Fragment> mapMenus = new HashMap<Integer, Fragment>() {{
+        put(R.id.menu_item_historico, new HistoricoFragment());
+        put(R.id.menu_item_correr, new MenuCorrerFragment());
+        put(R.id.menu_item_perfil, new Fragment());
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new MenuCorrerFragment());
+        loadFragment(new MenuCorrerFragment());
     }
 
     @Override
     public void initViews() {
+
         setToolbar(getSupportActionBar());
         setBnvMenu(findViewById(R.id.bnvMenu));
         getBnvMenu().setSelectedItemId(R.id.menu_item_correr);
-        getBnvMenu().setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_item_historico:
-                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new Fragment());
-                    return true;
-
-                case R.id.menu_item_correr:
-                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new MenuCorrerFragment());
-                    return true;
-
-                case R.id.menu_item_perfil:
-                    new FragmentUtils().loadFragment(this, R.id.fvContainerMain, new Fragment());
-                    return true;
-
-                default:
-                    return false;
+        getBnvMenu().setOnNavigationItemSelectedListener((item) -> {
+            if (item.getItemId() != getBnvMenu().getSelectedItemId()) {
+                loadFragment(mapMenus.get(item.getItemId()));
+                return true;
             }
+            return false;
         });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        new FragmentUtils().loadFragment(this, R.id.fvContainerMain, fragment);
     }
 
 }
