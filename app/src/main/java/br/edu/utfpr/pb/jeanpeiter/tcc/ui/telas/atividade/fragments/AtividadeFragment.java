@@ -184,8 +184,8 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         updateActivity(
                 new AtividadeActivityBundle(
                         AtividadeActivityBundle.AtividadeActivityMetodo.FINALIZAR,
-                        termino,
-                        tempoDecorrido)
+                        tempoDecorrido,
+                        termino)
         );
     }
 
