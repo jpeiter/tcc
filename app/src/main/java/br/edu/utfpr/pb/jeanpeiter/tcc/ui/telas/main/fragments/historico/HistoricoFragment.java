@@ -1,6 +1,5 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments;
+package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.historico;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,22 +8,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.digidemic.unitof.UnitOf;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.AtividadeDao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumo;
+
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.HistoricoAtividades;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.resumo.AtividadeResumo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ResourceActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.adapter.AtividadeResumoAdapter;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,23 +43,24 @@ public class HistoricoFragment extends Fragment implements GenericActivity, Reso
     private TextView tvTempoTotal;
     private TextView tvPercursosDupla;
     private TextView tvTotalPercursosDeAte;
+    private RecyclerView rvHistorico;
+    private AtividadeResumoAdapter adapter;
+
 
     private View parent;
 
-    private AppDatabase db;
-
     private ResourcesUtils resourcesUtils;
     private AtividadeResourceController resourceController;
-    private UnitOf.Time conversorTempo = new UnitOf.Time();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parent = inflater.inflate(R.layout.fragment_historico, container, false);
-        db = AppDatabase.getInstance(getContext());
         resourceController = new AtividadeResourceController(getContext());
         resourcesUtils = new ResourcesUtils(getContext());
         initViews();
         replaceResources();
+        Usuario usuario = new AppSharedPreferences(getContext()).getUsuario();
+        buscarDados(usuario.getUid());
         return parent;
     }
 
@@ -67,30 +72,43 @@ public class HistoricoFragment extends Fragment implements GenericActivity, Reso
         setTvTempoTotal(parent.findViewById(R.id.tv_tempo_movimento_total_historico));
         setTvPercursosDupla(parent.findViewById(R.id.tv_percursos_em_dupla_historico));
         setTvTotalPercursosDeAte(parent.findViewById(R.id.tv_total_percursos_de_ate));
+        setRvHistorico(parent.findViewById(R.id.rv_historico));
+        adapter = new AtividadeResumoAdapter(getContext());
+        getRvHistorico().setHasFixedSize(false);
+        getRvHistorico().setLayoutManager(new LinearLayoutManager(getContext()));
+        getRvHistorico().setAdapter(adapter);
+
     }
 
     @Override
     public void replaceResources() {
         Usuario usuario = new AppSharedPreferences(getContext()).getUsuario();
-        getTvVocePercorreu().setText(resourcesUtils.replace(R.string.x_voce_ja_correu, usuario.getNome()));
-        buscarDados(usuario.getUid());
+        String nome = usuario.getNome().split(" ")[0];
+        getTvVocePercorreu().setText(resourcesUtils.replace(R.string.x_voce_ja_correu, nome));
 
     }
 
     private void buscarDados(String uid) {
         AsyncTask.execute(() -> {
-            AtividadeHistoricoResumo resumo = AppDatabase.getInstance(getContext()).getHistorico(uid);
+            HistoricoAtividades resumo = AppDatabase.getInstance(getContext()).getHistorico(uid);
             long percursosEmDupla = AppDatabase.getInstance(getContext()).percursosEmDupla(uid);
             getActivity().runOnUiThread(() -> {
                 setHistorico(resumo);
                 setPercursosEmDupla(percursosEmDupla);
             });
+            buscarResumos(resumo.getDataDe(), resumo.getDataAte());
+        });
+    }
 
+    private void buscarResumos(LocalDate dataDe, LocalDate dataAte) {
+        AsyncTask.execute(() -> {
+            List<AtividadeResumo> resumos = AppDatabase.getInstance(getContext()).findByInicioBetween(dataDe, dataAte);
+            getActivity().runOnUiThread(() -> adapter.setItems(resumos));
         });
     }
 
 
-    private void setHistorico(AtividadeHistoricoResumo resumo) {
+    private void setHistorico(HistoricoAtividades resumo) {
         getTvDistanciaTotal().setText(resourceController.distancia(resumo.getDistanciaTotal()));
         getTvUnidadeDistanciaTotal().setText(resourceController.getUnidadeMedidaDistancia(resumo.getDistanciaTotal()));
         getTvTempoTotal().setText(resourceController.tempo(resumo.getTempoMovimento()));

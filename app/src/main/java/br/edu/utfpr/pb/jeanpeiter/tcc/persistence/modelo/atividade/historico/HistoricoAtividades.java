@@ -7,15 +7,17 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.BigDecimalUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class AtividadeHistoricoResumo {
+public class HistoricoAtividades {
 
     private double distanciaTotal;
     private Duration tempoMovimento;
@@ -23,12 +25,13 @@ public class AtividadeHistoricoResumo {
     private LocalDate dataDe;
     private LocalDate dataAte;
 
-    public AtividadeHistoricoResumo(float distanciaTotal, long tempoMovimento, long totalPercursos, long dataDe, long dataAte) {
+    public HistoricoAtividades(float distanciaTotal, long tempoMovimento, long totalPercursos, long dataDe, long dataAte) {
         this.distanciaTotal = distanciaTotal;
         this.tempoMovimento = Duration.ofSeconds(tempoMovimento);
         this.totalPercursos = totalPercursos;
-        this.dataDe = Instant.ofEpochMilli(dataDe).atZone(ZoneId.systemDefault()).toLocalDate();
-        this.dataAte = Instant.ofEpochMilli(dataAte).atZone(ZoneId.systemDefault()).toLocalDate();
+        DateUtils dateUtils = new DateUtils();
+        this.dataDe = dateUtils.millisToLocalDate(dataDe);
+        this.dataAte = dateUtils.millisToLocalDate(dataAte);
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class AtividadeHistoricoResumoDto {
+public class HistoricoAtividadesDto {
 
     private float distanciaTotal;
     private long tempoMovimento;
@@ -15,8 +15,8 @@ public class AtividadeHistoricoResumoDto {
     private long dataDe;
     private long dataAte;
 
-    public AtividadeHistoricoResumo parse() {
-        return new AtividadeHistoricoResumo(
+    public HistoricoAtividades parse() {
+        return new HistoricoAtividades(
                 this.distanciaTotal,
                 this.tempoMovimento,
                 this.totalPercursos,

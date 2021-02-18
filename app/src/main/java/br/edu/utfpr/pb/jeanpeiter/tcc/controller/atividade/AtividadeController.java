@@ -8,6 +8,7 @@ import android.os.Looper;
 
 import com.digidemic.unitof.UnitOf;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class AtividadeController {
         this.atividade.set_id(atividadeUuid.toString());
         this.atividade.setUsuarioUid(FirebaseUserController.getUser().getUid());
         this.atividade.setTipo(tipo);
+        this.atividade.setPosicoes(new ArrayList<>());
         this.atividade.setDistancia(0.0);
         this.atividade.setEstado(AtividadeEstado.EM_ANDAMENTO);
         this.atividade.setInicio(System.currentTimeMillis());

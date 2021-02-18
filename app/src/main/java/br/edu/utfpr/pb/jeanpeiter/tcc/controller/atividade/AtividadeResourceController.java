@@ -2,10 +2,15 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade;
 
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.StringJoiner;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
@@ -32,11 +37,40 @@ public class AtividadeResourceController {
     }
 
     public String tempo(Duration duration) {
-        return String.format("%dh %dmin", duration.toHours(), duration.toMinutes() % 60);
+        return tempo(duration, false);
+    }
+
+    public String tempo(Duration duration, boolean mostrarSegundos) {
+        Duration dur = duration;
+        long hours = dur.toHours();
+        dur = dur.minusHours(hours);
+        long minutes = dur.toMinutes();
+        dur = dur.minusMinutes(minutes);
+        long seconds = dur.getSeconds();
+
+        StringJoiner sb = new StringJoiner(" ");
+        List<Long> values = new ArrayList<>();
+        if (hours > 0) {
+            sb.add("%dh");
+            values.add(hours);
+        }
+        if (minutes > 0) {
+            sb.add("%dmin");
+            values.add(minutes);
+        }
+
+        sb.add("%ds");
+        values.add(seconds);
+        Long[] valuesA = new Long[values.size()];
+        return String.format(sb.toString(), values.toArray(valuesA));
     }
 
     public String data(LocalDate data) {
         return data.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+    }
+
+    public String diaSemanaEData(LocalDate localDate) {
+        return localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
     }
 
     public String velocidade(Double distanciaMetros, long tempoMillis) {

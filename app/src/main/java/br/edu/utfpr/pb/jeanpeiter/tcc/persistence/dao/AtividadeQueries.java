@@ -9,5 +9,7 @@ public class AtividadeQueries {
                 "MIN(inicio) as dataDe, " +
                 "MAX(inicio) as dataAte " +
             "FROM atividade WHERE userid = :uid";
+
     public static final String QTDE_EM_DUPLA = "SELECT COUNT(*) FROM atividade WHERE userid = :uid AND tipo = 'D'";
+    public static final String ATIVIDADES_RESUMO = "SELECT _id, inicio, distancia, duracao, tipo FROM atividade WHERE inicio BETWEEN :inicio AND :termino ORDER BY inicio DESC";
 }

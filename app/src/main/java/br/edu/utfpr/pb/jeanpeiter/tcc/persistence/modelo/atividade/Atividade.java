@@ -1,5 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade;
 
+import androidx.room.Ignore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,8 @@ public class Atividade {
     private Long termino;
 
     // Tipo da atividade
-    @Builder.Default
-    private AtividadeTipo tipo = AtividadeTipo.SOZINHO;
+    @Ignore
+    private AtividadeTipo tipo;
 
     // Distância total, em metros
     private Double distancia;
@@ -55,10 +57,11 @@ public class Atividade {
     private Long pontos;
 
     // Coordenadas do trajeto
-    @Builder.Default
-    private List<AtividadePosicao> posicoes = new ArrayList<>();
+    @Ignore
+    private List<AtividadePosicao> posicoes;
 
     // Estado
+    @Ignore
     private AtividadeEstado estado;
 
     // Uid do parceiro
@@ -68,6 +71,7 @@ public class Atividade {
     private String parceiroNome;
 
     // Sincronizado online
+    @Ignore
     private boolean sincronizado;
 
 

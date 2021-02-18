@@ -6,6 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +19,11 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.AtividadePosicaoDao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadePosicaoDTO;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumo;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.AtividadeHistoricoResumoDto;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.HistoricoAtividades;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.HistoricoAtividadesDto;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.resumo.AtividadeResumo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
 
 @Database(
         entities = {
@@ -47,9 +51,13 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    public List<Atividade> findByInicioBetween(long inicio, long termino) {
-        AtividadeDTO[] dtos = atividadeDao().findByInicioBetween(inicio, termino);
-        return dtos != null ? Arrays.stream(dtos).map(dto -> new Atividade().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
+    public List<AtividadeResumo> findByInicioBetween(LocalDate inicio, LocalDate termino) {
+        DateUtils dateUtils = new DateUtils();
+        List<Atividade> resumos = atividadeDao().findByInicioBetween(
+                dateUtils.localDateToMillis(inicio, LocalTime.MIN),
+                dateUtils.localDateToMillis(termino, LocalTime.MAX)
+        );
+        return resumos != null ? resumos.stream().map(AtividadeResumo::new).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public String save(Atividade atividade) throws Exception {
@@ -71,9 +79,9 @@ public abstract class AppDatabase extends RoomDatabase {
         return dtos != null ? Arrays.stream(dtos).map(dto -> new AtividadePosicao().parse(dto)).collect(Collectors.toList()) : new ArrayList<>();
     }
 
-    public AtividadeHistoricoResumo getHistorico(String uid) {
+    public HistoricoAtividades getHistorico(String uid) {
         return Optional.ofNullable(atividadeDao().historico(uid))
-                .map(AtividadeHistoricoResumoDto::parse)
+                .map(HistoricoAtividadesDto::parse)
                 .get();
     }
 
