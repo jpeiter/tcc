@@ -253,7 +253,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void update(AtividadeActivityBundle bundle) {
         switch (bundle.getMetodo()) {
             case INICIAR:
@@ -273,8 +273,8 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     private void pausarAtividade() {
         AtividadeEstadoSingleton.getInstance().setEstado(AtividadeEstado.PAUSADA);
+        Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
         if (isAtividadeDupla()) {
-            Atividade atividade = atividadeController.mudarEstado(AtividadeEstado.PAUSADA);
             FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
         }
     }

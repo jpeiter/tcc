@@ -22,7 +22,7 @@ public class AtividadeUnidadesController {
     }
 
     public Double velocidadeEmKmH(Double distanciaMetros, Long duracaoMilis) {
-        double m = conversorDistancia.fromMeters(distanciaMetros).toKilometers();
+        double m = distanciaMetros;
         double s = conversorTempo.fromMilliseconds(duracaoMilis).toSeconds();
         double kmH = conversorVelocidade.fromMetersPerSecond(m / s).toKilometersPerHour();
         return bgUtils.arredondado(kmH, 2).doubleValue();
@@ -56,11 +56,11 @@ public class AtividadeUnidadesController {
     }
 
     private double calorias(double mets, double pesoKg, double minutos) {
-        double mlMin = mets * UnidadeMetabolica.V_O2 * pesoKg;
-        double lMin = mlMin / 1000;
-        double calMin = lMin * UnidadeMetabolica.CAL_1L_O2;
-        double gasto = calMin * minutos;
-        return bgUtils.arredondado(gasto, 2).doubleValue();
+        double mililitroPorMinuto = mets * UnidadeMetabolica.V_O2 * pesoKg;
+        double litroPorMinuto = mililitroPorMinuto / 1000;
+        double caloriasPorMinuto = litroPorMinuto * UnidadeMetabolica.CAL_1L_O2;
+        double gastoTotal = caloriasPorMinuto * minutos;
+        return bgUtils.arredondado(gastoTotal, 2).doubleValue();
     }
 
 }

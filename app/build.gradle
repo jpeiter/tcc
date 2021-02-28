@@ -26,6 +26,11 @@ android {
 
 dependencies {
 
+    //TESTS
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+
+
     // Libs
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('../lib/UnitOf.jar')

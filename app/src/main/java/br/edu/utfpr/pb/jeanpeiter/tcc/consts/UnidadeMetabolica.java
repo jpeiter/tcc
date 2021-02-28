@@ -33,13 +33,16 @@ public class UnidadeMetabolica {
     }
 
     public Double getMet(Double velocidadeKmh) {
-        List<Double> velocidades = velocidadesMets.keySet().stream().sorted((a, b) -> b.compareTo(a)).collect(Collectors.toList());
-        for (Double velocidadeMet : velocidades) {
-            if (velocidadeKmh >= velocidadeMet) {
-                return velocidadesMets.get(velocidadeMet);
-            }
-        }
-        return velocidadesMets.get(velocidades.get(velocidades.size() - 1));
+        return velocidadesMets.keySet().stream()
+                // Ordenar do maior para menor
+                .sorted((a, b) -> b.compareTo(a))
+                // Retornar a primeira velocidade que for maior ou igual à equivalente
+                .filter(velocidadeMet -> velocidadeKmh >= velocidadeMet)
+                .findFirst()
+                // Mapeia para o MET
+                .map(velocidadesMets::get)
+                // Se for mais baixa
+                .orElse(6.0);
     }
 
 }

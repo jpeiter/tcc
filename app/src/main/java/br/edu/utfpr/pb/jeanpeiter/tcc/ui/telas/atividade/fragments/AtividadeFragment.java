@@ -136,7 +136,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         cronometroDuracao.start();
     }
 
-    @Subscribe(threadMode = ThreadMode.ASYNC)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void update(AtividadeFragmentBundle bundle) {
         switch (bundle.getMetodo()) {
             case ATUALIZAR:
