@@ -31,6 +31,11 @@ public class AtividadePosicao {
         this.longitude = location.getLongitude();
     }
 
+    public AtividadePosicao(Location location) {
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+    }
+
     public AtividadePosicaoDTO toDto(String atividadeId) {
         return AtividadePosicaoDTO.builder()
                 .aId(atividadeId)

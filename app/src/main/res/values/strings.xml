@@ -73,7 +73,7 @@
     <string name="x_pontos">:arg0 pontos</string>
     <string name="app_name">Trabalho de Conclusão de Curso</string>
     <string name="_0" translatable="false">0</string>
-    <string name="ritmo_inicial" translatable="false">0\'0&quot; </string>
+    <string name="ritmo_inicial" translatable="false">--:--</string>
 
     <!--  API Keys  -->
     <string name="facebook_application_id" translatable="false">2680259772193467</string>

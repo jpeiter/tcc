@@ -22,6 +22,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
@@ -40,6 +41,7 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     FrameLayout flMapCorrer;
     FloatingActionButton btnIniciarDupla;
     FloatingActionButton btnIniciarSozinho;
+    LocalizacaoListener locationListener;
 
     private View parent;
 
@@ -49,6 +51,7 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
 
         initViews();
         loadFragment(new MapaFragment());
+        grantPermissions();
         return parent;
     }
 
@@ -57,8 +60,8 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
         setFlMapCorrer(parent.findViewById(R.id.flMapCorrer));
         setBtnIniciarDupla(parent.findViewById(R.id.btnIniciarDupla));
         setBtnIniciarSozinho(parent.findViewById(R.id.btnIniciarSozinho));
-        getBtnIniciarSozinho().setOnClickListener(listener);
-        getBtnIniciarDupla().setOnClickListener(listener);
+        getBtnIniciarSozinho().setOnClickListener(clickListener);
+        getBtnIniciarDupla().setOnClickListener(clickListener);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -68,7 +71,7 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
         transaction.commit();
     }
 
-    private View.OnClickListener listener = v -> {
+    private View.OnClickListener clickListener = v -> {
         AtividadeTipo tipo = v.getId() == R.id.btnIniciarDupla ? AtividadeTipo.DUPLA : AtividadeTipo.SOZINHO;
         Intent i = new Intent(getContext(), AtividadeTipo.SOZINHO.equals(tipo) ?
                 AtividadeActivity.class :

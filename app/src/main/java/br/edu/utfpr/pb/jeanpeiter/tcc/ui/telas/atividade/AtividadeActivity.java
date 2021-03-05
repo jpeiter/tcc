@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadeDTO;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
@@ -172,7 +174,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             locationListener = new LocalizacaoListener();
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5, locationListener);
             iniciarContagemRegressiva();
         }
     }
@@ -212,6 +214,8 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
                     if (isAtividadeDupla()) {
                         FirebaseAtividadeDuplaController.getInstance().atualizar(atividade);
                     }
+
+                    updateMapa(data.getLocation());
                 }
                 break;
             case PROVIDER_DISABLED:
@@ -309,6 +313,10 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
     private void updateFragment(AtividadeFragmentBundle bundle) {
         EventBus.getDefault().post(bundle);
+    }
+
+    private void updateMapa(Location location) {
+        EventBus.getDefault().post(new AtividadePosicao(location));
     }
 
 }

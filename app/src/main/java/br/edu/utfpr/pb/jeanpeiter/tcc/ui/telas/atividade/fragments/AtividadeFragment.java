@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -19,17 +20,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Map;
-
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeEstadoSingleton;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeActivityBundle;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeFragmentBundle;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.maps.MapaFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.AnimationUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,6 +46,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
     private MaterialButton btnPausarParar;
     private MaterialButton btnRetomarAtividade;
     private FrameLayout frameLayoutRetomarAtividade;
+    private FrameLayout flMapaAtividade;
 
     // Valores
     private TextView tvDistancia;
@@ -67,8 +67,10 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         parent = inflater.inflate(R.layout.fragment_atividade, container, false);
 
         initViews();
+        loadFragment(new MapaFragment());
         initListeners();
-
+        tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
+        cronometroDuracao.start();
         return parent;
     }
 
@@ -96,6 +98,7 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         setFrameLayoutRetomarAtividade(parent.findViewById(R.id.fl_btn_retomar_atividade));
         setTvAtividadePausada(parent.findViewById(R.id.tv_atividade_pausada));
         getTvAtividadePausada().setVisibility(View.GONE);
+        setFlMapaAtividade(parent.findViewById(R.id.flMapAtividade));
 
         // Valores
         setTvDistancia(parent.findViewById(R.id.tv_distancia_atividade));
@@ -109,6 +112,13 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         setTvUnidadeVelocidade(parent.findViewById(R.id.tv_unidade_medida_velocidade_atividade));
 
         setResourceController(new AtividadeResourceController(getContext()));
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.flMapAtividade, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -131,9 +141,6 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
         });
 
         getBtnRetomarAtividade().setOnClickListener(v -> retomarAtividade());
-
-        tempoDecorrido = SystemClock.elapsedRealtime() - cronometroDuracao.getBase();
-        cronometroDuracao.start();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -168,9 +175,9 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
 
     private void retomarAtividade() {
         retomarAtividadeUi();
-        updateActivity(new AtividadeActivityBundle(AtividadeActivityBundle.AtividadeActivityMetodo.RETOMAR));
         cronometroDuracao.setBase(SystemClock.elapsedRealtime() - tempoDecorrido);
         cronometroDuracao.start();
+        updateActivity(new AtividadeActivityBundle(AtividadeActivityBundle.AtividadeActivityMetodo.RETOMAR));
     }
 
     private void retomarAtividadeUi() {
