@@ -29,7 +29,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
         entities = {
                 AtividadeDTO.class,
                 AtividadePosicaoDTO.class,
-        }, version = 6, exportSchema = false)
+        }, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private final static String DB_NAME = "tcc_ads_jeanpeiter";

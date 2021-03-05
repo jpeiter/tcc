@@ -61,11 +61,11 @@ public class AtividadeDTO {
 
     // Atividade.ritmo
     @ColumnInfo(name = "ritmo")
-    private Double r;
+    private int r;
 
     // Atividade.calorias
     @ColumnInfo(name = "calorias")
-    private Double c;
+    private Long c;
 
     // Atividade.pontos
     @ColumnInfo(name = "pontos")

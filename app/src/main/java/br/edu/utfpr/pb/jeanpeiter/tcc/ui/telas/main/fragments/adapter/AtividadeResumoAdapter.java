@@ -34,7 +34,7 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
     public void onBindData(AtividadeResumoViewHolder holder, AtividadeResumo atividade) {
         String distancia = resourceController.distancia(atividade.getDistancia()) + resourceController.getUnidadeMedidaDistancia(atividade.getDistancia());
         String data = resourceController.diaSemanaEData(atividade.getInicio().toLocalDate());
-        String tempo = resourceController.tempo(atividade.getDuracao(), true);
+        String tempo = resourceController.tempo(atividade.getDuracao());
         String nomeParceiro = Optional.ofNullable(atividade.getParceiroNome())
                 .map(nome -> nome.split(" ")[0])
                 .orElse("");

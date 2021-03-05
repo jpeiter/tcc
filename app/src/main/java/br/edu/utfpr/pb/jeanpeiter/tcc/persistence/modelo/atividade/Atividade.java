@@ -47,11 +47,11 @@ public class Atividade {
     // Duração total, em segundos
     private Long duracao;
 
-    // Ritmo médio, em min.sec/km
-    private Double ritmo;
+    // Ritmo médio, em sec/km
+    private Integer ritmo;
 
     // Calorias gastas, em cal
-    private Double calorias;
+    private Long calorias;
 
     // Pontuação final obtida
     private Long pontos;

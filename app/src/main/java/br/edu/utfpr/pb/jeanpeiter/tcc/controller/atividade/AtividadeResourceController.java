@@ -37,10 +37,6 @@ public class AtividadeResourceController {
     }
 
     public String tempo(Duration duration) {
-        return tempo(duration, false);
-    }
-
-    public String tempo(Duration duration, boolean mostrarSegundos) {
         Duration dur = duration;
         long hours = dur.toHours();
         dur = dur.minusHours(hours);
@@ -58,9 +54,10 @@ public class AtividadeResourceController {
             sb.add("%dmin");
             values.add(minutes);
         }
-
-        sb.add("%ds");
-        values.add(seconds);
+        if (seconds > 0) {
+            sb.add("%ds");
+            values.add(seconds);
+        }
         Long[] valuesA = new Long[values.size()];
         return String.format(sb.toString(), values.toArray(valuesA));
     }
@@ -78,10 +75,8 @@ public class AtividadeResourceController {
     }
 
     public String ritmo(Double distanciaMetros, long tempoMillis) {
-        int[] minSec = unidadesController.ritmoMinutoSegundo(distanciaMetros, tempoMillis);
-        String min = String.valueOf(minSec[0]).concat("'");
-        String sec = String.valueOf(minSec[1] < 10 ? "0" + minSec[1] : minSec[1]).concat("\"");
-        return min.concat(sec);
+        Duration duration = unidadesController.ritmoMinutoSegundo(distanciaMetros, tempoMillis);
+        return tempo(duration);
     }
 
     public String calorias(Double distanciaMetros, long tempoMillis) {

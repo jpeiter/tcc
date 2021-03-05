@@ -28,7 +28,9 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
 
     @Override
     protected void onBindViewHolder(@NonNull FirebaseUserStatusHolder holder, int position, @NonNull FirebaseUserStatus model) {
-        holder.bind(model, getRef(position).getKey());
+        if (super.getItemCount() > 0) {
+            holder.bind(model, getRef(position).getKey());
+        }
     }
 
     @NonNull
@@ -48,7 +50,11 @@ public class FirebaseUserStatusRecyclerAdapter extends FirebaseRecyclerAdapter<F
         if (!snapshot.getKey().equals(FirebaseUserController.getUser().getUid())) {
             if (!super.getSnapshots().isEmpty()) {
                 if (super.getItemCount() > 0) {
-                    super.onChildChanged(type, snapshot, newIndex, oldIndex);
+                    try {
+                        super.onChildChanged(type, snapshot, newIndex, oldIndex);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
