@@ -42,7 +42,12 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        loadFragment(new MenuCorrerFragment());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadFragment(mapMenus.get(R.id.menu_item_correr));
     }
 
     @Override

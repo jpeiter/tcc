@@ -65,10 +65,10 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
     }
 
     private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.flMapCorrer, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.flMapCorrer, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private View.OnClickListener clickListener = v -> {

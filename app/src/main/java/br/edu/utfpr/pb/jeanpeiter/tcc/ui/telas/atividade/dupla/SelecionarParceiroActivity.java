@@ -112,12 +112,12 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
     }
 
     private void iniciarAtividadeDupla(String parceiroUid) {
-            FirebaseAtividadeDuplaController.getInstance().confirmar(parceiroUid);
-            Intent i = new Intent(this, AtividadeActivity.class);
-            i.putExtra(PARCEIRO_UID_EXTRA, parceiroUid);
-            AtividadeTipo.fromIntent(getIntent()).toIntent(i);
-            new IntentUtils().startActivity(this, i);
-            this.finish();
+        FirebaseAtividadeDuplaController.getInstance().confirmar(parceiroUid);
+        Intent i = new Intent(this, AtividadeActivity.class);
+        i.putExtra(PARCEIRO_UID_EXTRA, parceiroUid);
+        AtividadeTipo.fromIntent(getIntent()).toIntent(i);
+        new IntentUtils().startActivity(this, i);
+        this.finish();
     }
 
     private void monitorarPendentes() {

@@ -26,15 +26,19 @@ import org.greenrobot.eventbus.ThreadMode;
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeActivityBundle;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.LocationUtils;
+import lombok.Getter;
 
 public class MapaFragment extends Fragment implements OnMapReadyCallback {
 
     private final float zoomCamera = 20;
     private final int paddingMap = 80;
 
+    @Getter
     private GoogleMap gmap;
+
     private View parent;
     private LocationUtils locationUtils;
     private PolylineOptions polylineOptions;
@@ -59,6 +63,19 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onStop() {
+        if (!(getActivity() instanceof AtividadeActivity)) {
+            polylineOptions = null;
+            latLngBounds = null;
+            ultimaPosicao = null;
+            if (gmap != null) {
+                gmap.clear();
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -71,9 +88,6 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
-        polylineOptions = null;
-        latLngBounds = null;
-        ultimaPosicao = null;
         super.onDestroy();
     }
 
