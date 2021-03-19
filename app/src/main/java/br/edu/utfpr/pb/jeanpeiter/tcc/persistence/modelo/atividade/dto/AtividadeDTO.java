@@ -22,8 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(tableName = "atividade", indices = {@Index("inicio")}
-)
+@Entity(tableName = "atividade", indices = {@Index("inicio")})
 public class AtividadeDTO {
 
     // Atividade._id

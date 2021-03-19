@@ -174,7 +174,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             locationListener = new LocalizacaoListener();
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 15, locationListener);
             iniciarContagemRegressiva();
         }
     }

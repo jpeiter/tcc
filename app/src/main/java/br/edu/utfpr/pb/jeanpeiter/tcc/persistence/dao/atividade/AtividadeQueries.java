@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao;
+package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.atividade;
 
 public class AtividadeQueries {
 

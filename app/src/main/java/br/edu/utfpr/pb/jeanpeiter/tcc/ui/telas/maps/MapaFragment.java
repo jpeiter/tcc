@@ -65,9 +65,6 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onStop() {
         if (!(getActivity() instanceof AtividadeActivity)) {
-            polylineOptions = null;
-            latLngBounds = null;
-            ultimaPosicao = null;
             if (gmap != null) {
                 gmap.clear();
             }

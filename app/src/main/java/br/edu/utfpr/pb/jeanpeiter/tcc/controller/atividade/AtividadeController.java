@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.atividade.AtividadeDatabase;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
@@ -104,20 +105,14 @@ public class AtividadeController {
     }
 
     private Long getPontuacaoTotal(Atividade atividade) {
-        double duracaoMinutos = new UnitOf.Time().fromSeconds(atividade.getDuracao()).toMinutes();
-        double distanciaKm = new UnitOf.Length().fromMeters(atividade.getDistancia()).toKilometers();
-
-        double distanciaRitmo = distanciaKm / (atividade.getRitmo() >= 1 ? atividade.getRitmo().longValue() : 1L);
-        long pontuacao = (long) (distanciaRitmo + duracaoMinutos);
-
-        return AtividadeTipo.SOZINHO.equals(atividade.getTipo()) ? pontuacao : pontuacao * 2;
+        return new AtividadePontuacaoController().calcular(atividade);
     }
 
     public void salvar(Atividade atividade, Context context, Runnable acaoOk, Runnable acaoErro) throws Exception {
         if (!permiteFinalizar) throw new Exception("A atividade não foi finalizada ainda!");
         permiteFinalizar = false;
 
-        AppDatabase db = AppDatabase.getInstance(context);
+        AtividadeDatabase db = new AtividadeDatabase(context);
         AsyncTask.execute(() -> {
             try {
                 db.save(atividade);
