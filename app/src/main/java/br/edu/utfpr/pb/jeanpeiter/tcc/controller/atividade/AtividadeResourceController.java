@@ -15,6 +15,7 @@ import java.util.StringJoiner;
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
 
 public class AtividadeResourceController {
 
@@ -67,7 +68,7 @@ public class AtividadeResourceController {
     }
 
     public String diaSemanaEData(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
+        return new DateUtils().diaSemanaEData(localDate);
     }
 
     public String velocidade(Double distanciaMetros, long tempoMillis) {

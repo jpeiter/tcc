@@ -1,8 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.dao.atividade;
 
-import android.graphics.Region;
-
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,7 +18,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.His
 @Dao
 public abstract class AtividadeDao {
 
-    //    SELECT
+    //  SELECT
     @Query(AtividadeQueries.ATIVIDADES_RESUMO)
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     public abstract List<Atividade> findByInicioBetween(long inicio, long termino);
@@ -30,7 +29,7 @@ public abstract class AtividadeDao {
     @Query(AtividadeQueries.QTDE_EM_DUPLA)
     public abstract long percursosEmDupla(String uid);
 
-    //    INSERT
+    //  INSERT
     @Transaction
     public void save(AtividadeDTO atividade, List<AtividadePosicaoDTO> posicoes) {
         saveAtividade(atividade);
@@ -40,21 +39,21 @@ public abstract class AtividadeDao {
     @Insert
     public abstract void saveAtividade(AtividadeDTO atividade);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     public abstract void savePosicoes(List<AtividadePosicaoDTO> posicoes);
 
-    // DELETE
+    //  DELETE
     @Transaction
-    public void delete(String atividadeId) {
-        deleteAtividade(atividadeId);
-        deletePosicoes(atividadeId);
+    public void delete(AtividadeDTO atividade, List<AtividadePosicaoDTO> posicoes) {
+        deletePosicoes(posicoes);
+        deleteAtividade(atividade);
     }
 
-    @Query("DELETE FROM atividade WHERE _id = :atividadeId")
-    abstract void deleteAtividade(String atividadeId);
+    @Delete
+    abstract void deleteAtividade(AtividadeDTO atividade);
 
-    @Query("DELETE FROM atividade_posicao WHERE atividadeId = :atividadeId")
-    abstract void deletePosicoes(String atividadeId);
+    @Delete
+    abstract void deletePosicoes(List<AtividadePosicaoDTO> posicoes);
 
 
 }

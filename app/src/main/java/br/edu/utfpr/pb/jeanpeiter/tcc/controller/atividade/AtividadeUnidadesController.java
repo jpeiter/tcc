@@ -15,6 +15,7 @@ public class AtividadeUnidadesController {
     private UnitOf.Speed conversorVelocidade = new UnitOf.Speed();
     private UnitOf.Length conversorDistancia = new UnitOf.Length();
     private UnitOf.Time conversorTempo = new UnitOf.Time();
+    private UnitOf.Volume conversorVolume = new UnitOf.Volume();
 
     public Double distancia(Double distanciaMetros) {
         double m = distanciaMetros != null ? distanciaMetros : 0.0;
@@ -59,7 +60,7 @@ public class AtividadeUnidadesController {
 
     private Long calorias(double mets, double pesoKg, double minutos) {
         double mililitroPorMinuto = mets * UnidadeMetabolica.V_O2 * pesoKg;
-        double litroPorMinuto = mililitroPorMinuto / 1000;
+        double litroPorMinuto =  conversorVolume.fromMilliliters(mililitroPorMinuto).toLiters();
         double caloriasPorMinuto = litroPorMinuto * UnidadeMetabolica.CAL_1L_O2;
         double gastoTotal = caloriasPorMinuto * minutos;
         return Double.valueOf(gastoTotal).longValue();

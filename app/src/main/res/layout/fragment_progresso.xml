@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/branco"
+    tools:context=".ui.telas.main.fragments.progresso.ProgressoFragment">
+
+
+    <LinearLayout
+        android:id="@+id/ll_infos_nivel_atual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_8"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:id="@+id/pb_progresso_nivel"
+                style="@style/CircularDeterminateProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:indeterminateOnly="false"
+                android:progress="64"
+                app:layout_constraintEnd_toStartOf="@id/tv_nome_nivel_atual"
+                app:layout_constraintHorizontal_weight="9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_numero_nivel_atual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_black"
+                android:text="56"
+                android:textColor="@color/primariaEscuro"
+                android:textSize="@dimen/text_60"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/pb_progresso_nivel"
+                app:layout_constraintStart_toStartOf="@+id/pb_progresso_nivel"
+                app:layout_constraintTop_toTopOf="@+id/pb_progresso_nivel" />
+
+
+            <TextView
+                android:id="@+id/tv_nome_nivel_atual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="end"
+                android:text="@string/nivel_progresso_51"
+                android:textColor="@color/primariaEscuro"
+                android:textSize="@dimen/text_30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="10"
+                app:layout_constraintStart_toEndOf="@+id/pb_progresso_nivel"
+                app:layout_constraintTop_toTopOf="@+id/pb_progresso_nivel" />
+
+
+            <TextView
+                android:id="@+id/tv_pontos_atual_vs_proximo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/pontos_atual_vs_proximo"
+                android:textColor="@color/primariaEscuro"
+                android:textSize="@dimen/text_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_nome_nivel_atual" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/conquistado_em"
+                android:textColor="@color/pretoTransparente"
+                android:textSize="@dimen/text_12"
+                app:layout_constraintBottom_toTopOf="@+id/tv_datahora_nivel_atual"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_datahora_nivel_atual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Data hora"
+                android:textColor="@color/pretoTransparente"
+                android:textSize="@dimen/text_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_progresso"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_18"
+            android:layout_marginBottom="@dimen/spacing_18"
+            tools:listitem="@layout/item_nivel_progresso" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_sem_progresso"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

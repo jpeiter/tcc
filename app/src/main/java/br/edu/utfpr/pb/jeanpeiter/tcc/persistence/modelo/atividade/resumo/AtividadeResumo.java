@@ -45,5 +45,6 @@ public class AtividadeResumo {
         this.distancia = dto.getDistancia();
         this.duracao = Duration.ofSeconds(dto.getDuracao());
         this.parceiroNome = dto.getParceiroNome();
+        this.pontos = dto.getPontos();
     }
 }

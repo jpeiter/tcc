@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase.FirebaseUserController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.nivelprogresso.NivelProgressoController;
+import br.edu.utfpr.pb.jeanpeiter.tcc.helper.NivelProgressoHelper;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.atividade.AtividadeDatabase;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.nivelprogresso.UsuarioNivelProgressoDatabase;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeEstado;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
@@ -105,17 +107,22 @@ public class AtividadeController {
     }
 
     private Long getPontuacaoTotal(Atividade atividade) {
-        return new AtividadePontuacaoController().calcular(atividade);
+        Long duracao = atividade.getDuracao();
+        Double distancia = atividade.getDistancia();
+        Long calorias = atividade.getCalorias();
+        AtividadeTipo tipo = atividade.getTipo();
+        return new NivelProgressoHelper().calcular(duracao, distancia, calorias, tipo);
     }
 
     public void salvar(Atividade atividade, Context context, Runnable acaoOk, Runnable acaoErro) throws Exception {
         if (!permiteFinalizar) throw new Exception("A atividade não foi finalizada ainda!");
         permiteFinalizar = false;
 
-        AtividadeDatabase db = new AtividadeDatabase(context);
+        AtividadeDatabase atividadeDb = new AtividadeDatabase(context);
         AsyncTask.execute(() -> {
             try {
-                db.save(atividade);
+                atividadeDb.save(atividade);
+                new NivelProgressoController(context).save(atividade.getUsuarioUid(), atividade.getPontos());
                 acaoOk.run();
             } catch (Exception e) {
                 if (acaoErro != null) {
@@ -123,7 +130,6 @@ public class AtividadeController {
                 }
             }
         });
-
     }
 
 }

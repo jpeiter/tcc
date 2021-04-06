@@ -16,6 +16,7 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.MenuCorrerFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.historico.HistoricoFragment;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.progresso.ProgressoFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
 
     private Map<Integer, Fragment> mapMenus = new HashMap<Integer, Fragment>() {{
         put(R.id.menu_item_historico, new HistoricoFragment());
+        put(R.id.menu_item_progressso, new ProgressoFragment());
         put(R.id.menu_item_correr, new MenuCorrerFragment());
         put(R.id.menu_item_perfil, new Fragment());
     }};

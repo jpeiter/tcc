@@ -12,19 +12,20 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bnvMenu"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnvMenu"
         android:layout_width="match_parent"
-        app:itemBackground="?selectableItemBackgroundBorderless"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav"
+        app:itemBackground="?selectableItemBackgroundBorderless"
         app:itemIconTint="@drawable/nav_item_color_state"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

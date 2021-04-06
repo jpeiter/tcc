@@ -15,6 +15,7 @@
     <string name="historico">Histórico</string>
     <string name="correr">Correr</string>
     <string name="perfil">Perfil</string>
+    <string name="progresso">Progresso</string>
     <string name="escolha_sistema_medidas">Escolha o sistema de medidas</string>
     <string name="descricao_si_metrico">Métrico (cm, km, kg…)</string>
     <string name="descricao_si_imperial">Imperial (pol, mi, lb…)</string>
@@ -68,12 +69,72 @@
     <string name="percursos_em_dupla">Percursos em dupla</string>
     <string name="x_percursos_de_ate">:arg0 percursos, de :arg1 até :arg2</string>
     <string name="percurso_ao_lado_de_x">Você fez esse trajeto ao lado de :arg0, e ambos fizeram :arg1 pontos</string>
+    <string name="nivel">Nível</string>
     <string name="nivel_x">Nível :arg0</string>
-    <string name="x_pontos_proximo_nivel">:arg0 pontos para :arg1</string>
-    <string name="x_pontos">:arg0 pontos</string>
+    <string name="conquistado_em">Conquistado em</string>
+    <string name="pontos_atual_vs_proximo" translatable="false">:arg0/:arg1 XP</string>
+    <string name="x_xp" translatable="false">:arg0 XP</string>
     <string name="app_name">Trabalho de Conclusão de Curso</string>
     <string name="_0" translatable="false">0</string>
     <string name="ritmo_inicial" translatable="false">--:--</string>
+
+    <!-- Níveis de progresso-->
+    <string name="nivel_progresso_1">Bridgetown</string>
+    <string name="nivel_progresso_2">Istambul</string>
+    <string name="nivel_progresso_3">Bruxelas</string>
+    <string name="nivel_progresso_4">Amsterdam</string>
+    <string name="nivel_progresso_5">Macau</string>
+    <string name="nivel_progresso_6">Auckland</string>
+    <string name="nivel_progresso_7">Londres</string>
+    <string name="nivel_progresso_8">Jakarta</string>
+    <string name="nivel_progresso_9">Jerusalém</string>
+    <string name="nivel_progresso_10">Hanói</string>
+    <string name="nivel_progresso_11">Montevidéu</string>
+    <string name="nivel_progresso_12">Honolulu</string>
+    <string name="nivel_progresso_13">Atenas</string>
+    <string name="nivel_progresso_14">Argel</string>
+    <string name="nivel_progresso_15">Tegucigalpa</string>
+    <string name="nivel_progresso_16">Bagdá</string>
+    <string name="nivel_progresso_17">Moscou</string>
+    <string name="nivel_progresso_18">Lisboa</string>
+    <string name="nivel_progresso_19">Frankfurt</string>
+    <string name="nivel_progresso_20">Bogotá</string>
+    <string name="nivel_progresso_21">Praga</string>
+    <string name="nivel_progresso_22">Paris</string>
+    <string name="nivel_progresso_23">Dubai</string>
+    <string name="nivel_progresso_24">Marraquexe</string>
+    <string name="nivel_progresso_25">Lima</string>
+    <string name="nivel_progresso_26">Budapeste</string>
+    <string name="nivel_progresso_27">Oslo</string>
+    <string name="nivel_progresso_28">Mumbai</string>
+    <string name="nivel_progresso_29">Bucareste</string>
+    <string name="nivel_progresso_30">Bangkok</string>
+    <string name="nivel_progresso_31">Helsinque</string>
+    <string name="nivel_progresso_32">Santiago</string>
+    <string name="nivel_progresso_33">Taipei</string>
+    <string name="nivel_progresso_34">Dublin</string>
+    <string name="nivel_progresso_35">Copenhague</string>
+    <string name="nivel_progresso_36">Cancun</string>
+    <string name="nivel_progresso_37">Vilnius</string>
+    <string name="nivel_progresso_38">Meca</string>
+    <string name="nivel_progresso_39">Veneza</string>
+    <string name="nivel_progresso_40">Seul</string>
+    <string name="nivel_progresso_41">Estocolmo</string>
+    <string name="nivel_progresso_42">Cairo</string>
+    <string name="nivel_progresso_43">Viena</string>
+    <string name="nivel_progresso_44">Vancouver</string>
+    <string name="nivel_progresso_45">Sydney</string>
+    <string name="nivel_progresso_46">Kyoto</string>
+    <string name="nivel_progresso_47">Manila</string>
+    <string name="nivel_progresso_48">Teerã</string>
+    <string name="nivel_progresso_49">Kingston</string>
+    <string name="nivel_progresso_50">Singapura</string>
+    <string name="nivel_progresso_51">Florianópolis</string>
+    <string name="nivel_progresso_52">Georgetown </string>
+    <string name="nivel_progresso_53">Havana </string>
+    <string name="nivel_progresso_54">Colombo</string>
+    <string name="nivel_progresso_55">Varsóvia</string>
+    <string name="nivel_progresso_56">Barcelona</string>
 
     <!--  API Keys  -->
     <string name="facebook_application_id" translatable="false">2680259772193467</string>

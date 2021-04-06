@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:format12Hour="hh:mm a"
-                android:format24Hour="hh:mm"
+                android:format24Hour="hh:mm a"
                 android:textColor="@color/primaria"
                 android:textSize="@dimen/text_60" />
         </LinearLayout>
@@ -61,7 +61,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btnIniciarSozinho"
             app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="@color/branco"
-            app:srcCompat="@drawable/ic_group_white_24dp" />
+            app:srcCompat="@drawable/ic_connect_without_contact_white_24dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnIniciarSozinho"

@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
             android:text="TextView"
             android:textColor="@color/primariaEscuro"
             android:textSize="@dimen/text_16"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_atividade_resumo_percurso"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,28 +47,40 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_atividade_resumo_data" />
 
         <TextView
-            android:id="@+id/tv_atividade_resumo_tempo"
+            android:id="@+id/tv_atividade_resumo_pontos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="TextView"
-            android:textColor="@color/pretoTransparente"
-            android:textSize="14sp"
+            android:text="@string/x_xp"
+            android:textColor="@color/primariaEscuro"
+            android:textSize="@dimen/text_14"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_atividade_resumo_percurso" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_atividade_resumo_distancia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
             android:text="TextView"
             android:textColor="@color/pretoTransparente"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:textSize="@dimen/text_14"
             app:layout_constraintBottom_toTopOf="@+id/tv_atividade_resumo_tempo"
             app:layout_constraintStart_toEndOf="@+id/iv_atividade_resumo_percurso" />
+
+        <TextView
+            android:id="@+id/tv_atividade_resumo_tempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="TextView"
+            android:textColor="@color/pretoTransparente"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_atividade_resumo_percurso" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

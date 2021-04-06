@@ -35,6 +35,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
 
     private final float zoomCamera = 20;
     private final int paddingMap = 80;
+    private boolean isZoomedOut = false;
 
     @Getter
     private GoogleMap gmap;
@@ -140,7 +141,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void moverCamera(LatLng latLng) {
-        if (isMapReady() && latLng != null) {
+        if (!isZoomedOut && isMapReady() && latLng != null) {
             gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomCamera));
         }
     }
@@ -149,6 +150,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
         if (isMapReady() && !polylineOptions.getPoints().isEmpty()) {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, paddingMap);
             gmap.animateCamera(cameraUpdate);
+            isZoomedOut = true;
         }
     }
 

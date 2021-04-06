@@ -8,27 +8,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.digidemic.unitof.UnitOf;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.AppDatabase;
-
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.database.atividade.AtividadeDatabase;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.historico.HistoricoAtividades;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.resumo.AtividadeResumo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.usuario.Usuario;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.sharedpreferences.AppSharedPreferences;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ResourceActivity;
-import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.adapter.AtividadeResumoAdapter;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DateUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.historico.adapter.AtividadeResumoAdapter;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,12 +40,12 @@ public class HistoricoFragment extends Fragment implements GenericActivity, Reso
     private TextView tvTotalPercursosDeAte;
     private RecyclerView rvHistorico;
     private AtividadeResumoAdapter adapter;
-
-
     private View parent;
 
     private ResourcesUtils resourcesUtils;
     private AtividadeResourceController resourceController;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,13 +80,13 @@ public class HistoricoFragment extends Fragment implements GenericActivity, Reso
         Usuario usuario = new AppSharedPreferences(getContext()).getUsuario();
         String nome = usuario.getNome().split(" ")[0];
         getTvVocePercorreu().setText(resourcesUtils.replace(R.string.x_voce_ja_correu, nome));
-
     }
 
     private void buscarDados(String uid) {
         AsyncTask.execute(() -> {
-            HistoricoAtividades resumo = AppDatabase.getInstance(getContext()).getHistorico(uid);
-            long percursosEmDupla = AppDatabase.getInstance(getContext()).percursosEmDupla(uid);
+            AtividadeDatabase atividadeDatabase = new AtividadeDatabase(getContext());
+            HistoricoAtividades resumo = atividadeDatabase.getHistorico(uid);
+            long percursosEmDupla = atividadeDatabase.percursosEmDupla(uid);
             getActivity().runOnUiThread(() -> {
                 setHistorico(resumo);
                 setPercursosEmDupla(percursosEmDupla);
@@ -102,7 +97,7 @@ public class HistoricoFragment extends Fragment implements GenericActivity, Reso
 
     private void buscarResumos(LocalDate dataDe, LocalDate dataAte) {
         AsyncTask.execute(() -> {
-            List<AtividadeResumo> resumos = AppDatabase.getInstance(getContext()).findByInicioBetween(dataDe, dataAte);
+            List<AtividadeResumo> resumos = new AtividadeDatabase(getContext()).findByInicioBetween(dataDe, dataAte);
             getActivity().runOnUiThread(() -> adapter.setItems(resumos));
         });
     }

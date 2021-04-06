@@ -1,4 +1,4 @@
-package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.adapter;
+package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.historico.adapter;
 
 
 import android.content.Context;
@@ -19,15 +19,18 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceCont
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.resumo.AtividadeResumo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.adapter.GenericAdapter;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 
 public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, AtividadeResumoAdapter.AtividadeResumoViewHolder> {
 
     private List<Atividade> atividades = new ArrayList<>();
     private AtividadeResourceController resourceController;
+    private ResourcesUtils resourcesUtils;
 
     public AtividadeResumoAdapter(Context context) {
         super(context);
         resourceController = new AtividadeResourceController(context);
+        resourcesUtils = new ResourcesUtils(context);
     }
 
     @Override
@@ -41,6 +44,7 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
         holder.tvData.setText(data);
         holder.tvDistancia.setText(distancia);
         holder.tvTempo.setText(tempo);
+        holder.tvPontos.setText(resourcesUtils.replace(R.string.x_xp, String.valueOf(atividade.getPontos())));
 
         holder.tvNomeParceiro.setText(nomeParceiro);
         holder.tvNomeParceiro.setVisibility(nomeParceiro.isEmpty() ? View.INVISIBLE : View.VISIBLE);
@@ -59,6 +63,7 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
         private TextView tvNomeParceiro;
         private TextView tvDistancia;
         private TextView tvTempo;
+        private TextView tvPontos;
 
         public AtividadeResumoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +71,7 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
             tvNomeParceiro = itemView.findViewById(R.id.tv_atividade_resumo_nome_parceiro);
             tvDistancia = itemView.findViewById(R.id.tv_atividade_resumo_distancia);
             tvTempo = itemView.findViewById(R.id.tv_atividade_resumo_tempo);
+            tvPontos = itemView.findViewById(R.id.tv_atividade_resumo_pontos);
         }
     }
 }
