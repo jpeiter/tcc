@@ -173,4 +173,5 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
     private void desconectar() {
         AsyncTask.execute(FirebaseUserStatusController::desconectar);
     }
+
 }

@@ -112,9 +112,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribe(AtividadePosicao posicao) {
         if (posicao != null) {
-            LatLng latLng = locationUtils.toLatLng(
-                    locationUtils.toLocation(posicao)
-            );
+            LatLng latLng = locationUtils.toLatLng(posicao);
 
             latLngBounds = latLngBounds == null ?
                     new LatLngBounds.Builder()

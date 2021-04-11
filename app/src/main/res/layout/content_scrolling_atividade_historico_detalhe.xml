@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_atividade_historico_detalhe">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--  DISTÂNCIA  -->
+        <LinearLayout
+            android:id="@+id/ll_distancia_atividade_historico_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/spacing_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_percurso_ao_lado_atividade_historico_detalhe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/percurso_ao_lado_de"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_12"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_distancia_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_60" />
+
+                <TextView
+                    android:id="@+id/tv_unidade_medida_distancia_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="@string/m"
+                    android:textAllCaps="true"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_24" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:text="@string/distancia"
+                android:textAllCaps="true"
+                android:textColor="@color/preto"
+                android:textSize="@dimen/text_20" />
+        </LinearLayout>
+        <!--  DISTÂNCIA  -->
+
+
+        <!-- DURAÇÃO E CALORIAS -->
+        <LinearLayout
+            android:id="@+id/ll_duracao_atividade_historico_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/spacing_4"
+            app:layout_constraintTop_toBottomOf="@id/ll_distancia_atividade_historico_detalhe">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_duracao_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_42" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/duracao"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <!-- FINAL DURAÇÃO -->
+
+            <!-- CALORIAS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_calorias_atividade_historico_detalhe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="@string/_0"
+                        android:textColor="@color/secundariaEscuro"
+                        android:textSize="@dimen/text_42" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="bottom"
+                        android:text="@string/kcal"
+                        android:textColor="@color/secundariaEscuro"
+                        android:textSize="@dimen/text_24" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/calorias"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <!-- FINAL CALORIAS -->
+
+        </LinearLayout>
+        <!-- DURAÇÃO E CALORIAS -->
+
+        <!-- HORARIO INICIO E TERMINO -->
+        <LinearLayout
+            android:id="@+id/ll_incio_fim_atividade_historico_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/spacing_4"
+            app:layout_constraintTop_toBottomOf="@id/ll_duracao_atividade_historico_detalhe">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_inicio_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_42" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/inicio"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <!-- FINAL DURAÇÃO -->
+
+            <!-- CALORIAS -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_fim_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_42" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/fim"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <!-- FINAL CALORIAS -->
+
+        </LinearLayout>
+        <!-- HORARIO INICIO E TERMINCO -->
+
+
+        <!-- VELOCIDADE MÉDIA E RITMO -->
+        <LinearLayout
+            android:id="@+id/ll_duracao_velocidade_atividade_historico_detalhe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/spacing_4"
+            app:layout_constraintTop_toBottomOf="@+id/ll_incio_fim_atividade_historico_detalhe">
+
+            <!-- VELOCIDADE MÉDIA -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_velocidade_media_atividade_historico_detalhe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="@string/_0"
+                        android:textColor="@color/secundariaEscuro"
+                        android:textSize="@dimen/text_34" />
+
+                    <TextView
+                        android:id="@+id/tv_unidade_medida_velocidade_atividade_historico_detalhe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_horizontal|bottom"
+                        android:text="@string/km_h"
+                        android:textAllCaps="true"
+                        android:textColor="@color/secundariaEscuro"
+                        android:textSize="@dimen/text_20" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/velocidade_media"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+
+            </LinearLayout>
+            <!-- FINAL VELOCIDADE MÉDIA -->
+
+
+            <!-- RITMO  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_ritmo_atividade_historico_detalhe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/ritmo_inicial"
+                    android:textColor="@color/secundariaEscuro"
+                    android:textSize="@dimen/text_34" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:text="@string/ritmo"
+                    android:textAllCaps="true"
+                    android:textColor="@color/preto"
+                    android:textSize="@dimen/text_20" />
+
+            </LinearLayout>
+            <!-- FINAL RITMO -->
+
+        </LinearLayout>
+        <!-- VELOCIDADE MÉDIA E RITMO -->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <!-- API KEYS -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -23,14 +22,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
-
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.telas.login.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,6 +47,9 @@
         <activity
             android:name=".ui.telas.atividade.dupla.SelecionarParceiroActivity"
             android:parentActivityName=".ui.telas.main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.telas.main.fragments.progresso.detalhes.AtividadeHistoricoDetalheActivity"
             android:screenOrientation="portrait" />
     </application>
 

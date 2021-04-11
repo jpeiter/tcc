@@ -26,13 +26,26 @@ public class AtividadeUnidadesController {
     public Double velocidadeEmKmH(Double distanciaMetros, Long duracaoMilis) {
         double m = distanciaMetros;
         double s = conversorTempo.fromMilliseconds(duracaoMilis).toSeconds();
-        double kmH = conversorVelocidade.fromMetersPerSecond(m / s).toKilometersPerHour();
+        return velocidadeEmKmH(m / s);
+    }
+
+    public Double velocidadeEmKmH(Double metrosPorSegundo) {
+        double kmH = conversorVelocidade.fromMetersPerHour(metrosPorSegundo).toKilometersPerHour();
         return bgUtils.arredondado(kmH, 2).doubleValue();
     }
 
     public int ritmo(Double distanciaMetros, Long duracaoMilis) {
         Duration duration = ritmoMinutoSegundo(distanciaMetros, duracaoMilis);
         return (int) duration.get(ChronoUnit.SECONDS);
+    }
+
+    public Duration duracao(Long duracaoSegundos) {
+        double minutosD = conversorTempo.fromSeconds(duracaoSegundos).toMinutes();
+        int minutos = (int) minutosD;
+        double segundos = minutosD - minutos;
+        segundos = segundos * 60;
+        int sec = (int) segundos;
+        return Duration.ofMinutes(minutos).plusSeconds(sec);
     }
 
     public Duration ritmoMinutoSegundo(Double distanciaMetros, Long duracaoMilis) {
@@ -60,7 +73,7 @@ public class AtividadeUnidadesController {
 
     private Long calorias(double mets, double pesoKg, double minutos) {
         double mililitroPorMinuto = mets * UnidadeMetabolica.V_O2 * pesoKg;
-        double litroPorMinuto =  conversorVolume.fromMilliliters(mililitroPorMinuto).toLiters();
+        double litroPorMinuto = conversorVolume.fromMilliliters(mililitroPorMinuto).toLiters();
         double caloriasPorMinuto = litroPorMinuto * UnidadeMetabolica.CAL_1L_O2;
         double gastoTotal = caloriasPorMinuto * minutos;
         return Double.valueOf(gastoTotal).longValue();

@@ -4,11 +4,13 @@
     <dimen name="text_12">12sp</dimen>
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
     <dimen name="text_20">20sp</dimen>
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_30">30sp</dimen>
     <dimen name="text_34">34sp</dimen>
+    <dimen name="text_42">42sp</dimen>
     <dimen name="text_48">48sp</dimen>
     <dimen name="text_60">60sp</dimen>
     <dimen name="text_86">86sp</dimen>
@@ -32,4 +34,6 @@
     <dimen name="spacing_70">70dp</dimen>
     <dimen name="spacing_80">80dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

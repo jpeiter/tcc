@@ -14,6 +14,7 @@
         android:layout_marginHorizontal="@dimen/spacing_8"
         android:layout_marginTop="@dimen/spacing_16"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8dp">
 

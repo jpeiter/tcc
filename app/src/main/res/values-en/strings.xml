@@ -43,21 +43,21 @@
     <string name="pressione_para_finalizar">To finish the activity, press the button quickly.</string>
     <string name="buscando_usuarios">Searching users, please wait…</string>
     <string name="inicio">Start</string>
-    <string name="fim">End</string>
+    <string name="fim">Finish</string>
     <string name="atividades">Activities</string>
     <string name="conquistas">Achievements</string>
     <string name="essa_semana">This week</string>
     <string name="ultimos_x_dias">Last :arg0 days</string>
     <string name="desde_o_inicio">From the beginning</string>
     <string name="x_voce_ja_correu">:arg0, you\'ve walked</string>
+    <string name="ainda_nao_fez_atividade">You haven\'t taken a walk yet!</string>
     <string name="tempo_em_movimento">Moving time</string>
     <string name="percursos_em_dupla">Routes in pairs</string>
     <string name="x_percursos_de_ate">:arg0 routes, from :arg1 to :arg2</string>
-    <string name="percurso_ao_lado_de_x">You took this route alongside :arg0, and both scored :arg1 points</string>
+    <string name="percurso_ao_lado_de">You took this route alongside</string>
     <string name="nivel">Level</string>
     <string name="nivel_x">Level :arg0</string>
     <string name="conquistado_em">Achieved on</string>
-    <string name="app_name">Trabalho de Conclusão de Curso</string>
 
     <!-- Níveis de progresso-->
     <string name="nivel_progresso_1">Bridgetown</string>

@@ -8,10 +8,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 
@@ -35,7 +31,7 @@ public class DateUtils {
         return localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
     }
 
-    public String horarioAmPm(LocalTime localTime) {
+    public String horario(LocalTime localTime) {
         return localTime.format(DateTimeFormatter.ofPattern("hh:mm"));
     }
 
@@ -43,7 +39,7 @@ public class DateUtils {
         LocalDate localDate = localDateTime.toLocalDate();
         LocalTime localTime = localDateTime.toLocalTime();
         String data = diaSemanaEData(localDate);
-        String hora = horarioAmPm(localTime);
+        String hora = horario(localTime);
         return data.concat(" - ").concat(hora);
     }
 

@@ -10,27 +10,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
 import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeResourceController;
-import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.resumo.AtividadeResumo;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.RecyclerViewOnClickInterface;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.adapter.GenericAdapter;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.ResourcesUtils;
 
 public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, AtividadeResumoAdapter.AtividadeResumoViewHolder> {
 
-    private List<Atividade> atividades = new ArrayList<>();
-    private AtividadeResourceController resourceController;
-    private ResourcesUtils resourcesUtils;
+    private final AtividadeResourceController resourceController;
+    private final ResourcesUtils resourcesUtils;
+    private final RecyclerViewOnClickInterface onClickInterface;
 
-    public AtividadeResumoAdapter(Context context) {
+    public AtividadeResumoAdapter(Context context, RecyclerViewOnClickInterface onClickInterface) {
         super(context);
         resourceController = new AtividadeResourceController(context);
         resourcesUtils = new ResourcesUtils(context);
+        this.onClickInterface = onClickInterface;
     }
 
     @Override
@@ -59,11 +58,11 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
 
     class AtividadeResumoViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvData;
-        private TextView tvNomeParceiro;
-        private TextView tvDistancia;
-        private TextView tvTempo;
-        private TextView tvPontos;
+        private final TextView tvData;
+        private final TextView tvNomeParceiro;
+        private final TextView tvDistancia;
+        private final TextView tvTempo;
+        private final TextView tvPontos;
 
         public AtividadeResumoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +71,9 @@ public class AtividadeResumoAdapter extends GenericAdapter<AtividadeResumo, Ativ
             tvDistancia = itemView.findViewById(R.id.tv_atividade_resumo_distancia);
             tvTempo = itemView.findViewById(R.id.tv_atividade_resumo_tempo);
             tvPontos = itemView.findViewById(R.id.tv_atividade_resumo_pontos);
+            itemView.setOnClickListener(v ->
+                    AtividadeResumoAdapter.this.onClickInterface.onItemClick(getAdapterPosition())
+            );
         }
     }
 }

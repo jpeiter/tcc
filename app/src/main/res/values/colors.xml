@@ -8,6 +8,8 @@
     <color name="secundariaEscuro">#008000</color>
     <color name="secundariaClaro">#77E44C</color>
 
+    <color name="vermelho">#FC0700</color>
+
     <color name="branco">#FFFFFF</color>
     <color name="gelo">#F7F7F7</color>
     <color name="brancoTransparente">#85FFFFFF</color>

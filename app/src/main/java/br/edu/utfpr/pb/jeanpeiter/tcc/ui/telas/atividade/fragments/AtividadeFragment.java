@@ -53,7 +53,6 @@ public class AtividadeFragment extends Fragment implements GenericActivity, List
     private TextView tvVelocidade;
     private TextView tvRitmo;
     private TextView tvCalorias;
-    @Setter(AccessLevel.PRIVATE)
     private Chronometer cronometroDuracao;
 
     // Unidades de medida

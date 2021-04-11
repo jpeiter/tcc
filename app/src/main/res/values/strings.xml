@@ -52,6 +52,7 @@
     <string name="min_km" translatable="false">/Km</string>
     <string name="min_mi" translatable="false">Min/Mi</string>
     <string name="calorias">Calorias</string>
+    <string name="kcal" translatable="false">kcal</string>
     <string name="atividade_pausada">Atividade pausada</string>
     <string name="mantenha_pressionado_para_finalizar">Para finalizar a atividade, mantenha o botão pressionado.</string>
     <string name="pressione_para_finalizar">Para finalizar a atividade, pressione o botão rapidamente.</string>
@@ -68,15 +69,17 @@
     <string name="tempo_em_movimento">Tempo em movimento</string>
     <string name="percursos_em_dupla">Percursos em dupla</string>
     <string name="x_percursos_de_ate">:arg0 percursos, de :arg1 até :arg2</string>
-    <string name="percurso_ao_lado_de_x">Você fez esse trajeto ao lado de :arg0, e ambos fizeram :arg1 pontos</string>
+    <string name="percurso_ao_lado_de">Você fez esse trajeto ao lado de</string>
     <string name="nivel">Nível</string>
     <string name="nivel_x">Nível :arg0</string>
     <string name="conquistado_em">Conquistado em</string>
     <string name="pontos_atual_vs_proximo" translatable="false">:arg0/:arg1 XP</string>
     <string name="x_xp" translatable="false">:arg0 XP</string>
-    <string name="app_name">Trabalho de Conclusão de Curso</string>
+    <string name="ainda_nao_fez_atividade">Você ainda não fez nenhuma atividade!</string>
+    <string name="app_name" translatable="false">Trabalho de Conclusão de Curso</string>
     <string name="_0" translatable="false">0</string>
     <string name="ritmo_inicial" translatable="false">--:--</string>
+
 
     <!-- Níveis de progresso-->
     <string name="nivel_progresso_1">Bridgetown</string>
@@ -140,5 +143,6 @@
     <string name="facebook_application_id" translatable="false">2680259772193467</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2680259772193467</string>
     <string name="map_api_key" translatable="false">AIzaSyA-aJFyzjh-2pkQpP1MJo2LyrzDK0viXy4</string>
+
 
 </resources>

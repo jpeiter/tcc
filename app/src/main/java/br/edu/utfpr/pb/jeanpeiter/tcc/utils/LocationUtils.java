@@ -15,6 +15,10 @@ public class LocationUtils {
         return location;
     }
 
+    public LatLng toLatLng(AtividadePosicao posicao) {
+        return toLatLng(toLocation(posicao));
+    }
+
     public LatLng toLatLng(Location location) {
         return new LatLng(location.getLatitude(), location.getLongitude());
     }

@@ -55,7 +55,7 @@ public class AtividadeResourceController {
             sb.add("%dmin");
             values.add(minutes);
         }
-        if (seconds > 0) {
+        if (seconds > 0 || (hours == 0 && minutes == 0 && seconds == 0)) {
             sb.add("%ds");
             values.add(seconds);
         }

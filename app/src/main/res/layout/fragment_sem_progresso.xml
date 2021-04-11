@@ -10,7 +10,15 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="150dp"
         android:src="@drawable/vector_lost" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ainda_nao_fez_atividade"
+        android:textColor="@color/primaria"
+        android:textSize="@dimen/text_18" />
 
 
 </LinearLayout>

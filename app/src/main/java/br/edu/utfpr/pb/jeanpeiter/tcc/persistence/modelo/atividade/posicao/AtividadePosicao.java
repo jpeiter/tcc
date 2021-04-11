@@ -2,6 +2,8 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao;
 
 import android.location.Location;
 
+import androidx.room.Ignore;
+
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.dto.AtividadePosicaoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ public class AtividadePosicao {
     private Double longitude;
 
     // Sincronizado online
+    @Ignore
     private boolean sincronizado;
 
     public AtividadePosicao(Long ordem, Location location) {
