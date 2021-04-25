@@ -58,6 +58,8 @@
     <string name="nivel">Level</string>
     <string name="nivel_x">Level :arg0</string>
     <string name="conquistado_em">Achieved on</string>
+    <string name="convites_de_atividade">Activities invitations</string>
+    <string name="parceiros_disponiveis">Available users</string>
 
     <!-- Níveis de progresso-->
     <string name="nivel_progresso_1">Bridgetown</string>

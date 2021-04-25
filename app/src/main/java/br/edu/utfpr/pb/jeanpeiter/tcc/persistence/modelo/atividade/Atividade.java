@@ -80,7 +80,7 @@ public class Atividade {
                 this.getUsuarioUid(),
                 this.getInicio(),
                 this.getTermino(),
-                this.getTipo().toDto(),
+                this.getTipo().ordinal(),
                 this.getDistancia(),
                 this.getVelocidade(),
                 this.getDuracao(),
@@ -99,7 +99,7 @@ public class Atividade {
         this.setUsuarioUid(dto.getUid());
         this.setInicio(dto.getI());
         this.setTermino(dto.getTe());
-        this.setTipo(AtividadeTipo.fromDto(dto.getTi()));
+        this.setTipo(AtividadeTipo.values()[dto.getTi()]);
         this.setDistancia(dto.getDi());
         this.setDuracao(dto.getDu());
         this.setRitmo(dto.getR());

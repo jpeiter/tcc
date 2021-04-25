@@ -57,12 +57,11 @@
             android:layout_marginEnd="@dimen/spacing_16"
             android:layout_marginBottom="@dimen/spacing_16"
             android:clickable="true"
-            android:tint="@color/branco"
-            app:backgroundTint="@color/primariaEscuro"
+            app:backgroundTint="@color/primariaClaro"
             app:layout_constraintBottom_toTopOf="@+id/btnIniciarSozinho"
             app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="@color/branco"
-            app:srcCompat="@drawable/ic_connect_without_contact_white_24dp" />
+            app:srcCompat="@drawable/ic_connect_without_contact_white_24dp"
+            app:tint="@color/branco" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnIniciarSozinho"
@@ -71,12 +70,11 @@
             android:layout_marginEnd="@dimen/spacing_16"
             android:layout_marginBottom="@dimen/spacing_16"
             android:clickable="true"
-            app:backgroundTint="@color/primariaEscuro"
-            android:tint="@color/branco"
+            app:backgroundTint="@color/primariaClaro"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="@color/branco"
-            app:srcCompat="@drawable/ic_person_white_24dp" />
+            app:srcCompat="@drawable/ic_person_white_24dp"
+            app:tint="@color/branco" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

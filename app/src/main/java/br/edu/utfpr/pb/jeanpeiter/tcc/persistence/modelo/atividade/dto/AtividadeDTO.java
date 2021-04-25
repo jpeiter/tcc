@@ -44,7 +44,7 @@ public class AtividadeDTO {
 
     // Atividade.tipo
     @ColumnInfo(name = "tipo")
-    private String ti;
+    private int ti;
 
     //Atividade.distancia
     @ColumnInfo(name = "distancia")

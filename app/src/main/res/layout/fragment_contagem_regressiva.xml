@@ -22,37 +22,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_mais_tempo_contagem_regressiva"
+        android:id="@+id/btn_cancelar_contagem_regressiva"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="26dp"
+        android:layout_height="@dimen/spacing_56"
+        android:layout_marginStart="@dimen/spacing_24"
+        android:layout_marginEnd="@dimen/spacing_24"
+        android:layout_marginBottom="@dimen/spacing_24"
+        android:backgroundTint="@color/primariaEscuro"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/cancelar"
+        android:textColor="@color/branco"
+        android:textSize="@dimen/text_10"
+        app:layout_constraintBottom_toTopOf="@+id/btn_mais_tempo_contagem_regressiva"
+        app:rippleColor="@color/brancoTransparente" />
+
+    <Button
+        android:id="@+id/btn_mais_tempo_contagem_regressiva"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_56"
+        android:layout_marginStart="@dimen/spacing_24"
+        android:layout_marginEnd="@dimen/spacing_24"
+        android:layout_marginBottom="@dimen/spacing_24"
         android:backgroundTint="@color/primariaEscuro"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/mais_x_segundos"
         android:textColor="@color/branco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_comecar_atividade_contagem_regressiva"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@color/brancoTransparente" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_comecar_atividade_contagem_regressiva" />
 
     <Button
         android:id="@+id/btn_comecar_atividade_contagem_regressiva"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/spacing_56"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="26dp"
+        android:layout_marginStart="@dimen/spacing_24"
+        android:layout_marginEnd="@dimen/spacing_24"
+        android:layout_marginBottom="@dimen/spacing_24"
         android:backgroundTint="@color/branco"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/comecar_agora"
         android:textColor="@color/primaria"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ public class AtividadeUnidadesController {
     }
 
     public Double velocidadeEmKmH(Double metrosPorSegundo) {
-        double kmH = conversorVelocidade.fromMetersPerHour(metrosPorSegundo).toKilometersPerHour();
+        double kmH = conversorVelocidade.fromMetersPerSecond(metrosPorSegundo).toKilometersPerHour();
         return bgUtils.arredondado(kmH, 2).doubleValue();
     }
 

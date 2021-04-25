@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
@@ -124,9 +125,11 @@ public class StaticMapaFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private boolean zoomIn() {
-        gmap.animateCamera(
-                CameraUpdateFactory.newLatLngBounds(latLngBounds, 80)
-        );
+        if (latLngBounds != null) {
+            gmap.animateCamera(
+                    CameraUpdateFactory.newLatLngBounds(latLngBounds, 100)
+            );
+        }
         return true;
     }
 

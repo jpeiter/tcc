@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.digidemic.unitof.UnitOf;
+
 import org.greenrobot.eventbus.EventBus;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
@@ -31,7 +33,9 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
     private TextView tvContagemRegressiva;
     private TextView btnMaisTempo;
     private TextView btnComecarAtividade;
+    private TextView btnCancelarAtividade;
 
+    private UnitOf.Time conversorTempo = new UnitOf.Time();
     private CountDownTimer cronometro;
     private Long tempo = 5L;
 
@@ -41,6 +45,7 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         setTvContagemRegressiva(parent.findViewById(R.id.tv_contagem_regressiva));
         setBtnMaisTempo(parent.findViewById(R.id.btn_mais_tempo_contagem_regressiva));
         setBtnComecarAtividade(parent.findViewById(R.id.btn_comecar_atividade_contagem_regressiva));
+        setBtnCancelarAtividade(parent.findViewById(R.id.btn_cancelar_contagem_regressiva));
 
         replaceResources();
         initListeners();
@@ -56,6 +61,12 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
     }
 
     @Override
+    public void onDestroy() {
+        cronometro.cancel();
+        super.onDestroy();
+    }
+
+    @Override
     public void initListeners() {
         getBtnMaisTempo().setOnClickListener(v -> {
             if (cronometro != null) {
@@ -66,13 +77,15 @@ public class ContagemRegressivaFragment extends Fragment implements ResourceActi
         });
 
         getBtnComecarAtividade().setOnClickListener(v -> cronometro.onFinish());
+
+        getBtnCancelarAtividade().setOnClickListener(v -> getActivity().finish());
     }
 
     private CountDownTimer criaCronometro(long tempoEmSegundo) {
-        return new CountDownTimer((tempoEmSegundo * 1000) + 1000, 1000) {
+        return new CountDownTimer((long) ((conversorTempo.fromSeconds(tempoEmSegundo).toMilliseconds()) + 1000), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tempo = millisUntilFinished / 1000;
+                tempo = (long) conversorTempo.fromMilliseconds(millisUntilFinished).toSeconds();
                 getTvContagemRegressiva().setText(String.valueOf(tempo));
             }
 

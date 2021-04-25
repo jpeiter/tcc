@@ -1,6 +1,7 @@
 package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,8 +53,10 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments.AtividadeFrag
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.fragments.ContagemRegressivaFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeActivityBundle;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeFragmentBundle;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.progresso.detalhes.AtividadeHistoricoDetalheActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -124,6 +128,13 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
         locationListener = null;
         locationManager = null;
+
+        if (AtividadeEstadoSingleton.getInstance().isFinalizada()) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(AtividadeHistoricoDetalheActivity.ATIVIDADE_ID_EXTRA, atividadeId.toString());
+            setResult(Activity.RESULT_OK, resultIntent);
+        }
+
         super.finish();
     }
 
@@ -174,7 +185,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
             locationListener = new LocalizacaoListener();
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             assert locationManager != null;
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 15, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, locationListener);
             iniciarContagemRegressiva();
         }
     }

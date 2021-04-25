@@ -21,6 +21,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.connectivity.info.NetworkInformation;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
@@ -62,6 +63,8 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
         setBtnIniciarSozinho(parent.findViewById(R.id.btnIniciarSozinho));
         getBtnIniciarSozinho().setOnClickListener(clickListener);
         getBtnIniciarDupla().setOnClickListener(clickListener);
+
+        getBtnIniciarDupla().setVisibility(NetworkInformation.isNetworkAvailable(getContext()) ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -78,8 +81,7 @@ public class MenuCorrerFragment extends Fragment implements GenericActivity, Per
                 SelecionarParceiroActivity.class
         );
         tipo.toIntent(i);
-        new IntentUtils().startActivity(getContext(), i);
-
+        startActivityForResult(i, 1);
     };
 
 

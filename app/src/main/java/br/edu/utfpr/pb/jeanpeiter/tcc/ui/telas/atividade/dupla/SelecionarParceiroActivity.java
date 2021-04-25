@@ -97,7 +97,7 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
             CharSequence[] nomeParceiros = Arrays.copyOf(solicitacoesAtual.values().toArray(), solicitacoesAtual.size(), CharSequence[].class);
 
             AtomicInteger checkedItem = new AtomicInteger();
-            new DialogUtils().build(SelecionarParceiroActivity.this, "Selecionar")
+            new DialogUtils().build(SelecionarParceiroActivity.this, getString(R.string.selecione))
                     .setSingleChoiceItems(nomeParceiros, 0, (dialog, which) -> {
                         checkedItem.set(which);
                     })
@@ -163,7 +163,8 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
 
     void atualizarUi() {
         getBtnProxima().setVisibility(solicitacoes.size() > 0 ? View.VISIBLE : View.GONE);
-        getBtnProxima().setText("Solicitacoes de atividade: " + solicitacoes.size());
+        String nConvites = getString(R.string.convites_de_atividade) + solicitacoes.size();
+        getBtnProxima().setText(nConvites);
     }
 
     private void conectar() {
@@ -174,4 +175,7 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
         AsyncTask.execute(FirebaseUserStatusController::desconectar);
     }
 
+    public void btnVoltarClick(View view) {
+        this.finish();
+    }
 }

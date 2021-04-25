@@ -17,10 +17,10 @@
             android:id="@+id/iv_atividade_resumo_percurso"
             android:layout_width="@dimen/spacing_80"
             android:layout_height="@dimen/spacing_80"
+            android:src="@drawable/ic_route"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_atividade_resumo_data"

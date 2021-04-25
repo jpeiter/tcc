@@ -53,7 +53,7 @@ public class AtividadeDetalhesResourceController {
     }
 
     public String velocidade(Double velocidade) {
-        return String.valueOf(unidadesController.velocidadeEmKmH(velocidade));
+        return String.valueOf(velocidade);
     }
 
     public String ritmo(Integer ritmoSegundos) {

@@ -90,15 +90,15 @@ public class AtividadeController {
         return bgUtils.arredondado(totalNovo, 2).doubleValue();
     }
 
-    private Double velocidade(Double distanciaEmMetros, Long duracao) {
-        return unidadesController.velocidadeEmKmH(distanciaEmMetros, duracao);
+    private Double velocidade(Double distanciaEmMetros, Long duracaoMillis) {
+        return unidadesController.velocidadeEmKmH(distanciaEmMetros, duracaoMillis);
     }
 
     public Atividade finalizar(long termino, long duracaoMillis) {
         mudarEstado(AtividadeEstado.FINALIZADA);
         atividade.setTermino(termino);
         atividade.setDuracao((long) new UnitOf.Time().fromMilliseconds(duracaoMillis).toSeconds());
-        atividade.setVelocidade(velocidade(atividade.getDistancia(), atividade.getDuracao()));
+        atividade.setVelocidade(velocidade(atividade.getDistancia(), duracaoMillis));
         atividade.setCalorias(unidadesController.calorias(usuario.getPeso(), atividade.getDistancia(), duracaoMillis));
         atividade.setRitmo(unidadesController.ritmo(atividade.getDistancia(), duracaoMillis));
         atividade.setPontos(getPontuacaoTotal(atividade));

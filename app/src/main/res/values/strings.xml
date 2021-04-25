@@ -79,6 +79,8 @@
     <string name="app_name" translatable="false">Trabalho de Conclusão de Curso</string>
     <string name="_0" translatable="false">0</string>
     <string name="ritmo_inicial" translatable="false">--:--</string>
+    <string name="convites_de_atividade">Convites de atividade</string>
+    <string name="parceiros_disponiveis">Usuários disponíveis</string>
 
 
     <!-- Níveis de progresso-->

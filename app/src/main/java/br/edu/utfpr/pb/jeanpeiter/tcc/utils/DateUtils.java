@@ -32,7 +32,7 @@ public class DateUtils {
     }
 
     public String horario(LocalTime localTime) {
-        return localTime.format(DateTimeFormatter.ofPattern("hh:mm"));
+        return localTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
     public String diaSemanaDataEHora(LocalDateTime localDateTime) {

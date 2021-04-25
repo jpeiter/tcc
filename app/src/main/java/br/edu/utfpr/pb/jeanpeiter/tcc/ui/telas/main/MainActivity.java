@@ -21,11 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.Atividade;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.GenericActivity;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.MenuCorrerFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.historico.HistoricoFragment;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.progresso.ProgressoFragment;
+import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.progresso.detalhes.AtividadeHistoricoDetalheActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
+import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
         mapMenus.put(R.id.menu_item_historico, new HistoricoFragment());
         mapMenus.put(R.id.menu_item_progressso, new ProgressoFragment());
         mapMenus.put(R.id.menu_item_correr, new MenuCorrerFragment());
-//        mapMenus.put(R.id.menu_item_perfil, new Fragment());
 
         setToolbar(getSupportActionBar());
         setBnvMenu(findViewById(R.id.bnvMenu));
@@ -98,17 +101,18 @@ public class MainActivity extends AppCompatActivity implements GenericActivity {
         }
         return false;
     }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if (false) {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-////        getBnvMenu().performClick();
-////        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-////            fragment.onActivityResult(requestCode, resultCode, data);
-////        }
-//        int menu_id = data.getIntExtra("menu_id", R.id.menu_item_correr);
-//        onNavigationItemSelected(menu_id, true);
-//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            String atividadeId = data.getStringExtra(AtividadeHistoricoDetalheActivity.ATIVIDADE_ID_EXTRA);
+            if (atividadeId != null) {
+                Intent intent = new Intent(this, AtividadeHistoricoDetalheActivity.class);
+                intent.putExtra(AtividadeHistoricoDetalheActivity.ATIVIDADE_ID_EXTRA, atividadeId);
+                new IntentUtils().startActivity(this, intent);
+            }
+        }
+
+    }
 }
