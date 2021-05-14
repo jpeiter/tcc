@@ -22,7 +22,6 @@ public class AtividadeDatabase {
     private final Context context;
 
     public List<AtividadeResumo> resumos(String uid) {
-        DateUtils dateUtils = new DateUtils();
         List<Atividade> resumos = AppDatabase.getInstance(context).atividadeDao().resumos(uid);
         return resumos != null ? resumos.stream().map(AtividadeResumo::new).collect(Collectors.toList()) : new ArrayList<>();
     }
@@ -37,15 +36,6 @@ public class AtividadeDatabase {
 
         AppDatabase.getInstance(context).atividadeDao().save(atividadeDto, posicoesDto);
         return atividadeId;
-    }
-
-    public void deleteAtividade(Atividade atividade) {
-        AtividadeDTO atividadeDto = atividade.toDto();
-        List<AtividadePosicaoDTO> posicoesDto = atividade.getPosicoes()
-                .stream().map(
-                        p -> p.toDto(atividade.get_id())
-                ).collect(Collectors.toList());
-        AppDatabase.getInstance(context).atividadeDao().delete(atividadeDto, posicoesDto);
     }
 
     public Atividade detalhes(String atividadeId) {

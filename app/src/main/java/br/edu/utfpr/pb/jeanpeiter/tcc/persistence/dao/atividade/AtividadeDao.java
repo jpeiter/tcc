@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.RoomWarnings;
+import androidx.room.SkipQueryVerification;
 import androidx.room.Transaction;
 
 import java.util.List;
@@ -20,7 +21,6 @@ public abstract class AtividadeDao {
 
     //  SELECT
     @Query(AtividadeQueries.ATIVIDADES_RESUMO)
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     public abstract List<Atividade> resumos(String uid);
 
     @Query(AtividadeQueries.HISTORICO)
@@ -33,7 +33,6 @@ public abstract class AtividadeDao {
     public abstract Atividade atividade(String id);
 
     @Query(AtividadeQueries.POSICOES_ATIVIDADE)
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     public abstract List<AtividadePosicao> posicoes(String atividadeId);
 
     public Atividade atividadeDetalhes(String id) {
@@ -55,19 +54,6 @@ public abstract class AtividadeDao {
 
     @Insert
     public abstract void savePosicoes(List<AtividadePosicaoDTO> posicoes);
-
-    //  DELETE
-    @Transaction
-    public void delete(AtividadeDTO atividade, List<AtividadePosicaoDTO> posicoes) {
-        deletePosicoes(posicoes);
-        deleteAtividade(atividade);
-    }
-
-    @Delete
-    abstract void deleteAtividade(AtividadeDTO atividade);
-
-    @Delete
-    abstract void deletePosicoes(List<AtividadePosicaoDTO> posicoes);
 
 
 }

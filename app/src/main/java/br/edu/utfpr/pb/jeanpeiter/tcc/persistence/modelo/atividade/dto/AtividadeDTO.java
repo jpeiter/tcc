@@ -86,4 +86,12 @@ public class AtividadeDTO {
     @ColumnInfo(name = "sincronizado")
     private String s;
 
+    public AtividadeDTO(String _id, Long inicio, Double distancia, Long duracao, int tipo, Long pontos) {
+        this._id = _id;
+        this.i = inicio;
+        this.di = distancia;
+        this.du = duracao;
+        this.ti = tipo;
+        this.p = pontos;
+    }
 }

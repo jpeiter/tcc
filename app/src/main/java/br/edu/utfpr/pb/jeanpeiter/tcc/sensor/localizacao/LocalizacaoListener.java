@@ -14,12 +14,6 @@ public class LocalizacaoListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        EventBus.getDefault().post(
-            LocationObservedData.builder()
-                .metodo(LocationObservedData.Metodo.LOCATION_CHANGED)
-                .location(location)
-            .build()
-        );
     }
 
     @Override

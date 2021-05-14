@@ -3,9 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="br.edu.utfpr.pb.jeanpeiter.tcc">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -51,6 +54,11 @@
         <activity
             android:name=".ui.telas.main.fragments.progresso.detalhes.AtividadeHistoricoDetalheActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".sensor.localizacao.LocationUpdatesService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

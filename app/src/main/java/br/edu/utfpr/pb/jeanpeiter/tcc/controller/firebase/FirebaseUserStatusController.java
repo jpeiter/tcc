@@ -2,10 +2,8 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.controller.firebase;
 
 import android.content.Context;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.FirebaseUserStatus;
@@ -18,19 +16,18 @@ public class FirebaseUserStatusController {
         return FirebaseController.getDatabase(PATH);
     }
 
-    public static Task<Void> conectar(Context context) {
+    public static void conectar(Context context) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.getDatabase(PATH + "/" + userId).setValue(FirebaseUserStatus.conectado(context));
+        FirebaseController.getDatabase(PATH + "/" + userId).setValue(FirebaseUserStatus.conectado(context));
     }
 
-    public static Task<Void> desconectar() {
+    public static void desconectar() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        return FirebaseController.getDatabase(PATH + "/" + userId).removeValue();
+        FirebaseController.getDatabase(PATH + "/" + userId).removeValue();
+        FirebaseAtividadeDuplaController.getInstance().zerarPendencias();
     }
 
     public static Query usuariosConectados() {
         return FirebaseController.getDatabase(PATH).orderByChild("status").equalTo("CONECTADO");
     }
-
-
 }

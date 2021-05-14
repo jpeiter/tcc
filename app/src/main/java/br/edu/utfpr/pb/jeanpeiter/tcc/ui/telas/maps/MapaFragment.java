@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import br.edu.utfpr.pb.jeanpeiter.tcc.R;
+import br.edu.utfpr.pb.jeanpeiter.tcc.controller.atividade.AtividadeEstadoSingleton;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.AtividadeActivity;
@@ -40,7 +41,6 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     @Getter
     private GoogleMap gmap;
 
-    private View parent;
     private LocationUtils locationUtils;
     private PolylineOptions polylineOptions;
     private LatLngBounds latLngBounds;
@@ -49,7 +49,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parent = inflater.inflate(R.layout.fragment_mapa, container, false);
+        View parent = inflater.inflate(R.layout.fragment_mapa, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         polylineOptions = new PolylineOptions()
@@ -85,6 +85,11 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
     public void onDestroy() {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
+            if (gmap != null) {
+                gmap.clear();
+                this.gmap.clear();
+                polylineOptions = new PolylineOptions();
+            }
         }
         super.onDestroy();
     }
@@ -104,7 +109,9 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
         if (data != null && data.getLocation() != null) {
             LatLng latLng = locationUtils.toLatLng(data.getLocation());
             ultimaPosicao = latLng;
-            moverCamera(latLng);
+            if (AtividadeEstadoSingleton.getInstance().isEmAndamento()) {
+                moverCamera(latLng);
+            }
         }
     }
 
@@ -131,34 +138,36 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback {
                 zoomOut();
                 break;
             case RETOMAR:
+                isZoomedOut = false;
                 moverCamera(ultimaPosicao);
                 break;
-            default:
+            case FINALIZAR:
+                this.gmap.clear();
+                polylineOptions = new PolylineOptions();
                 break;
         }
     }
 
     private void moverCamera(LatLng latLng) {
-        if (!isZoomedOut && isMapReady() && latLng != null) {
-            gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomCamera));
+        if (!this.isZoomedOut && this.isMapReady() && latLng != null) {
+            this.gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, this.zoomCamera));
         }
     }
 
     private void zoomOut() {
-        if (isMapReady() && !polylineOptions.getPoints().isEmpty()) {
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(latLngBounds, paddingMap);
-            gmap.animateCamera(cameraUpdate);
+        if (this.isMapReady() && this.latLngBounds != null) {
+            this.gmap.animateCamera(CameraUpdateFactory.newLatLngBounds(this.latLngBounds, this.paddingMap));
             isZoomedOut = true;
         }
     }
 
     private void addPolyLine(LatLng latLng) {
         if (isMapReady()) {
-            polylineOptions.add(latLng);
-            latLngBounds.including(latLng);
-            gmap.addPolyline(polylineOptions);
+            this.polylineOptions.add(latLng);
+            this.gmap.addPolyline(this.polylineOptions);
         }
     }
+
 
     private boolean isMapReady() {
         return gmap != null;

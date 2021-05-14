@@ -123,9 +123,10 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
     private void monitorarPendentes() {
         solicitacoes = new HashMap<>();
         FirebaseAtividadeDuplaController.getInstance().monitorarPendentes(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.getValue(String.class).equals(FirebaseAtividadeDuplaController.VALOR_CONFIRMACAO)) {
+
+            private void novaSolicitacao(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.getValue(String.class)
+                        .equals(FirebaseAtividadeDuplaController.VALOR_CONFIRMACAO)) {
                     iniciarAtividadeDupla(dataSnapshot.getKey());
                 } else {
                     solicitacoes.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
@@ -134,13 +135,13 @@ public class SelecionarParceiroActivity extends AppCompatActivity implements Gen
             }
 
             @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                novaSolicitacao(dataSnapshot, s);
+            }
+
+            @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.getValue(String.class).equals(FirebaseAtividadeDuplaController.VALOR_CONFIRMACAO)) {
-                    iniciarAtividadeDupla(dataSnapshot.getKey());
-                } else {
-                    solicitacoes.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
-                    atualizarUi();
-                }
+                novaSolicitacao(dataSnapshot, s);
             }
 
             @Override

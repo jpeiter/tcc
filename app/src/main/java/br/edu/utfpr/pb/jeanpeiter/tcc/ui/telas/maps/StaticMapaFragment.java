@@ -138,7 +138,7 @@ public class StaticMapaFragment extends Fragment implements OnMapReadyCallback {
                 .icon(new ResourcesUtils(getContext()).bitmapDescriptorFromVector(iconId))
                 .position(position)
                 .alpha(1)
-                .flat(true)
+                .flat(false)
                 .anchor(0, (float) 1.1);
     }
 }

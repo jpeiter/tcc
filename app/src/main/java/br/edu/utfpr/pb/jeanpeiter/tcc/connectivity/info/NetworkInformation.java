@@ -19,12 +19,7 @@ public class NetworkInformation {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
                 if (capabilities != null) {
-                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                        return true;
-                    } else {
-                        boolean permiteDadosMoveis = new AppSharedPreferences(context).getConfiguracoes().isUtilizaDadosMoveis();
-                        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) && permiteDadosMoveis;
-                    }
+                    return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
                 }
             } else {
 

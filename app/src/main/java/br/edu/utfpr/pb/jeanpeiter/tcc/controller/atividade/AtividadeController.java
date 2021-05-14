@@ -96,13 +96,14 @@ public class AtividadeController {
 
     public Atividade finalizar(long termino, long duracaoMillis) {
         mudarEstado(AtividadeEstado.FINALIZADA);
-        atividade.setTermino(termino);
-        atividade.setDuracao((long) new UnitOf.Time().fromMilliseconds(duracaoMillis).toSeconds());
-        atividade.setVelocidade(velocidade(atividade.getDistancia(), duracaoMillis));
-        atividade.setCalorias(unidadesController.calorias(usuario.getPeso(), atividade.getDistancia(), duracaoMillis));
-        atividade.setRitmo(unidadesController.ritmo(atividade.getDistancia(), duracaoMillis));
-        atividade.setPontos(getPontuacaoTotal(atividade));
-        permiteFinalizar = true;
+        this.atividade.setTermino(termino);
+        Double distancia = atividade.getDistancia();
+        this.atividade.setDuracao((long) new UnitOf.Time().fromMilliseconds(duracaoMillis).toSeconds());
+        this.atividade.setVelocidade(velocidade(distancia, duracaoMillis));
+        this.atividade.setCalorias(unidadesController.calorias(usuario.getPeso(), distancia, duracaoMillis));
+        this.atividade.setRitmo(unidadesController.ritmo(distancia, duracaoMillis));
+        this.atividade.setPontos(getPontuacaoTotal(atividade));
+        this.permiteFinalizar = true;
         return atividade;
     }
 

@@ -36,10 +36,12 @@ public class FirebaseAtividadeDuplaController {
     @Setter(AccessLevel.PRIVATE)
     private Set<String> pathsPendencias;
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
     private ChildEventListener listenerMonitorarPendentes;
 
-    @Getter(AccessLevel.PRIVATE) @Setter(AccessLevel.PRIVATE)
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
     private ValueEventListener listenerMonitorarParceiro;
 
 
@@ -56,7 +58,7 @@ public class FirebaseAtividadeDuplaController {
 
 
     /* Paths */
-    private String pathAtividadeDupla() {
+    private String apathAtividadeDupla() {
         if (this.pathAtividadeDupla == null) {
             List<String> uids = Arrays.asList(this.userId, this.parceiroUid);
             uids.sort(Comparator.naturalOrder());
@@ -87,11 +89,23 @@ public class FirebaseAtividadeDuplaController {
         FirebaseController.getDatabase(pathConfirmar).setValue(VALOR_CONFIRMACAO);
     }
 
-    public Task<Void> iniciar(String parceiroUid, String atividadeId) {
+    public void iniciar(String parceiroUid, String atividadeId) {
         setParceiroUid(parceiroUid);
         zerarPendencias();
         String pathAtividadeUser = pathAtividadeDupla().concat("/").concat(this.userId);
-        return FirebaseController.setValue(pathAtividadeUser, new Atividade(atividadeId, AtividadeTipo.DUPLA, AtividadeEstado.EM_ANDAMENTO).toDto());
+        FirebaseController.setValue(pathAtividadeUser, new Atividade(atividadeId, AtividadeTipo.DUPLA, AtividadeEstado.EM_ANDAMENTO).toDto());
+    }
+
+    private String pathAtividadeDupla() {
+        if (this.pathAtividadeDupla == null) {
+            List<String> uids = Arrays.asList(this.userId, this.parceiroUid);
+            uids.sort(Comparator.naturalOrder());
+            this.pathAtividadeDupla = PATH.concat("/")
+                    .concat(uids.get(0))
+                    .concat("_")
+                    .concat(uids.get(1));
+        }
+        return this.pathAtividadeDupla;
     }
 
     public void atualizar(Atividade atividade) {
@@ -99,17 +113,40 @@ public class FirebaseAtividadeDuplaController {
         FirebaseController.setValue(pathAtividadeUser, atividade.toDto());
     }
 
+    public void monitorarParceiro(ValueEventListener listenerMonitorarParceiro) {
+        setListenerMonitorarParceiro(listenerMonitorarParceiro);
+        String pathAtividadeParceiro = pathAtividadeDupla().concat("/").concat(this.parceiroUid);
+        FirebaseController.getDatabase(pathAtividadeParceiro)
+                .addValueEventListener(getListenerMonitorarParceiro());
+    }
+
     /* Monitoramentos */
     public void monitorarPendentes(ChildEventListener listenerMonitorarPendentes) {
         setListenerMonitorarPendentes(listenerMonitorarPendentes);
-        FirebaseController.getDatabase(pathPendentes()).addChildEventListener(getListenerMonitorarPendentes());
+        FirebaseController.getDatabase(pathPendentes())
+                .addChildEventListener(getListenerMonitorarPendentes());
     }
 
-    public void monitorarParceiro(ValueEventListener listenerMonitorarParceiro) {
+    public void monitoraraParceiro(ValueEventListener listenerMonitorarParceiro) {
         setListenerMonitorarParceiro(listenerMonitorarParceiro);
         String pathAtividadeParceiro = pathAtividadeDupla().concat("/").concat(this.parceiroUid);
         FirebaseController.getDatabase(pathAtividadeParceiro).addValueEventListener(getListenerMonitorarParceiro());
     }
+
+    /* Finalizar */
+public void finalizar(Atividade atividade) {
+    atualizar(atividade);
+    FirebaseController.getDatabase(pathAtividadeDupla()).removeValue();
+    if (getListenerMonitorarParceiro() != null) {
+        FirebaseController.getDatabase(pathAtividadeDupla()
+                .concat("/").concat(this.parceiroUid))
+                .removeEventListener(getListenerMonitorarParceiro());
+    }
+    setParceiroUid(null);
+    setPathAtividadeDupla(null);
+    setPathsPendencias(null);
+    instance = null;
+}
 
     public void zerarPendencias() {
         FirebaseController.getDatabase(pathPendentes()).removeValue();
@@ -119,18 +156,4 @@ public class FirebaseAtividadeDuplaController {
         }
     }
 
-    /* Finalizar */
-    public void finalizar(Atividade atividade) {
-        atualizar(atividade);
-        FirebaseController.getDatabase(pathAtividadeDupla()).removeValue();
-        if (getListenerMonitorarParceiro() != null) {
-            FirebaseController.getDatabase(pathAtividadeDupla()
-                    .concat("/").concat(this.parceiroUid))
-                .removeEventListener(getListenerMonitorarParceiro());
-        }
-        setParceiroUid(null);
-        setPathAtividadeDupla(null);
-        setPathsPendencias(null);
-        instance = null;
-    }
 }

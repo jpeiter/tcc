@@ -2,18 +2,22 @@ package br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,7 +33,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +49,10 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.Ativida
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.enums.AtividadeTipo;
 import br.edu.utfpr.pb.jeanpeiter.tcc.persistence.modelo.atividade.posicao.AtividadePosicao;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocalizacaoListener;
+import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocationServiceUtil;
+import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.LocationUpdatesService;
 import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.data.LocationObservedData;
+import br.edu.utfpr.pb.jeanpeiter.tcc.sensor.localizacao.service.LocalizacaoReceiver;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.ListenerActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.generics.PermissionActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.dupla.SelecionarParceiroActivity;
@@ -56,7 +63,6 @@ import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.atividade.modelo.AtividadeFragmen
 import br.edu.utfpr.pb.jeanpeiter.tcc.ui.telas.main.fragments.progresso.detalhes.AtividadeHistoricoDetalheActivity;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.DialogUtils;
 import br.edu.utfpr.pb.jeanpeiter.tcc.utils.FragmentUtils;
-import br.edu.utfpr.pb.jeanpeiter.tcc.utils.IntentUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,13 +84,33 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     private LocationManager locationManager;
     private LocalizacaoListener locationListener;
 
-    private final List<String> permissoes = new ArrayList() {{
-        add(Manifest.permission.ACCESS_FINE_LOCATION);
-        add(Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ?
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION :
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        );
-    }};
+    private final List<String> permissoes = Arrays.asList(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ?
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION :
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+    );
+
+    private LocalizacaoReceiver myReceiver; // inscrito no broadcast
+    private LocationUpdatesService mService = null;
+    private boolean mBound = false;
+
+    // Monitora o estado da conexao ao service
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
+            mService = binder.getService();
+            mService.requestLocationUpdates();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+            mBound = false;
+        }
+    };
 
     private boolean isAtividadeDupla() {
         return AtividadeTipo.DUPLA.equals(getTipoSelecionado());
@@ -93,6 +119,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myReceiver = new LocalizacaoReceiver();
         setContentView(R.layout.activity_atividade);
 
         grantPermissions();
@@ -116,6 +143,11 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        bindService(new Intent(this, LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        if (!LocationServiceUtil.checkPermissions(this)) {
+            grantPermissions();
+        }
+        LocalBroadcastManager.getInstance(this).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
     }
 
     @Override
@@ -128,19 +160,23 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
         }
         locationListener = null;
         locationManager = null;
-
         if (AtividadeEstadoSingleton.getInstance().isFinalizada()) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(AtividadeHistoricoDetalheActivity.ATIVIDADE_ID_EXTRA, atividadeId.toString());
             setResult(Activity.RESULT_OK, resultIntent);
         }
-
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
         AtividadeEstadoSingleton.getInstance().destroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(myReceiver);
+        if (mBound) {
+            unbindService(mServiceConnection);
+            mBound = false;
+        }
+        mService.removeLocationUpdates();
         super.onDestroy();
     }
 
@@ -174,7 +210,7 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
     public void initListeners() {
         // Localização
         if (!GpsInformation.isLocationEnabled(this)) {
-            new DialogUtils().build(this, "Ser")
+            new DialogUtils().build(this, "GPS desativado! Ativar?")
                     .setNegativeButton(getString(R.string.agora_nao), (dialog, which) -> AtividadeActivity.this.finish())
                     .setPositiveButton(getString(R.string.confirmar), (dialog, which) -> startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
                     .create().show();
@@ -263,7 +299,6 @@ public class AtividadeActivity extends AppCompatActivity implements PermissionAc
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

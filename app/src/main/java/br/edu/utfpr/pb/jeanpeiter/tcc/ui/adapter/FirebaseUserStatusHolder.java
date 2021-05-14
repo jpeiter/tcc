@@ -21,6 +21,7 @@ public class FirebaseUserStatusHolder extends RecyclerView.ViewHolder implements
 
     public static final String EXTRA_UID_PARCEIRO = "UID_PARCEIRO";
 
+
     private TextView tvNome;
     private String uid;
 
@@ -31,7 +32,8 @@ public class FirebaseUserStatusHolder extends RecyclerView.ViewHolder implements
     }
 
     public void bind(@NonNull FirebaseUserStatus userStatus, String uid) {
-        getTvNome().setText(userStatus.getNome());
+        String voce = uid.equals(FirebaseUserController.getUser().getUid()) ? " (você)" : " ";
+        getTvNome().setText(userStatus.getNome() + voce);
         this.uid = uid;
     }
 

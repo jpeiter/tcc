@@ -48,7 +48,7 @@ public class Atividade {
     private Long duracao;
 
     // Ritmo médio, em sec/km
-    private Integer ritmo;
+    private int ritmo;
 
     // Calorias gastas, em cal
     private Long calorias;
