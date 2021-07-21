@@ -1,7 +1,7 @@
 
 ### O app
 
-Um aplicativo nativo para [Android](https://www.android.com/), desenvolvido com JDK 29, que utiliza de mecânicas de jogos para incentivar a praticar corridas e caminhadas, conquistando pontos e níveis de experiência, conforme seu desempenho durante as atividades. Os usuários têm a possibilidade de praticar atividades em dupla, conectando-se a outro usuário em tempo real. Esta comunicação é realizada por meio do [Firebase Realtime Database](https://firebase.google.com/products/realtime-database).
+Um aplicativo nativo para [Android](https://www.android.com/), desenvolvido com JDK 29, que utiliza de mecânicas de jogos para incentivar a praticar corridas e caminhadas, conquistando pontos e níveis de experiência, conforme seu desempenho durante as atividades. Os usuários têm a possibilidade de praticar atividades em dupla, conectando-se ao dispositivo de outro usuário, em tempo real. Esta comunicação é realizada por meio do [Firebase Realtime Database](https://firebase.google.com/products/realtime-database).
 
 ---
 ### O trabalho de conclusão de curso
