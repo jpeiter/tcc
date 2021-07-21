@@ -12,7 +12,7 @@ Apresentado em **14/05/2021**, a banca foi composta pela professora **Andreia Sc
 
 **Referências:**
  - [Dissertação](aplicativoincentivoatividadesfisicas.pdf)
- - [Apresentação no Google Slides](https://docs.google.com/presentation/d/1dIT3a4BN8pfaiK0Gch75fx4J9JQR6fGWnK_5R70yVsA/edit#slide=id.ge523ebd4ba_0_452)
+ - [Apresentação no Google Slides (com notas de rodapé)](https://docs.google.com/presentation/d/1dIT3a4BN8pfaiK0Gch75fx4J9JQR6fGWnK_5R70yVsA/edit#slide=id.ge523ebd4ba_0_452)
  - [Protótipo Lo-Fi - Balsamiq Mockups](https://balsamiq.cloud/svijoj1/pblpyyk/r8BA1)
  - [Protótipo Hi-Fi - Adobe XD](https://xd.adobe.com/view/5d23bce8-5035-48fb-4f54-fd42f04ee7ff-2b12)
 
