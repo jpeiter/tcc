@@ -18,6 +18,14 @@ Apresentado em **14/05/2021**, a banca foi composta pela professora **Andreia Sc
 
 ---
 
+**Demonstrações:**
+- [Iniciando atividade em dupla](https://www.youtube.com/watch?v=-1gStJ0WF_o)
+- [Finalizando atividade em dupla](https://www.youtube.com/watch?v=dL7hxbI4VXM)
+- [Protótipo Adobe XD](https://www.youtube.com/watch?v=xET7pYeJJ7M)
+- [Cadastro de usuário](https://www.youtube.com/watch?v=007YvYaOXO4)
+
+---
+
 ### Dependências
 - [Dexter](https://github.com/Karumi/Dexter)
 - [EventBus](https://github.com/greenrobot/EventBus)
