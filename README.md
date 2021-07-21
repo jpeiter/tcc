@@ -1,10 +1,10 @@
 
-### O app
+## O app
 
 Um aplicativo nativo para [Android](https://www.android.com/), desenvolvido com JDK 29, que utiliza de mecânicas de jogos para incentivar os usuários à prática de corridas e caminhadas, conquistando pontos e níveis de experiência, conforme seu desempenho durante as atividades. Os usuários têm a possibilidade de praticar atividades em dupla, conectando-se ao dispositivo de outro usuário, em tempo real. Esta comunicação é realizada por meio do [Firebase Realtime Database](https://firebase.google.com/products/realtime-database).
 
----
-### O trabalho de conclusão de curso
+
+## O Trabalho de Conclusão de Curso
 
 Este projeto foi resultado do meu **TCC** na graduação de **Tecnologia em Análise e Desenvolvimento de Sistemas** pela **UTFPR — Universidade Tecnológica Federal do Paraná**, sendo orientado, na primeira fase, pela professora **Beatriz Terezinha Borsoi**, e, na segunda fase, pelo professor **Vinicius Pegorini**. 
 Apresentado em **14/05/2021**, a banca foi composta pela professora **Andreia Scariot Beulke** e pelo professor **Robison Cris Brito**, com presença da professora Beatriz e do professor Vinicius.
@@ -16,17 +16,15 @@ Apresentado em **14/05/2021**, a banca foi composta pela professora **Andreia Sc
  - [Protótipo Lo-Fi - Balsamiq Mockups](https://balsamiq.cloud/svijoj1/pblpyyk/r8BA1)
  - [Protótipo Hi-Fi - Adobe XD](https://xd.adobe.com/view/5d23bce8-5035-48fb-4f54-fd42f04ee7ff-2b12)
 
----
 
-**Demonstrações:**
+## Demonstrações
 - [Protótipo Adobe XD](https://www.youtube.com/watch?v=xET7pYeJJ7M)
 - [Cadastro de usuário](https://www.youtube.com/watch?v=007YvYaOXO4)
 - [Iniciando atividade em dupla](https://www.youtube.com/watch?v=-1gStJ0WF_o)
 - [Finalizando atividade em dupla](https://www.youtube.com/watch?v=dL7hxbI4VXM)
 
----
 
-### Dependências
+## Dependências
 - [Dexter](https://github.com/Karumi/Dexter)
 - [EventBus](https://github.com/greenrobot/EventBus)
 - [facebook-android-sdk](https://github.com/facebook/facebook-android-sdk)
