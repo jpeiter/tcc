@@ -142,9 +142,9 @@
     <string name="nivel_progresso_56">Barcelona</string>
 
     <!--  API Keys  -->
-    <string name="facebook_application_id" translatable="false">2680259772193467</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb2680259772193467</string>
-    <string name="map_api_key" translatable="false">AIzaSyA-aJFyzjh-2pkQpP1MJo2LyrzDK0viXy4</string>
+    <string name="facebook_application_id" translatable="false">facebook_application_id</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb_login_protocol_scheme</string>
+    <string name="map_api_key" translatable="false">map_api_key</string>
 
 
 </resources>
