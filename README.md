@@ -6,7 +6,7 @@ Um aplicativo nativo para [Android](https://www.android.com/), desenvolvido com 
 ---
 ### O trabalho de conclusão de curso
 
-Este projeto foi resultado do meu **TCC** no curso de **Análise e Desenvolvimento de Sistemas** pela **UTFPR — Universidade Tecnológica Federal do Paraná**, sendo orientado, na primeira fase, pela professora **Beatriz Terezinha Borsoi**, e, na segunda fase, pelo professor **Vinicius Pegorini**. 
+Este projeto foi resultado do meu **TCC** na graduação de **Tecnologia em Análise e Desenvolvimento de Sistemas** pela **UTFPR — Universidade Tecnológica Federal do Paraná**, sendo orientado, na primeira fase, pela professora **Beatriz Terezinha Borsoi**, e, na segunda fase, pelo professor **Vinicius Pegorini**. 
 Apresentado em **14/05/2021**, a banca foi composta pela professora **Andreia Scariot Beulke** e pelo professor **Robison Cris Brito**, com presença da professora Beatriz e do professor Vinicius.
 
 
